@@ -1,0 +1,25 @@
+﻿@model List<DoctorSkin.Models.BlogDetails>
+
+@foreach (var i in Model)
+{
+    <div class="col-md-4 col-sm-4">
+        <div class="aa-latest-blog-single">
+            <figure class="aa-blog-img">
+                <a href="#"><img src="@i.cardimg" alt="img"></a>
+                <figcaption class="aa-blog-img-caption">
+                    <span href="#"><i class="fa fa-eye"></i>5K</span>
+                    <a href="#"><i class="fa fa-thumbs-o-up"></i>426</a>
+                    <a href="#"><i class="fa fa-comment-o"></i>20</a>
+                    <span href="#"><i class="fa fa-clock-o"></i>@i.date_up</span>
+                </figcaption>
+            </figure>
+            <div class="aa-blog-info">
+                <h3 class="aa-blog-title"><a href="#">@i.title</a></h3>
+                <p  style=" -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; display: -webkit-box;">
+                    @i.shortcontent
+                </p>
+                <a href="#" class="aa-read-mor-btn">Đọc thêm<span class="fa fa-long-arrow-right"></span></a>
+            </div>
+        </div>
+    </div>
+}    

@@ -1,0 +1,5 @@
+﻿@model List<DoctorSkin.Models.Categories>
+@foreach (var i in Model)
+{
+    <li><a href="/san-pham/@i.meta" class="choose-type">@i.namec</a></li>
+}

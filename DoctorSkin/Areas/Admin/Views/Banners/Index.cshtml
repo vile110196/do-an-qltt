@@ -1,0 +1,158 @@
+﻿
+@model IEnumerable<DoctorSkin.Models.Banners>
+@{
+    ViewBag.Title = "Bài viết";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+
+    DoctorSkin.Models.DoctorSkinEntities db = new DoctorSkin.Models.DoctorSkinEntities();
+
+}
+
+<div class="sales-boxes">
+    <div class="recent-sales box" style="width: 100%;">
+        <div class="col-md-12">
+            <div>
+                <div class="title" style="width:fit-content;margin:0 auto">
+                    Danh sách Banner
+                </div>
+                <div style="padding:0px !important">
+                    <a style="margin:0px !important" class="btn btn-primary ml-3" data-toggle="modal" data-target="#addleModal">Thêm Banner</a>
+                </div>
+                <div style="margin-top: 20px">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Hình ảnh</th>
+                                <th scope="col">Trang chủ</th>
+                                <th scope="col">Trang dịch vụ</th>
+                                <th scope="col">Trang Blog</th>
+                                <th scope="col">Trang sản phẩm</th>
+                                <th scope="col">Thao tác</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{var index = 0; }
+                            @foreach (var i in Model)
+                            {
+                                <tr id="row-@i.stt">
+                                    <th scope="row">@index</th>
+                                    <td>
+                                        <img src="@i.link" style="width:200px;height:150px;object-fit:cover" />
+                                    </td>
+                                    <td>
+                                        <input data-stt="@i.stt" data-page="home" class="banner-checkbox" type="checkbox" @(i.homepage ? "checked" : "")>
+                                    </td>
+                                    <td>
+                                        <input data-stt="@i.stt" data-page="service" class="banner-checkbox" type="checkbox" @(i.servicepage ? "checked" : "")>
+                                    </td>
+                                    <td>
+                                        <input data-stt="@i.stt" data-page="blog" class="banner-checkbox" type="checkbox" @(i.blogpage ? "checked" : "")>
+                                    </td>
+                                    <td>
+                                        <input data-stt="@i.stt" data-page="product" class="banner-checkbox" type="checkbox" @(i.productpage ? "checked" : "")>
+                                    </td>
+                                    <td>
+                                        <button data-stt="@i.stt" class=" btn btn-danger"  onclick="btndelete('@i.stt')">Xóa</button>
+                                    </td>
+                                </tr>
+                                index++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addleModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="display:flex;align-items:center">
+                <div style="font-size:25px" class="modal-title" id="exampleModalLabel">Thêm ảnh mới</div>
+                <div style="flex:auto">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span style="font-size:25px" aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("Upload", "Banners", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <input type="file" name="files" class="form-control" accept="image/*" multiple>
+                    <input type="submit" value="Upload" />
+                }
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    function deleteItem(stt) {
+        $.ajax({
+            url: "/admin/banners/delete",
+            type: "DELETE",
+            data: {
+                stt: Number(stt)
+            },
+            success: function (response) {
+                swal({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Xóa Banner thành công!',
+                    showConfirmButton: false,
+                    timer: 1000
+                }).then(() => {
+                    $('#row-' + stt).remove()
+                })
+            },
+            error: function (xhr, status, error) {
+                console.log(stt)
+            }
+        });
+    }
+
+    function btndelete(stt) {
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this item!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    // User confirmed the deletion
+                    // Proceed with the AJAX request
+                    deleteItem(stt);
+                } else {
+                    // User cancelled the deletion
+                    // Handle accordingly
+                }
+            });
+    }
+
+    //xử lý check
+    $('.banner-checkbox').change(function () {
+        var checkbox = $(this);
+        var stt = checkbox.data('stt');
+        var page = checkbox.data('page');
+        var hide = checkbox.prop('checked');
+        console.log(stt,page,hide)
+        $.ajax({
+            url: '/admin/banners/hideBanner',
+            type: 'PUT',
+            data: { stt: stt, hide: hide, page:page },
+            success: function (res) {
+                console.log(res)
+            },
+            error: function (xhr, status, error) {
+                console.log("lỗi")
+            }
+        });
+    });
+</script>
+

@@ -1,0 +1,427 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    @*<title>@ViewBag.Title</title>*@
+    <link rel="shortcut icon" href="//o2skin.vn/wp-content/uploads/2021/09/favicon.ico" type="image/x-icon">
+    <!-- Font awesome -->
+    @*<link href="~/Content/assets/css/font-awesome.css" rel="stylesheet" />*@
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    @*<link href="~/Content/font-awesome.css" rel="stylesheet">*@
+    <!-- Bootstrap -->
+    <link href="~/Content/assets/css/bootstrap.css" rel="stylesheet">
+
+    <!-- SmartMenus jQuery Bootstrap Addon CSS -->
+    <link href="~/Content/assets/css/jquery.smartmenus.bootstrap.css" rel="stylesheet">
+    <!-- Product view slider -->
+    <link rel="stylesheet" type="text/css" href="~/Content/assets/css/jquery.simpleLens.css">
+    <!-- slick slider -->
+    <link rel="stylesheet" type="text/css" href="~/Content/assets/css/slick.css">
+    <!-- price picker slider -->
+    <link href="~/Content/assets/css/nouislider.css" type="text/css" rel="stylesheet" />
+
+    <!-- Theme color -->
+    <link id="switcher" href="~/Content/assets/css/theme-color/default-theme.css" rel="stylesheet">
+    <!-- <link id="switcher" href="css/theme-color/bridge-theme.css" rel="stylesheet"> -->
+
+    <!-- Top Slider CSS -->
+    <link href="~/Content/assets/css/sequence-theme.modern-slide-in.css" rel="stylesheet" media="all">
+
+    <!-- Main style sheet -->
+    <link href="~/Content/assets/css/style.css" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <link href="~/Content/assets/css/loading.css" rel="stylesheet" />
+
+    <style>
+        .div-cart {
+            width: 400px !important
+        }
+
+        #list-product-cart > li {
+            display: flex !important;
+            width: 100%;
+            align-items: center
+        }
+
+            #list-product-cart > li .aa-cartbox-img {
+                width: 50px !important;
+                height: 50px !important;
+                object-fit: cover;
+            }
+    </style>
+    <script src="~/Scripts/js/loading.js"></script>
+</head>
+
+<body>
+     @*wpf loader Two 
+     <div id="wpf-loader-two">
+        <div class="wpf-loader-two-inner">
+          <span>Loading</span>
+        </div>
+      </div>  
+     / wpf loader Two 
+     SCROLL TOP BUTTON*@ 
+    <a class="scrollToTop" href="#"><i class="fa fa-chevron-up"></i></a>
+    <!-- END SCROLL TOP BUTTON -->
+    <!-- Start header section -->
+    <header id="aa-header">
+        <!-- start header top  -->
+        <div class="aa-header-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="aa-header-top-area">
+                            <!-- start header top left -->
+                            <div class="aa-header-top-left">
+                                <!-- start language -->
+                                <!-- / language -->
+                                <!-- start currency -->
+                                <!-- / currency -->
+                                <!-- start cellphone -->
+                                <div class="cellphone hidden-xs">
+                                    <p><span class="fa fa-phone"></span>00-62-658-658</p>
+                                </div>
+                                <!-- / cellphone -->
+                            </div>
+                            <!-- / header top left -->
+                            <div class="aa-header-top-right">
+                                <ul class="aa-head-top-nav-right">
+                                    <li class="hidden-xs"><a href="/cau-hoi">Thông báo</a></li>
+                                    <li class="hidden-xs"><a href="/wishlists">Yêu thích</a></li>
+                                    @{
+                                        DoctorSkin.Models.DoctorSkinEntities db = new DoctorSkin.Models.DoctorSkinEntities();
+                                        string iduser = (string)Session["iduser"];
+                                        if (Session["iduser"] != null)
+                                        {
+                                            DoctorSkin.Models.Users u = db.Users.Where(s => s.iduser.Equals(iduser)).FirstOrDefault();
+                                            <li><a href="/users/profile" id="nameuser" data-id="@iduser">@u.name</a></li>
+                                            <li><a href="/users/logout" onclick="window.localStorage.clear()">Đăng xuất</a></li>
+                                        }
+                                        else
+                                        {
+                                            <li><a href="/dang-nhap">Đăng nhập</a></li>
+                                        }
+                                    }
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- / header top  -->
+        <!-- start header bottom  -->
+        <div class="aa-header-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="aa-header-bottom-area">
+                            <!-- logo  -->
+                            <div class="aa-logo">
+                                <!-- Text based logo -->
+                                <a href="/">
+                                    <img src="https://o2skin.vn/wp-content/uploads/2024/05/logo-o2skin.png" alt="">
+                                </a>
+                                <!-- img based logo -->
+                                <!-- <a href="index.html"><img src="img/logo.jpg" alt="logo img"></a> -->
+                            </div>
+                            <!-- / logo  -->
+                            <!-- cart box -->
+                            <div class="aa-cartbox">
+                                <a class="aa-cart-link" href="#">
+                                    <span class="fa fa-shopping-basket" onclick="toCart()"></span>
+                                    <span class="aa-cart-title">GIỎ HÀNG</span>
+                                    <span class="aa-cart-notify">0</span>  @* Số lượng sản phẩm trong giỏ hàng *@
+                                </a>
+                                <div class="aa-cartbox-summary div-cart">
+                                    <ul id="list-product-cart">
+                                        @* Render ra giao diện danh sách cart *@
+
+                                    </ul>
+                                    <a class="aa-cartbox-checkout aa-primary-btn" href="checkout.html">Xem giỏ hàng</a>
+                                </div>
+                            </div>
+
+                            <!-- / cart box -->
+                            <!-- search box -->
+                            <div class="aa-search-box">
+                                <form action="">
+                                    <input type="text" name="" id="" placeholder="Từ khóa tìm kiếm">
+                                    <button type="submit"><span class="fa fa-search"></span></button>
+                                </form>
+                            </div>
+                            <!-- / search box -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- / header bottom  -->
+    </header>
+    <!-- / header section -->
+    <!-- menu -->
+    <section id="menu">
+        <div class="container">
+            <div class="menu-area">
+                <!-- Navbar -->
+                <div class="navbar navbar-default" role="navigation">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="navbar-collapse collapse">
+                        <!-- Left nav -->
+                        <ul class="nav navbar-nav">
+                            <li><a href="/">Trang chủ</a></li>
+                            <li><a href="#">Giới thiệu</a></li>
+                            <li>
+                                <a href="/tat-ca-san-pham">Sản phẩm<span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    @{ Html.RenderAction("getListCat", "Default");}
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#">Gói dịch vụ <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    @{ Html.RenderAction("getListServices", "Default");}
+
+                                </ul>
+                            </li>
+                            @*<li><a href="#">Bảng giá dịch vụ<span></span></a></li>*@
+                            <li><a href="/doi-ngu-bac-si">Đội ngũ bác sĩ<span></span></a></li>
+                            <li><a href="">Hiệu quả điều trị</a></li>
+                            <li><a href="/kien-thuc">Kiến thức</a></li>
+                            <li><a href="#" data-toggle="modal" data-target="#exampleModal">Đặt lịch</a></li>
+                        </ul>
+                    </div><!--/.nav-collapse -->
+                </div>
+            </div>
+        </div>
+    </section>
+    @RenderBody()
+    <!-- footer -->
+    <footer id="aa-footer" style="color:white">
+        <div style="padding:2rem 7%">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div>
+                        <p style="font-weight:bold;font-size:22px">CÔNG TY CỔ PHẦN PHÒNG KHÁM CHUYÊN KHOA DA LIỄU O2 SKIN</p>
+                        <ul>
+                            <li>
+                                <strong>» Chi nhánh 1: </strong>
+                                <p>343/5F Tô Hiến Thành, Phường 12, Quận 10, Tp. Hồ Chí Minh. </p>
+                            </li>
+                            <li>
+                                <strong>» Chi nhánh 2: </strong>
+                                <p>Số 02 đường Võ Oanh, Phường 25, Quận Bình Thạnh, Tp. Hồ Chí Minh.</p>
+                            </li>
+                            <li>
+                                <strong>» Chi nhánh 3: </strong>
+                                <p>13A-13B, đường Thống Nhất, Phường Bình Thọ, Tp. Thủ Đức </p>
+                            </li>
+                            <li>
+                                <strong>» Chi nhánh 4: </strong>
+                                <p>Số MG1 - 12 Vincom Shophouse Xuân Khánh: số 209, đường 30/4, Phường Xuân Khánh, Quận Ninh Kiều, TP. Cần Thơ (hướng nhìn ra sông).  </p>
+                            </li>
+                            <li>
+                                <strong>» Chi nhánh 5: </strong>
+                                <p>Số 36 đường số 8, Khu Dân Cư Cityland Park Hills, Phường 10, Quận Gò Vấp, TP. Hồ Chí Minh  </p>
+                            </li>
+                            <li>
+                                <strong>Email</strong>: congtyo2skin.vn@gmail.com
+                                <p></p>
+                            </li>
+                            <li>
+                                <strong>Điện thoại</strong>: 1900 3147
+                                <p></p>
+                            </li>
+                            <li>
+                                <strong>Giấy chứng nhận đăng ký kinh doanh số</strong>: 0312950328
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div>
+                        <div style="margin:0 auto" class="carousel fade-carousel slide" data-ride="carousel" data-interval="4000" id="bs-carousel">
+                            <!-- Overlay -->
+                            <div class="overlay"></div>
+
+                            <!-- Indicators -->
+                            <ol class="carousel-indicators">
+                                <li data-target="#bs-carousel" data-slide-to="0" class="active"></li>
+                                <li data-target="#bs-carousel" data-slide-to="1"></li>
+                                <li data-target="#bs-carousel" data-slide-to="2"></li>
+                            </ol>
+
+                            <!-- Wrapper for slides -->
+                            <div class="carousel-inner">
+                                <div class="item slides active">
+                                    <div class="slide-1">
+                                        <img style="width:80%;border-radius:10px" src="https://vn-hospital.s3-ap-northeast-1.amazonaws.com/7876/phong-kham-chuyen-khoa-da-lieu-o2skin-cs3-1-s1nG2m.jpg" />
+                                    </div>
+                                </div>
+                                <div class="item slides">
+                                    <div class="slide-2">
+                                        <img src="https://channel.mediacdn.vn/thumb_w/640/2020/7/10/photo-1-15943557495241764132188.jpg" style="width: 70%; border-radius: 8px" />
+                                    </div>
+                                </div>
+                                <div class="item slides">
+                                    <div class="slide-3">
+                                        <img style="width: 70%; border-radius: 8px" src="https://o2skin-media.hn.ss.bfcplatform.vn/upload/image/article/files/o2-skin-tri-mun-co-tot-khong6(1).png" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- / footer -->
+    <!-- Login Modal -->
+    <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4>Đăng nhập tài khoản</h4>
+                    <form class="aa-login-form" action="">
+                        <label for="">Địa chỉ Email<span>*</span></label>
+                        <input type="text" placeholder="Email">
+                        <label for="">Mật khẩu<span>*</span></label>
+                        <input type="password" placeholder="Mật khẩu">
+                        <button class="aa-browse-btn" type="submit">Đăng nhập</button>
+                        <label for="rememberme" class="rememberme"><input type="checkbox" id="rememberme"> Remember me </label>
+                        <p class="aa-lost-password"><a href="#">Quên mật khẩu?</a></p>
+                        <div class="aa-register-now">
+                            Bạn chưa có tài khoản?<a href="account.html">Đăng ký ngay!</a>
+                        </div>
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="display:flex;align-items:center">
+                    <div style="font-size:25px" class="modal-title" id="exampleModalLabel">Đăng ký tư vấn và khám bệnh</div>
+                    <div style="flex:auto">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span style="font-size:25px" aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <form action="bookings/booking" method="post" id="booking-form">
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Họ và tên</label>
+                            <input type="text" name="name" class="form-control" id="recipient-name">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label">Email</label>
+                            <input type="email" name="email" class="form-control" id="message-text">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label">Số điện thoại</label>
+                            <input type="tel" name="phone" class="form-control" id="message-text" min="10" max="10">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label">Yêu cầu của bạn</label>
+                            <textarea name="require" class="form-control" id="message-text"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label">Thời gian khám</label>
+                            <input type="datetime-local" class="form-control" name="timebooking" id="message-text" />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-success">Gửi yêu cầu</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="loading">
+        <img src="~/Content/assets/img/loading.svg" />
+    </div>
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="~/Scripts/js/bootstrap.js"></script>
+    <!-- SmartMenus jQuery plugin -->
+    <script type="text/javascript" src="~/Scripts/js/jquery.smartmenus.js"></script>
+    <!-- SmartMenus jQuery Bootstrap Addon -->
+    <script type="text/javascript" src="~/Scripts/js/jquery.smartmenus.bootstrap.js"></script>
+    <!-- To Slider JS -->
+    <script src="~/Scripts/js/sequence.js"></script>
+    <script src="~/Scripts/js/sequence-theme.modern-slide-in.js"></script>
+    <!-- Product view slider -->
+    <script type="text/javascript" src="~/Scripts/js/jquery.simpleGallery.js"></script>
+    <script type="text/javascript" src="~/Scripts/js/jquery.simpleLens.js"></script>
+    <!-- slick slider -->
+    <script type="text/javascript" src="~/Scripts/js/slick.js"></script>
+    <!-- Price picker slider -->
+    <script type="text/javascript" src="~/Scripts/js/nouislider.js"></script>
+    <script src="~/Scripts/js/nouislider.js"></script>
+
+    <!-- Custom js -->
+    <script type="text/javascript" src="~/Scripts/js/custom.js"></script>
+    <script src="~/Scripts/js/script.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="~/Scripts/js/loading.js"></script>
+
+    <script src="~/Scripts/js/cart.js"></script>
+
+    <script>
+        $("#booking-form").submit(function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            const data = new FormData($("#booking-form")[0])
+            $.ajax({
+                type: "POST",
+                url: "/bookings/booking",
+                data: data,
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    if (res.code === 0) {
+                        swal("Good job!", res.message, "success")
+                            .then(() => {
+                                location.reload()
+                            })
+                    } else {
+                        console.log(res)
+                        swal("Fail!", res.message, "error")
+                    }
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            })
+        })
+    </script>
+
+
+</body>
+
+</html>

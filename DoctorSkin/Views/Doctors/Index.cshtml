@@ -1,0 +1,11 @@
+﻿<div>
+    <div>
+        <img src="~/Content/assets/img/slider/o23.png" style="width:100%" />
+    </div>
+    <div style="padding:0 9%">
+        <p style="text-align:center;font-weight:bold;font-size:25px">Tìm bác sĩ của bạn</p>
+        <div class="row">
+            @{ Html.RenderAction("getListDoctor", "Doctors");}
+        </div>
+    </div>
+</div>

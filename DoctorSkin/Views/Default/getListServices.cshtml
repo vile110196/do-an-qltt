@@ -1,0 +1,5 @@
+﻿@model List<DoctorSkin.Models.Services>
+@foreach (var i in Model)
+{
+    <li><a href="/@ViewBag.meta/@i.meta">@i.name_dt</a></li>
+}

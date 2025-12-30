@@ -1,0 +1,65 @@
+﻿@model DoctorSkin.Models.BlogDetails
+
+<title>@Model.title</title>
+<style>
+    .aa-blog-archive-area {
+        padding: 20px 0px !important;
+    }
+</style>
+<section id="aa-blog-archive">
+    <div class="container">
+        <div style="margin-top:10px">
+            <div style="font-size: 14px; color: rgb(119, 119, 119)">@ViewBag.nameTypeBlog » @Model.title</div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="aa-blog-archive-area">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <!-- Blog details -->
+                            <div class="aa-blog-content aa-blog-details">
+                                <article class="aa-blog-content-single">
+                                    <h2><a href="#">@Model.title</a></h2>
+                                    <div class="aa-article-bottom">
+
+                                        <div class="aa-post-date">
+                                            @Model.date_up
+                                        </div>
+                                    </div>
+                                    <div>
+                                        @Html.Raw(Model.contentblog)
+                                    </div>
+
+                                </article>
+
+                               
+                                
+                              
+                            </div>
+                        </div>
+
+                        <!-- blog sidebar -->
+                        <div class="col-md-3">
+                            <aside class="aa-blog-sidebar">
+                                <div class="aa-sidebar-widget">
+                                    <h3>Danh mục</h3>
+                                    <ul class="aa-catg-nav">
+                                        @{ Html.RenderAction("getListBlogType", "Default");}
+                                    </ul>
+                                </div>
+                                <div class="aa-sidebar-widget">
+                                    <h3>Bài viết mới nhất</h3>
+                                    <div class="aa-recently-views">
+                                        <ul>
+                                            @{ Html.RenderAction("getNewBlog", "Blog");}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </aside>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

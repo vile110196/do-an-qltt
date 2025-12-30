@@ -1,0 +1,11 @@
+﻿@model List<DoctorSkin.Models.BlogDetails>
+@foreach (var i in Model)
+{
+    <li style="display:flex">
+        <a class="aa-cartbox-img" href="/bai-viet/@i.metablog"><img style="object-fit:cover" src="@i.cardimg" alt="img"></a>
+        <div class="aa-cartbox-info">
+            <p style="font-size:14px"><a href="/bai-viet/@i.metablog">@i.title</a></p>
+            <p>@i.date_up</p>
+        </div>
+    </li>
+}

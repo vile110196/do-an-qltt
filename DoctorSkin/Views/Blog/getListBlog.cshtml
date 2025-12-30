@@ -1,0 +1,41 @@
+﻿@model PagedList.IPagedList<DoctorSkin.Models.BlogDetails>
+@using PagedList.Mvc;
+
+<div class="aa-blog-content">
+    <div class="row">
+      @foreach (var i in Model)
+{
+    <div class="col-md-4 col-sm-4">
+        <article class="aa-latest-blog-single" style="box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px">
+            <figure class="aa-blog-img">
+                <a href="/bai-viet/@i.metablog"><img alt="img" src="@i.cardimg" style="object-fit:cover"></a>
+                <figcaption class="aa-blog-img-caption">
+                    <a href="#"><i class="fa fa-comment-o"></i>20</a>
+                    <span href="#"><i class="fa fa-clock-o"></i>@i.date_up</span>
+                </figcaption>
+            </figure>
+            <div class="aa-blog-info" style="width:100% !important">
+                <div style="padding: 0 8px; text-align: justify; width: 100% !important">
+                    <div style="height:70px">
+                        <h3 class="aa-blog-title"><a href="/bai-viet/@i.metablog">@i.title</a></h3>
+                    </div>
+                    <div>
+                        <div style=" -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; display: -webkit-box;">@Html.Raw(i.shortcontent))</div>
+                    </div>
+                    <div>
+                        <a class="aa-read-mor-btn" href="/bai-viet/@i.metablog">Xem thêm<span class="fa fa-long-arrow-right"></span></a>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+}
+    </div>
+</div>
+<!-- Blog Pagination -->
+<div class="aa-blog-archive-pagination">
+    <nav>
+        @Html.PagedListPager(Model, page => Url.Action("Index","Blog", new {page = page }))
+    </nav>
+</div>
+

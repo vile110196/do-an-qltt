@@ -1,0 +1,209 @@
+﻿@model List<DoctorSkin.Models.Wishlists>
+@{
+    DoctorSkin.Models.DoctorSkinEntities db = new DoctorSkin.Models.DoctorSkinEntities();
+}
+<link href="~/Content/assets/css/seller.css" rel="stylesheet" />
+<style>
+    .choose-filter {
+        background-color: #e8e8e8;
+        width: 80%;
+        color: black;
+        padding: 8px 16px;
+        border-radius: 4px;
+        border: none;
+        text-align: left;
+    }
+
+    .active {
+        color: #ee4d2d !important;
+        background: none;
+        border: 1px solid #ee4d2d;
+    }
+
+    .div-choose {
+        margin-bottom: 15px
+    }
+
+    .dropdown-toggle {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .sale {
+        color: #fe6433;
+        border: 1px solid #fe6433;
+        font-size: 10px;
+        padding: 2px;
+        border-radius: 3px;
+    }
+    .sold{
+        margin-top:0px
+
+    }
+</style>
+
+<section id="aa-promo" style="margin-top:20px;margin-bottom:180px">
+    <div>
+        <div class="col-md-2">
+            <div>
+                <div class="div-choose choose-filter active">
+                    <a href="/wishlists">Tất cả</a>
+                </div>
+                <div class="dropdown div-choose">
+                    <button class="choose-filter dropdown-toggle" type="button" data-toggle="dropdown">
+                        Trạng thái
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="/wishlists?filter=conhang" class="subnav">Còn hàng</a></li>
+                        <li><a href="/wishlists?filter=hethang" class="subnav">Không có sẵn</a></li>
+                    </ul>
+                </div>
+                <div class="div-choose choose-filter">
+                    <a href="/wishlists?filter=giamgia">Giảm giá</a>
+                </div>
+                <div class="dropdown div-choose">
+                    <button class="choose-filter dropdown-toggle" type="button" data-toggle="dropdown">
+                        Thương hiệu
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        @{Html.RenderAction("getBrand", "Default");}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div>
+                @foreach (var i in Model)
+                {
+                    var item = db.Products.Find(i.idp);
+                    var itembr = db.Brands.Find(item.idbrand);
+                    double sale = 100 - Math.Round(double.Parse(item.newprice) / double.Parse(item.oldprice) * 100, 0);
+                    <div class="col-md-3 col-sm-4">
+                        <a href="/san-pham/@item.metap/@i.idp" class="home-product-item" style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;margin-bottom:20px">
+                            <div class="home-product-item-img"
+                                 style="background-image: url(@item.img); width: 100%">
+                            </div>
+                            <div class="cover">
+                                <img class="cover__img"
+                                     src="https://cf.shopee.vn/file/2ab563e0fec5250a4c2a976fbb63aa59" alt="">
+                            </div>
+                            <div class="item__describe">
+                                <div class="home-product-item-img-name">
+                                    <div class="huy">
+                                        <div class="product__name">
+                                            @item.namep
+                                        </div>
+                                    </div>
+                                    <div class="name__note">
+                                        <span class="sale">@item.statep</span>
+                                    </div>
+                                </div>
+                                <div class="home-product-item__price">
+                                    <span class="home-product-item__price-old">@decimal.Parse(item.oldprice).ToString("#,##0đ")</span>
+                                    <span class="home-product-item__price-new">@decimal.Parse(item.newprice).ToString("#,##0đ")</span>
+                                </div>
+                                <div class="product-item-footer">
+                                    <div class="heart" onclick="clickHeart(@i.idp)">
+                                        @*<span class="fa fa-heart-o"></span>*@
+                                        <span style="font-size:22px" class="fa fa-heart heart-icon--ok" id="heart-@i.idp" value="true"></span>
+                                    </div>
+                                    <div class="star_and_sold" style="display:flex">
+                                        <div class="raiting__from">
+                                            <div class="rating-star" style="display:flex">
+                                                <div class="rating-star" style="display:flex">
+                                                    @for (var j = 0; j < int.Parse(item.rated); j++)
+                                                    {
+                                                        <i class="fa fa-star star-item"></i>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="sold">Đã bán 249</div>
+                                    </div>
+                                </div>
+                                <div class="sell__form">
+                                    <p class="sell__address">@itembr.namebrand</p>
+                                </div>
+                            </div>
+
+                            <div class="favourite">
+                                <h3 class="favourite-label">Yêu thích</h3>
+                            </div>
+                            <div class="sale-off">
+                                <span class="sale-of-percent">@sale%</span>
+                                <span class="saleoff-label">Giảm</span>
+                            </div>
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script src="~/Scripts/js/wishlist.js"></script>
+<script>
+    function clickHeart(idp) {
+        console.log(iduser)
+        if (iduser == null) {
+            window.location.href = "/dang-nhap"
+        }
+        else {
+            let data = {
+                "iduser": iduser,
+                "idp": idp,
+            }
+
+            let heart = document.querySelector(`#heart-${idp}`)
+            console.log(heart.getAttribute('value'))
+            if (heart.getAttribute('value') == 'false') {
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    url: "https://localhost:44307/wishlists/Add",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    data: JSON.stringify(data),
+                    success: function (res) {
+                        console.log(res)
+                        heart.classList.remove('fa-heart-o')
+                        heart.classList.add('fa-heart')
+                        heart.classList.add('heart-icon--ok')
+                        heart.setAttribute('value', true)
+                    },
+                    error: function (err) {
+                        console.log("Lỗi Api")
+                    }
+                })
+            }
+            if (heart.getAttribute('value') == 'true') {
+                $.ajax({
+                    type: "Delete",
+                    dataType: "json",
+                    url: "https://localhost:44307/wishlists/remove",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    data: JSON.stringify(data),
+                    success: function (res) {
+                        console.log(res)
+                        heart.classList.remove('heart-icon--ok')
+                        heart.classList.remove('fa-heart')
+                        heart.classList.add('fa-heart-o')
+                        heart.setAttribute('value', false)
+                    },
+                    error: function (err) {
+                        console.log("Lỗi Api")
+                    }
+                })
+            }
+
+        }
+    }
+</script>

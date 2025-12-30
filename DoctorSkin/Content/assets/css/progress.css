@@ -1,0 +1,82 @@
+﻿
+
+.thongtinhotel-content {
+	width: 60%;
+	padding-left: 10px;
+}
+
+.iteminfo {
+	margin-bottom: 20px;
+}
+
+.inputvoucher {
+	position: relative;
+}
+
+.btnvoucher {
+	position: absolute;
+	right: 0px;
+	top: 45%;
+	background-color: #ff5722;
+	color: white;
+	padding: 6px;
+	border-radius: 4px;
+	border: 1px solid #ccc;
+}
+
+/* BILL */
+.bill {
+	background-color: white;
+	padding: 8px;
+	font-size: 16px;
+	border-radius: 4px;
+}
+
+.bill-title {
+	font-size: 18px !important;
+	font-weight: bold;
+}
+
+.bill-item {
+	padding: 8px;
+}
+
+.bill-date {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	text-align: center;
+	flex-wrap: wrap;
+	margin-top: 16px;
+}
+
+.bill-date-title {
+	font-size: 15px;
+	font-weight: 500;
+	color: #222;
+}
+
+.bill-date-input {
+	font-size: 16px;
+	font-weight: 600;
+}
+
+.bill-people {
+	display: flex;
+	justify-content: space-between;
+	margin: 16px 0px;
+}
+
+.bill-people-item {
+	display: flex;
+	background-color: #f4f4f5;
+	align-items: center;
+	padding: 8px;
+	border-radius: 8px;
+}
+
+	.bill-people-item input {
+		width: 50px;
+		border: 1px solid #ccc;
+		margin-right: 4px;
+	}

@@ -1,0 +1,56 @@
+﻿@model IEnumerable<DoctorSkin.Models.ViewModel.MedicinesModel>
+@{
+    ViewBag.Title = "Khám bệnh";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+
+    DoctorSkin.Models.DoctorSkinEntities db = new DoctorSkin.Models.DoctorSkinEntities();
+
+}
+
+<style>
+    .item-choose {
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        border-radius: 6px;
+        padding: 15px;
+        height:100%
+    }
+</style>
+
+<div>
+    <div>
+        <div class="row" style="width:70%; margin:0 auto">
+            <div class="col-12 col-md-6">
+                <a href="/admin/doctors/reExamination">
+                    <div class="item-choose">
+                        <div style="height:100%;width:100%">
+                            <div style="height:80%">
+                                <img style="width:100%;height:100%;object-fit:contain" src="~/Content/upload/img/—Pngtree—female doctor holding a medical_3696319.png" />
+                            </div>
+                            <div style="height:20%">
+                                <p style="font-weight:700;text-align:center;margin-top:10px">Xem bệnh án</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-12 col-md-6">
+                <a href="/admin/doctors/create">
+                    <div class="item-choose">
+                        <div style="height:100%;width:100%">
+                            <div style="height:80%">
+                                <img style="width:100%;height:100%;" src="https://img.freepik.com/premium-vector/medicines-with-medical-prescription-form-cartoon-design_421321-8.jpg?w=826" />
+                            </div>
+                            <div style="height:20%">
+                                <p style="font-weight:700;text-align:center;margin-top:10px">Bắt đầu khám</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.getElementById('item-khambenh').classList.add("active")
+</script>
+

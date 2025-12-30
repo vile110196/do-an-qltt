@@ -1,0 +1,340 @@
+*{
+    text-decoration: none !important;
+    text-transform: none;
+    font-family: Nunito,Arial,sans-serif;
+    margin:0; 
+    padding:0;
+    box-sizing: border-box;
+    outline: none; 
+    border:none;
+    text-decoration: none;
+    text-transform: none;
+    /* transition: all .2s linear; */
+}
+:root{
+    --spacing:15px;
+}
+a{
+    color: var(--light-color);
+}
+html{
+    font-size: 62.5%;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    scroll-padding-top: 7rem;
+}
+:root{
+    --orange:#ff7800;
+    --black:#130f40;
+    --light-color:#666;
+    --box-shadow:0 .5rem 1.5rem rgba(0,0,0,.1);
+    --border:.2rem solid rgba(0,0,0,.1);
+    --outline:.1rem solid rgba(0,0,0,.1);
+    --outline-hover:.2rem solid var(--black);
+    --btn-normal: #366CC7
+}
+
+/* HEADER */
+
+.header
+{
+    background-color: white;
+    padding: 1rem 7%;
+    flex-direction: row;
+    /* box-shadow: 5px 10px 8px #888888; */
+}
+.grid{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    
+}
+
+.logo{
+    font-size: 3rem;
+    font-weight: bolder;
+    width: 200px;
+    object-fit: cover;
+}
+.logo img{
+    width: 100%;
+}
+.logo i{
+    color: orangered;
+    object-fit: cover;
+}
+
+.navbar__item{
+    color: black;
+    padding: 0 5px;
+    font-size: 1.8rem;
+    text-decoration: none;
+    z-index: 1;
+}
+
+.header-item-info{
+    margin: 0 4px;
+    border: 0px solid;
+    background-color: #eee;
+    border-radius: 2px;
+    position: relative;
+}
+.header-icon{
+
+}
+.navbar__item:hover{
+    color: var(--orange);
+    text-decoration: none;
+    z-index: 1;
+    /* transform: translateY(-10px); */
+}
+
+.header_user_ava{
+    
+}
+.header_user_ava-img{
+    overflow: hidden;
+    height: 56px;
+    width: 56px;
+    box-sizing: border-box;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+}
+
+.feature_banner{
+    position: relative;
+}
+
+.feature_banner_item_video{
+    z-index: -1;
+    width: 100%; 
+    height: calc(100vw * 542/1920);
+    object-fit:cover;
+    display: flex;
+}
+.search_in_banner{
+    position: absolute;
+    bottom: 20%;
+    width: 100%;
+    display: flex;
+}
+
+.search-block{
+    width: 60%;
+    margin: 0 auto;
+    height: 65px;
+}
+.search-input input{
+    width:100%;
+}
+.tk{
+    background-color: white;
+    padding: 0 10px;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    border-radius: 4px;
+    justify-content: space-between;
+    align-items: center;
+}
+.btn-search-click{
+    background-color: var(--btn-normal);
+    color: white;
+    width: 100px;
+    height: 70%;
+    border-radius: 4px;
+    font-size: 1.7rem;
+    padding: 8px 0;
+}
+
+.main{
+    padding:2rem 10%;
+    margin:0 auto;
+}
+/* SLIDE ƯU ĐÃI */
+.uudai{
+    margin-bottom: 50px;
+}
+.uudai-title{
+    font-weight: 600;
+    font-size: 26px;
+    color: #000;
+    /* opacity: .8; */
+    margin-bottom: 22px;
+    overflow: hidden;
+}
+.uudai-list-info{
+    display: flex;
+
+}
+.uudai-list-item{
+    width: calc((100% - 30px)/3);
+    height: 190px;
+    overflow: hidden;
+    border-radius: 10px;
+    margin-right: 15px;
+}
+.uudai-list img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+.slick-prev, .slick-next{
+    background-color: #fdc290 !important;
+    border: none !important;
+    color: white !important;
+}
+.slick-arrow{
+    border: none;
+    z-index: 2;
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 50%;
+}
+
+/* DU LỊCH AN TOAN */
+.dlat{
+    margin-bottom: 0;
+}
+.uudai-des{
+    font-size: 16px;
+    opacity: 0.8;
+}
+.dlat-item{
+    object-fit: cover;
+    background-size:cover;
+    border-radius: 4px;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+.canbang{
+    background-image: url("https://demo.bosathemes.com/html/travele/assets/images/slider-banner-1.jpg");
+}
+.nammoi{
+    background-image: url("https://cdn1.ivivu.com/iVivu/2022/10/25/02/tet5-1.jpg") !important;
+}
+.hoihop{
+    background-image: url("https://themes.themeenergy.com/bookyourtravel/resort/wp-content/uploads/sites/18/2018/07/resort-content.jpg");
+}
+.giftvoucher{
+    background-image: url("https://cdn1.ivivu.com/images/2021/10/09/22/hop_qua_v1.png");
+}
+.dlat-info{
+}
+.dlat-list{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    --columns:4;
+    /* justify-content: center; */
+}
+.dlat-title{
+    font-weight: bold;
+    margin-bottom: 0;
+    color: white;
+    font-size: 30px;
+}
+.dlat-item{
+    display: flex;
+    flex-direction: column;
+    outline: var(--outline);
+    /* text-align: center; */
+    padding: 0rem 2rem;
+    flex-wrap: wrap;
+    background-color: #fff;
+    width: calc(calc(100% / var(--columns)) - var(--spacing));
+    margin-right: var(--spacing);
+    margin-bottom: var(--spacing);
+    min-height: 370px;
+    /* justify-content: center; */
+    justify-content: flex-end;
+    color: white;
+}
+.dlat-item:hover{
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    cursor: pointer;
+}
+/* ƯU ĐÃI TỐT NHẤT HÔM NAY */
+.udtnhn-header{
+    display: flex;
+    
+}
+.udtnhn-header div{
+    display: flex;
+    background: #f4dcdb;
+    border-radius: 30px;
+    color: #e52822;
+    align-items: center;
+    padding: 4px 10px;
+}
+
+/* SLIDER */
+.slider{
+    margin-right: var(--spacing);
+}
+.carousel-item img{
+    border-radius: 4px;
+    
+}
+
+/* DU LỊCH TRONG NƯỚC */
+.places-domestic{
+    overflow: hidden;
+    display: block;
+}
+.place-name{
+    font-family: "helga";
+    font-size: 40px;
+    font-weight: 300;
+    color: #fff;
+}
+.img-place{
+    border-radius: 4px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    object-fit: contain;
+    height: 190px;
+    /* width: 100%; */
+    /* transition: all 1s; */
+    transition: 0.7s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.phuquoc{
+    background-image: url("https://quayphimchupanhphuquoc.com/wp-content/uploads/2021/01/dao-phu-quoc.jpg");
+}
+.dalat{
+    background-image: url("https://c0.wallpaperflare.com/preview/285/409/234/landscape-travel-night-city.jpg");
+}
+.quynhon{
+    background-image: url("https://kmktourist.com.vn/wp-content/uploads/2020/06/du-lich-quy-nhon-mua-nao-dep-nhat.jpg");
+}
+.vungtau{
+    height: 100%;
+    background-image: url("https://media.istockphoto.com/photos/panoramic-coastal-vung-tau-view-from-above-with-waves-coastline-picture-id1275344927?b=1&k=20&m=1275344927&s=170667a&w=0&h=95R2fnPT1DxtFs_3MQ9hZfCkmx596QL-dMmo7C-pxXo=");
+}
+.nhatrang{
+    height: 100%;
+    background-image: url("http://achautravel.com.vn/upload/baiviet/dulichnhatrangachautravel1-4623.jpeg");
+}
+.danang{
+    background-image: url("https://banahills.sunworld.vn/wp-content/uploads/2020/02/cau-vang-dep-kieu-sa.png");
+}
+.phuyen{
+    background-image: url("https://vcdn1-dulich.vnecdn.net/2021/04/19/7-1618825820-1618826245.jpg?w=1200&h=0&q=100&dpr=1&fit=crop&s=3caQUJydIrC6lPaJZF_fzg");
+}
+.hagiang{
+    background-image: url("https://media.istockphoto.com/photos/paddy-rice-terraces-with-ripe-yellow-rice-picture-id1191185918?b=1&k=20&m=1191185918&s=170667a&w=0&h=ky1ZMJ-Ox24BTacmTbeGqduiTkYCTMOruGz1kLEwNg0=");
+}
+.img-place:hover
+{
+
+}
+
+/* AVATAR */
+.header_user{
+    position: relative;
+}

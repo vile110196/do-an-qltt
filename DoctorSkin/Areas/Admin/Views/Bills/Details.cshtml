@@ -1,0 +1,114 @@
+﻿@model DoctorSkin.Models.Bills
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>Bills</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.idp)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.idp)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.quantity)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.quantity)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.totalbill)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.totalbill)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.totalmoney)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.totalmoney)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.idbill)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.idbill)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.iduser)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.iduser)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.note)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.note)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.status)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.status)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.yesfb)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.yesfb)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.datebuy)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.datebuy)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.idvoucher)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.idvoucher)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.sttbill }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

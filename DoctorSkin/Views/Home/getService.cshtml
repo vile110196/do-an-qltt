@@ -1,0 +1,47 @@
+﻿@model List<DoctorSkin.Models.Services>
+@{
+    var index = 0;
+    foreach (var i in Model)
+    {
+        if (index == 0)
+        {
+            <!-- promo left -->
+            <div class="col-md-5 no-padding">
+                <div class="aa-promo-left">
+                    <div class="aa-promo-banner">
+                        <img src="@i.img_dt" alt="img">
+                        <div class="aa-prom-content">
+                            <p style="font-size:30px;color:white !important;font-weight:bold">@i.name_dt</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        index++;
+    }
+
+    }
+
+<!-- promo right -->
+<div class="col-md-7 no-padding">
+    <div class="aa-promo-right">
+        @for (var i=0;i<Model.ToList().Count();i++)
+        {
+            if (i != 0)
+            {
+                    <div class="aa-single-promo-right">
+                        <div class="aa-promo-banner">
+                            <img src="@Model.ToList()[i].img_dt" alt="img">
+                            <div class="aa-prom-content">
+                                <p style="font-size:25px;color:white !important;font-weight:bold">@Model.ToList()[i].name_dt</p>
+                            </div>
+                        </div>
+                    </div>
+            }
+        }
+
+    </div>
+</div>
+
+
+

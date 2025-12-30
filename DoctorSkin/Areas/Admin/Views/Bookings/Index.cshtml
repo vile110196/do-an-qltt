@@ -1,0 +1,369 @@
+﻿@model IEnumerable<DoctorSkin.Models.Booking>
+@{
+    ViewBag.Title = "Đặt lịch khám";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+
+    DoctorSkin.Models.DoctorSkinEntities db = new DoctorSkin.Models.DoctorSkinEntities();
+
+}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.2/css/jquery.dataTables.min.css" />
+<div class="sales-boxes">
+    <div class="recent-sales box" style="width: 100%;">
+        <div class="col-md-12">
+            <div>
+                <div class="title" style="width:fit-content;margin:0 auto">
+                    Danh sách khách hàng đặt lịch khám
+                </div>
+                <button class="btn btn-primary ml-3" data-toggle="modal" data-target="#addleModal">Thêm lịch đặt khám</button>
+                <div style="margin-top: 20px">
+                    <table class="table" id="dataTables-example">
+                        @*<input type="text" id="min-timebooking" placeholder="Min Time Booking" />
+                         <input type="text" id="max-timebooking" placeholder="Max Time Booking"/>*@
+                        <thead>
+                            <tr>
+                                <th>
+                                    STT
+                                </th>
+                                <th>
+                                    Họ và tên
+                                </th>
+                                <th>
+                                    Số điện thoại
+                                </th>
+                                <th>
+                                    Email
+                                </th>
+                                <th>
+                                    Ghi chú
+                                </th>
+
+                                <th>
+                                    Thời gian
+                                </th>
+
+                                <th>
+                                    Thao tác
+                                </th>
+                                
+
+                            </tr>
+                        </thead>
+                        @{var Number = 1; }
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr id="row-@item.stt">
+                                    <td>
+                                        @Html.Raw(Number++)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.phone)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.email)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.require)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.timebooking)
+                                    </td>
+                                    <td>
+                                        <button data-toggle="modal" data-target="#editModal" class="btn btn-primary" data-id="@item.stt" onclick="btnEdit('@item.stt')">Sửa</button>
+                                        
+                                        <button class="btn btn-danger" data-id="@item.stt" onclick="btnDelete('@item.stt')">Xóa</button>
+                                    </td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="display:flex;align-items:center">
+                <div style="font-size:25px" class="modal-title" id="exampleModalLabel">Sửa thông tin đăng ký</div>
+                <div style="flex:auto">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span style="font-size:25px" aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <form action="/admin/bookings/edit" method="post" id="edit-form">
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Họ và tên</label>
+                        <input type="text" name="name" class="form-control" id="edit-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Email</label>
+                        <input type="email" name="email" class="form-control" id="edit-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Số điện thoại</label>
+                        <input type="tel" name="phone" class="form-control" id="edit-phone" min="10" max="10" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Yêu cầu của bạn</label>
+                        <textarea name="require" class="form-control" id="edit-require" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Thời gian khám</label>
+                        <input type="datetime-local" class="form-control" name="timebooking" id="edit-time" required />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                        <button type="submit" class="btn btn-success" id="confirmEdit">Sửa</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="addleModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="display:flex;align-items:center">
+                <div style="font-size:25px" class="modal-title" id="exampleModalLabel">Đăng ký tư vấn và khám bệnh</div>
+                <div style="flex:auto">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span style="font-size:25px" aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <form action="/bookings/booking" method="post" id="booking-form">
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Họ và tên</label>
+                        <input type="text" name="name" class="form-control" id="recipient-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Email</label>
+                        <input type="email" name="email" class="form-control" id="message-text">
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Số điện thoại</label>
+                        <input type="tel" name="phone" class="form-control" id="message-text" min="10" max="10">
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Yêu cầu của bạn</label>
+                        <textarea name="require" class="form-control" id="message-text"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Thời gian khám</label>
+                        <input type="datetime-local" class="form-control" name="timebooking" id="message-text" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                        <button type="submit" class="btn btn-success">Gửi yêu cầu</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+<script src="https://cdn.datatables.net/1.11.2/js/jquery.dataTables.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const dataTableExample = document.querySelector('#dataTables-example');
+        if (dataTableExample) {
+            var table = new DataTable(dataTableExample, {
+                responsive: true
+            });
+
+            //$('#min-timebooking, #max-timebooking').on('keyup', function () {
+            //    table.draw();
+            //});
+        }
+    });
+
+    //$.fn.dataTable.ext.search.push(
+    //    function (settings, data, dataIndex) {
+    //        var minTimeBooking = $('#min-timebooking').val();
+    //        var maxTimeBooking = $('#max-timebooking').val();
+    //        var timeBookingColumnIndex = 0; // Chỉ số cột chứa trường "timebooking"
+
+    //        // Lấy giá trị "timebooking" từ dữ liệu cột
+    //        var timeBookingValue = data[timeBookingColumnIndex];
+
+    //        // Kiểm tra nếu giá trị "timebooking" nằm trong khoảng giá trị lựa chọn
+    //        if (timeBookingValue >= minTimeBooking && timeBookingValue <= maxTimeBooking) {
+    //            return true;
+    //        }
+    //        return false;
+    //    }
+    //);
+
+
+</script>
+<script>
+    function deleteItem(stt) {
+        $.ajax({
+            url: "/admin/bookings/DeleteConfirmed",
+            type: "DELETE",
+            data: JSON.stringify({
+                stt: Number(stt)
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            success: function (response) {
+                swal({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Xóa thành công!',
+                    showConfirmButton: false,
+                    timer: 1000
+                }).then(() => {
+                    $('#row-' + stt).remove()
+                })
+            },
+            error: function (xhr, status, error) {
+                console.log(stt)
+            }
+        });
+    }
+
+    function btnDelete(stt) {
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this item!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    // User confirmed the deletion
+                    // Proceed with the AJAX request
+                    deleteItem(stt);
+                } else {
+                    // User cancelled the deletion
+                    // Handle accordingly
+                }
+            });
+    }
+
+    //xử lý check
+    $('.completed-checkbox').change(function () {
+        var checkbox = $(this);
+        var stt = checkbox.data('stt');
+        var completed = checkbox.prop('checked');
+
+        $.ajax({
+            url: '/admin/bookings/changeCompleted',
+            type: 'PUT',
+            data: { stt: stt, completed: completed },
+            success: function (res) {
+                console.log("ok")
+            },
+            error: function (xhr, status, error) {
+                console.log("lỗi")
+            }
+        });
+    });
+
+    //sửa
+    function btnEdit(stt) {
+        $.ajax({
+            url: "/admin/bookings/getInfo",
+            type: 'GET',
+            data: { stt: Number(stt) },
+            success: function (res) {
+                console.log(res.data)
+
+                var date = new Date(parseInt(res.data.timebooking.substr(6)));
+                var formattedDate = date.toISOString().substring(0, 16);
+
+                $('#edit-name').val(res.data.name)
+                $('#edit-email').val(res.data.email)
+                $('#edit-phone').val(res.data.phone)
+                $('#edit-require').val(res.data.require)
+                $('#edit-time').val(formattedDate)
+
+                $('#confirmEdit').attr("data-stt", stt)
+
+            },
+            error: function (xhr, status, error) {
+                console.log("lỗi")
+            }
+        });
+    }
+
+    $("#edit-form").submit(function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        let data = {
+            stt: $('#confirmEdit').data("stt"),
+            name: $('#edit-name').val(),
+            email: $('#edit-email').val(),
+            phone: $('#edit-phone').val(),
+            require: $('#edit-require').val(),
+            timebooking: $('#edit-time').val()
+        }
+
+        $.ajax({
+            type: "PUT",
+            dataType: "json",
+            url: "/admin/bookings/edit",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            data: JSON.stringify(data),
+            success: function (res) {
+                window.location.reload();
+            },
+            error: function (err) {
+                console.log("Lỗi Api")
+            }
+        })
+    })
+</script>
+
+<script>
+    $("#booking-form").submit(function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        const data = new FormData($("#booking-form")[0])
+        $.ajax({
+            type: "POST",
+            url: "/bookings/booking",
+            data: data,
+            contentType: false,
+            processData: false,
+            success: function (res) {
+                if (res.code === 0) {
+                    swal("Good job!", "Đặt lịch thành công", "success")
+                        .then(() => {
+                            location.reload()
+                        })
+                } else {
+                    console.log(res)
+                    swal("Fail!", res.message, "error")
+                }
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        })
+    })
+</script>

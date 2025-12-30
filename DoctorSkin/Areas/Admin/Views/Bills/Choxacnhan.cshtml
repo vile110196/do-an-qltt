@@ -1,0 +1,35 @@
+﻿@model PagedList.IPagedList<DoctorSkin.Models.Bills>
+@using PagedList.Mvc;
+@{
+    DoctorSkin.Models.DoctorSkinEntities db = new DoctorSkin.Models.DoctorSkinEntities();
+}
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.2/css/jquery.dataTables.min.css" />
+<div class="col-md-12" style="background-color:white; padding:0px !important">
+    <div>
+        <div style="margin-top: 20px">
+            <div class="nav-table">
+                <div class="row">
+                    <div class="col-md-5">Sản phẩm</div>
+                    <div class="col-md-2" style="text-align:center">Tổng đơn hàng</div>
+                    <div class="col-md-2">Trạng thái</div>
+                    <div class="col-md-3" style="text-align:right">Thao tác</div>
+                </div>
+            </div>
+            <div>
+                @foreach (var i in Model)
+                {
+                    <div class="item-bill" style="border-bottom:1px solid #808080">
+                        @Html.Action("getProductByBill", "Bills", new { status = "Chờ xác nhận", idbill = i.idbill })
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="pagination">
+    @Html.PagedListPager(Model, page => Url.Action("Index", "Blog", new { page = page }))
+</div>
+
+

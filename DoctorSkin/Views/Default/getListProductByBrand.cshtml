@@ -1,0 +1,81 @@
+﻿<link href="~/Content/assets/css/nouislider.css" rel="stylesheet" />
+
+
+@model PagedList.IPagedList<DoctorSkin.Models.Products>
+@using PagedList.Mvc;
+<style>
+    .active {
+        background-color: #11c190 !important;
+    }
+</style>
+<div class="aa-product-catg-content">
+    <div class="aa-product-catg-head">
+        <div class="aa-product-catg-head-left">
+            <label for="">Sắp xếp</label>
+            <select name="sortOrder" onchange="handleSelect(this)" id="selectSort">
+                <option value="new">Mới nhất</option>
+                <option value="price_increase">Giá từ thấp đến cao</option>
+                <option value="price_desc">Giá từ cao đến thấp</option>
+            </select>
+        </div>
+        <div class="aa-product-catg-head-right">
+            <a id="grid-catg" href="#"><span class="fa fa-th"></span></a>
+            <a id="list-catg" href="#"><span class="fa fa-list"></span></a>
+        </div>
+    </div>
+    <div class="aa-product-catg-body">
+        <ul class="aa-product-catg">
+            <!-- start single product item -->
+            @foreach (var i in Model)
+            {
+                DoctorSkin.Models.DoctorSkinEntities db = new DoctorSkin.Models.DoctorSkinEntities();
+                string iduser = (string)Session["iduser"];
+                var checkWl = db.Wishlists.Where(s => s.idp == i.idp && s.iduser == iduser).FirstOrDefault();
+                <li>
+                    <figure>
+                        <a class="aa-product-img" href="/@ViewBag.meta/@i.metap/@i.idp"><img src="@i.img" style="width:100%;height:250px;object-fit:cover" alt="polo shirt img"></a>
+                        <a onclick="addCart(@i.idp)" class="aa-add-card-btn"><span class="fa fa-shopping-cart"></span>Thêm vào giỏ hàng</a>
+                        <figcaption>
+                            <div class="aa-product-title" style="font-size: 14px !important;height:60px; text-align: left; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; display: -webkit-box;"><a href="#">@i.namep</a></div>
+                            <span class="aa-product-price">@decimal.Parse(i.newprice).ToString("#,##0đ")</span><span class="aa-product-price"><del>@decimal.Parse(i.oldprice).ToString("#,##0đ")</del></span>
+                            <p class="aa-product-descrip">@i.descr</p>
+                        </figcaption>
+                    </figure>
+                    <div class="aa-product-hvr-content">
+                        <a data-toggle="tooltip" data-placement="top" title="Add to Wishlist" onclick="addWishlist(@i.idp)">
+                            @if (checkWl == null)
+                            {
+                                <span class="fa fa-heart-o" id="heart-@i.idp" value="false"></span>
+                            }
+                            else
+                            {
+                                <span class="fa fa-heart" style="color:red" id="heart-@i.idp" value="true"></span>
+                            }
+                        </a>
+                        @*<a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><span class="fa fa-exchange"></span></a>*@
+                        <a href="#" data-toggle2="tooltip" data-placement="top" title="Quick View" data-toggle="modal" data-target="#quick-view-modal"><span class="fa fa-search"></span></a>
+                    </div>
+                    <span class="aa-badge" href="#" value="@i.statep">@i.statep</span>
+                </li>
+            }
+        </ul>
+        
+        <!-- / quick view modal -->
+    </div>
+    <div class="aa-product-catg-pagination">
+        @Html.PagedListPager(Model, page => Url.Action("Index", "Products", new { page }))
+    </div>
+</div>
+<script>
+    let listStatep = document.querySelectorAll('.aa-badge')
+    listStatep.forEach(ele => {
+        if (ele.getAttribute('value') == 'Sale')
+            ele.classList.add('aa-sale')
+        if (ele.getAttribute('value') == 'Sold out')
+            ele.classList.add('aa-sold-out')
+        if (ele.getAttribute('value') == 'Hot')
+            ele.classList.add('aa-hot')
+        if (ele.getAttribute('value') == 'New')
+            ele.classList.add('aa-new')
+    })
+</script>

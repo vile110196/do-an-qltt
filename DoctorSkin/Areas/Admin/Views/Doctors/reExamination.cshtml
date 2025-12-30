@@ -1,0 +1,346 @@
+﻿@model IEnumerable<DoctorSkin.Models.Patients>
+@{
+    ViewBag.Title = "Lịch sử bệnh án";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+
+    DoctorSkin.Models.DoctorSkinEntities db = new DoctorSkin.Models.DoctorSkinEntities();
+    bool flag = false;
+}
+
+<style>
+    .active {
+        background-color: #ee4d2d;
+        color: white;
+        padding: 0px 8px
+    }
+
+    .list-bill {
+        margin-top: 20px;
+        background-color: white
+    }
+
+    .bill-item {
+        background-color: white;
+        margin-bottom: 10px
+    }
+
+    .mall {
+        background-color: #d0011b;
+        color: white;
+        padding: 4px 6px;
+        border-radius: 4px;
+        width: fit-content;
+        font-size: 12px
+    }
+
+    .head-left {
+        display: flex;
+        align-items: center
+    }
+
+    .bill-item_head {
+        display: flex;
+        padding: 8px;
+        justify-content: space-between;
+        border-bottom: 1px solid rgba(0,0,0,.09);
+    }
+
+    .bill-item_content {
+        margin-top: 10px;
+    }
+
+    .bill-item_content-main {
+        display: flex;
+        /*justify-content: space-between;*/
+        align-items: center;
+        padding: 0 8px;
+    }
+
+    .div-namepr {
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        display: -webkit-box;
+        margin: 0 0 5px;
+        font-size: 16px;
+        line-height: 22px;
+        max-height: 48px;
+    }
+
+    .oldprice {
+        text-decoration-line: line-through !important;
+        color: #000;
+        opacity: .26;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-right: 4px
+    }
+
+    ._7ngay {
+        padding: 2px 4px;
+        vertical-align: middle;
+        font-size: 12px;
+        line-height: 16px;
+        border-radius: 1px;
+        color: #ee4d2d;
+        border: 0.5px solid #ee4d2d;
+        width: fit-content
+    }
+
+    .aa1 {
+        width: 100%;
+        height: 0;
+        border-bottom: 1px dotted rgba(0,0,0,.09);
+        position: relative;
+    }
+
+    .aa1- {
+        box-sizing: border-box;
+        background: #f5f5f5;
+        width: 0.4375rem;
+        height: 0.4375rem;
+        border-radius: 50%;
+        z-index: 1;
+        position: absolute;
+        top: 0;
+    }
+
+    .aa1-1 {
+        left: 0;
+        transform: translate(-50%,-50%);
+    }
+
+    .aa1-2 {
+        right: 0;
+        transform: translate(50%,-50%);
+    }
+
+    .bill-item_footer {
+        background-color: #fffefb
+    }
+
+    .bill-item_footer {
+        padding: 18px
+    }
+
+    .btn-footer {
+        min-width: 150px;
+        padding: 8px 10px;
+        border: 1px solid rgba(90, 125, 188, 0.05);
+        border-radius: 2px;
+        background-color: white;
+        color: #555
+    }
+
+    .btn-middle {
+        margin: 0 4px;
+    }
+
+    .btn-cho {
+        background-color: rgba(90, 125, 188, 0.05)
+    }
+
+    .div-div-item-bill {
+        box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
+        margin-bottom: 12px;
+    }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+        color: #ee4d2d;
+        background-color: #fff;
+        border-bottom: 3px solid #ee4d2d;
+        /* border-color: #dee2e6 #dee2e6 #fff; */
+    }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+        color: none;
+        background-color: white !important;
+        border-color: none !important;
+    }
+
+
+    .nav-table {
+        padding: 12px 16px;
+        background: #f6f6f6;
+        border-radius: 4px;
+        color: #757575;
+        font-size: 14px;
+        border: 1px solid #e8e8e8;
+    }
+
+    .iduser-div {
+        border-bottom: 1px solid #e8e8e8;
+        background-color: hsla(0,0%,96%,.5);
+        display: flex;
+        justify-content: space-between;
+        padding: 16px
+    }
+
+    .item-bill {
+        margin-top: 15px;
+        color: #666;
+        background-color: #fff;
+        border: 1px solid #e8e8e8;
+        border-radius: 4px;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+        background-color: white
+    }
+
+    .pagination-list {
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+    }
+
+    .pagination-item {
+        margin: 0 5px;
+    }
+
+    .pagination-link {
+        display: inline-block;
+        padding: 5px 10px;
+        text-decoration: none;
+        color: #333;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 20px; /* Thay đổi kích thước font chữ */
+    }
+
+        .pagination-link:hover {
+            background-color: #ccc;
+        }
+
+    .pagination-page {
+        font-weight: bold;
+    }
+
+    .first .pagination-link::before,
+    .last .pagination-link::after {
+        content: "...";
+        margin: 0 3px;
+    }
+
+    .first .pagination-link:first-child::before,
+    .last .pagination-link:last-child::after {
+        content: none;
+    }
+
+    .pagination > li > a {
+        font-size: 20px
+    }
+
+    .tab-pane {
+        background-color: white;
+        padding: 0px
+    }
+    *{
+        font-size:16px !important;
+    }
+</style>
+
+<link href="~/Content/assets/css/profile.css" rel="stylesheet" />
+<link href="~/Content/assets/css/index.css" rel="stylesheet" />
+
+<div class="sales-boxes">
+    <div class="recent-sales box" style="width: 100%;">
+        <div class="col-md-12" style="background-color:white; padding:0px !important">
+            <div>
+                <div style="margin-top: 20px">
+                    <div class="nav-table">
+                        <div class="row">
+                            <div class="col-md-6">Thuốc</div>
+                            <div class="col-md-2" style="text-align:center">Đơn giá</div>
+                            <div class="col-md-2">Số lượng</div>
+                            <div class="col-md-2" style="text-align:right">Tổng cộng</div>
+                        </div>
+                    </div>
+                    @foreach (var item in Model)
+                    {
+                        int index = 1;
+                        <div style="margin-top: 20px; color: #666; background-color: #fff; border: 1px solid #e8e8e8; border-radius: 4px;">
+                            @{List<dynamic> itemList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<dynamic>>(item.prescription);}
+                            <div class="iduser-div">
+                                <div>
+                                    <p>@item.name | @item.gender | @item.age | @item.phone </p>
+                                </div>
+                                <div>
+                                    <div>
+                                        Ngày khám: <b>@item.date</b>
+                                    </div>
+                                    <div>
+                                        Tổng hóa đơn: <b>@decimal.Parse(item.pay).ToString("#,##0đ")</b>
+                                    </div>
+                                    <div>
+                                        Bác sĩ: <b>@db.Doctors.FirstOrDefault(s => s.iddoc == item.doctor).namedoc</b>
+                                    </div>
+                                    <div>
+                                        Tái khám: <b style="color:#ee4d2d">@item.date_re</b>
+                                    </div>
+                                </div>
+                            </div>
+                            @foreach (var i in itemList)
+                            {
+                                <div class="row" id="@i.stt" style="padding:12px">
+                                    <div class="col-md-6">
+                                        <div>
+                                            <b>@index.</b> @i.name
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2" style="text-align:center">
+                                        <div>
+                                            @decimal.Parse(i.dongia.ToString()).ToString("#,##0đ")
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div>
+                                            @i.soluong
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2" style="text-align:right">
+                                        <div>
+                                            @decimal.Parse(i.total.ToString()).ToString("#,##0đ")
+                                        </div>
+                                    </div>
+                                </div>
+                                index++;
+                            }
+                            <div class="row" style="padding:12px">
+                                <div class="col-12">
+                                    <div>
+                                        <span class="btn btn-warning">Tình trạng</span> @item.diagnose
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script>
+    document.getElementById('item-khambenh').classList.add("active")
+
+    $('.bx-search').click(function () {
+        let value = $('#search_field').val()
+        if (value != '') {
+            window.location.href = '/admin/doctors/reExamination?phone='+value
+        }
+        else
+            alert("Nhập số điện thoại của khách hàng")
+    })
+</script>
+
+

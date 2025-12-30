@@ -1,0 +1,20 @@
+﻿@model List<DoctorSkin.Models.ServicesDetails>
+<div>
+    <div class="row">
+        @foreach (var i in Model)
+        {
+            <div class="col-sm-6 col-md-3">
+                <div style="border-radius:8px;box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;height:300px">
+                    <div>
+                        <img style="width:288px;height:200px;border-top-left-radius:0px;border-top-right-radius:0px; " src="@i.img_sd" />
+                    </div>
+                    <div style="text-align:center;padding:15px">
+                        <div style="height:60px">@i.name_sd</div>
+                        <p style="color: #f46f0b;font-size:20px">@decimal.Parse(i.price_sd).ToString("#,##0đ")<span></span><p />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+    

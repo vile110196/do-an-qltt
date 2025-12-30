@@ -1,0 +1,83 @@
+﻿@model List<DoctorSkin.Models.Bills>
+@{
+    DoctorSkin.Models.DoctorSkinEntities db = new DoctorSkin.Models.DoctorSkinEntities();
+    bool flag = false;
+}
+
+@foreach (var item in Model)
+{
+    var pr = db.Products.FirstOrDefault(s => s.idp == item.idp);
+    if (flag == false)
+    {
+        <div class="iduser-div">
+            <div>@item.iduser</div>
+            <div style="font-weight:bold">Mã đơn hàng: @item.idbill</div>
+        </div>
+    }
+    
+<div class="row" id="row-@item.sttbill" style="padding:12px">
+    <div class="col-md-5">
+        <div style="display:flex;align-items:center">
+            <div>
+                <img src="@pr.img" style="width:50px;height:50px;object-fit:cover" />
+            </div>
+            <div style="padding-left:8px">
+                <div>@pr.namep</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2" style="text-align:center">
+        <div>
+            @decimal.Parse(item.totalmoney).ToString("#,##0đ")
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div>
+            @item.status
+        </div>
+    </div>
+    @if (flag == false)
+    {
+        if (item.status == "Chờ xác nhận")
+        {
+            <div class="col-md-3" style="text-align:right">
+                <div>
+                    <a data-check="false" class="btn btn-warning" data-idbill="@item.idbill" data-toggle="modal" data-target="#billModal" onclick="clickItemBill('@item.idbill')">Chi tiết</a>
+                    <a class="btn btn-success" data-idbill="@item.idbill" onclick="btnConfirm('@item.idbill')">Xác nhận</a>
+                    <a class="btn btn-danger" data-idbill="@item.idbill" onclick="btnCancel('@item.idbill')">Hủy</a>
+                </div>
+            </div>
+        }
+        if (item.status == "Vận chuyển")
+        {
+            <div class="col-md-3" style="text-align:right">
+                <div>
+                    <a data-check="true" class="btn btn-warning" data-idbill="@item.idbill" data-toggle="modal" data-target="#billModal" onclick="clickItemBill('@item.idbill')">Chi tiết</a>
+                    <a class="btn btn-primary" data-idbill="@item.idbill" onclick="thanhcong('@item.idbill')">Xác nhận đã giao hàng</a>
+                </div>
+            </div>
+        }
+        if (item.status == "Thành công")
+        {
+            <div class="col-md-3" style="text-align:right">
+                <div>
+                    <a data-check="true" class="btn btn-warning" data-idbill="@item.idbill" data-toggle="modal" data-target="#billModal" onclick="clickItemBill('@item.idbill')">Chi tiết</a>
+                    <a class="btn btn-success" data-idbill="@item.idbill">Giao hàng thành công</a>
+                </div>
+            </div>
+        }
+        if (item.status == "Đã hủy")
+        {
+            <div class="col-md-3" style="text-align:right">
+                <div>
+                    <a data-check="true" class="btn btn-warning" data-idbill="@item.idbill" data-toggle="modal" data-target="#billModal" onclick="clickItemBill('@item.idbill')">Chi tiết</a>
+                    <a class="btn btn-danger" data-idbill="@item.idbill">Đã hủy đơn hàng</a>
+                </div>
+            </div>
+        }
+    }
+    @{ flag = true;}
+</div>
+
+}
+

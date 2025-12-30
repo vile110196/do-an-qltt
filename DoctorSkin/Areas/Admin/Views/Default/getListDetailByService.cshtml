@@ -1,0 +1,79 @@
+﻿@model List<DoctorSkin.Models.ServicesDetails>
+@foreach (var i in Model)
+{
+    <div class="col-sm-6 col-md-4 dvdvitem-content" id="dv-row-@i.id_sd">
+        <div class="dv-item">
+            <div class="dv-item-img">
+                <img src="@i.img_sd">
+            </div>
+            <div class="dv-item-price-div">
+                <div>
+                    <div style='height:50%'>
+                        <div style='display:flex;justify-content:center;height:50%;margin-top:6px'>
+                            <label class="switch">
+                                @if (i.hide_sd == false)
+                                {
+                                    <input type="checkbox" data-id="@i.id_sd" checked>
+                                }
+                                else
+                                {
+                                    <input type="checkbox" data-id="@i.id_sd">
+                                }
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        <div data-toggle="modal" data-target="#editService" style="color: red;"
+                             onclick="editService('@i.id_sd')">Chỉnh sửa</div>
+                    </div>
+                </div>
+                <div style="display: flex;align-items: center">
+                    <div class="dv-item-price lht-price-detail ml-2"
+                         style="color: #021ee9;font-weight: bold;">@decimal.Parse(i.price_sd).ToString("#,##0đ")</div>
+                </div>
+            </div>
+            <div class="dv-item-content">
+                <div class="dv-item-name" id="dv-row-name-@i.id_sd}">@i.name_sd</div>
+               
+            </div>
+        </div>
+    </div>
+    //MODAL EDIT SERVICE
+    <div class="modal fade" id="editService" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Chỉnh sửa dịch vụ</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div class="form-group">
+                            <label for="nameService" class="col-form-label">Tên dịch vụ</label>
+                            <input placeholder="Nhập tên dịch vụ" required type="text"
+                                   class="form-control name-edit">
+                        </div>
+                        <div class="form-group">
+                            <label for="description" class="col-form-label">Giới thiệu dịch vụ</label>
+                            <textarea rows="10" placeholder="Giới thiệu dịch vụ" required type="text"
+                                      class="form-control intro-edit"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="price" class="col-form-label">Giá</label>
+                            <input class="form-control price-edit" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary closeModelEdit"
+                                    data-dismiss="modal">
+                                Hủy
+                            </button>
+                            <button class="btn btn-primary btn-Confirm-Edit" value-stt="0" onclick="confirmEdit()">Sửa</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}    

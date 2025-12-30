@@ -1,0 +1,58 @@
+﻿
+@{
+    DoctorSkin.Models.DoctorSkinEntities db = new DoctorSkin.Models.DoctorSkinEntities();
+
+    var banners = db.Banners.ToList();
+}
+
+<!-- catg header banner section -->
+@Html.Action("slideBanner", "Default", new { page = "blogpage" })
+<!-- / catg header banner section -->
+<!-- Blog Archive -->
+<section id="aa-blog-archive">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="aa-blog-archive-area aa-blog-archive-2">
+                    <div class="row">
+                        <div class="col-md-9">
+                            @{ Html.RenderAction("getListBlog", "Blog");}
+                        </div>
+                        <div class="col-md-3">
+                            <aside class="aa-blog-sidebar">
+                                <div class="aa-sidebar-widget">
+                                    <h3>Danh mục</h3>
+                                    <ul class="aa-catg-nav">
+                                        @{ Html.RenderAction("getListBlogType", "Default");}
+                                    </ul>
+                                </div>
+                                @*<div class="aa-sidebar-widget">
+                                        <h3>Tags</h3>
+                                        <div class="tag-cloud">
+                                            <a href="#">Fashion</a>
+                                            <a href="#">Ecommerce</a>
+                                            <a href="#">Shop</a>
+                                            <a href="#">Hand Bag</a>
+                                            <a href="#">Laptop</a>
+                                            <a href="#">Head Phone</a>
+                                            <a href="#">Pen Drive</a>
+                                        </div>
+                                    </div>*@
+                                <div class="aa-sidebar-widget">
+                                    <h3>Bài viết mới nhất</h3>
+                                    <div class="aa-recently-views">
+                                        <ul>
+                                            @{ Html.RenderAction("getNewBlog", "Blog");}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </aside>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- / Blog Archive -->

@@ -1,0 +1,36 @@
+﻿@model IEnumerable<DoctorSkin.Models.Bills>
+@{
+    DoctorSkin.Models.DoctorSkinEntities db = new DoctorSkin.Models.DoctorSkinEntities();
+}
+<div class="list-bill">
+    @foreach (var i in Model)
+    {
+        var pr = db.Products.Find(i.idp);
+        var brand = db.Brands.Find(pr.idbrand);
+        <div class="div-div-item-bill">
+            <div>
+                @Html.Action("getProductByBill", "Users", new { status = "Vận chuyển", idbill = i.idbill })
+                <div class="aa1">
+                    <div class="aa1- aa1-1"></div>
+                    <div class="aa1- aa1-2"></div>
+                </div>
+                <div class="bill-item_footer">
+                    <div>
+                        <div style="display:flex;justify-content:right; align-items:center ; color:#ee4d2d;font-size:20px">
+                            <span style="font-size:14px !important;color:black !important;margin-right:4px">Thành tiền:</span>
+                            @decimal.Parse(i.totalbill).ToString("#,##0đ")
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: right; align-items: center;margin-top:20px">
+                        <div>
+                            <button class="btn-footer btn-cho" disabled>Đang vận chuyển</button>
+                        </div>
+                        <div>
+                            <button class="btn-footer btn-lienhe btn-middle">Liên hệ người bán</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

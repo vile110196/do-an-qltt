@@ -1,0 +1,5 @@
+﻿@model List<DoctorSkin.Models.Brands>
+@foreach (var i in Model)
+{
+    <li><a href="/wishlists?filter=@i.idbrand" class="subnav">@i.namebrand</a></li>
+}

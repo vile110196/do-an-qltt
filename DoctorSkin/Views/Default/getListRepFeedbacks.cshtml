@@ -1,0 +1,43 @@
+﻿@*@model List<DoctorSkin.Models.RepFeedbacks>
+@{
+    DoctorSkin.Models.DoctorSkinEntities db = new DoctorSkin.Models.DoctorSkinEntities();
+}
+
+<ul>
+    @foreach (var i in Model)
+    {
+        String nameRep = "";
+        String avarep = "//o2skin.vn/wp-content/uploads/2021/09/favicon.ico";
+        String bgcolor = "";
+        String color = "";
+        String opa = "";
+        DoctorSkin.Models.Users user = db.Users.Find(i.from_rep);
+        if (user == null)
+        {
+            nameRep = "Admin";
+            bgcolor = "#5bc0de";
+            color = "white";
+            opa = "0.8";
+        }
+
+        else
+        {
+            nameRep = user.name;
+            avarep = user.ava;
+        }
+
+        <li style="margin-bottom:0px">
+            <div class="media-body">
+                <div style="display:flex;align-items:center">
+                    <div>
+                        <img class="media-object" src="@avarep" alt="" style="object-fit:cover;border-radius:50%;width:25px;height:25px">
+                    </div>
+                    <div>
+                        <strong style="background-color:@bgcolor;color:@color;padding:4px;border-radius:4px">@nameRep</strong> - <span style="opacity:0.7">@i.date_rep</span>
+                    </div>
+                </div>
+                <p style="opacity:@opa">@i.cmt_rep</p>
+            </div>
+        </li>
+    }
+</ul>*@

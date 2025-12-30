@@ -1,0 +1,124 @@
+﻿@model IEnumerable<DoctorSkin.Models.Vouchers>
+<style>
+    .active {
+        background-color: #ebe6e6;
+    }
+
+    
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
+<link href="~/Content/assets/css/profile.css" rel="stylesheet" />
+<link href="~/Content/assets/css/index.css" rel="stylesheet" />
+<link href="~/Content/assets/css/cardvoucher.css" rel="stylesheet" />
+
+<section id="aa-promo">
+    <div class="main">
+        <div class="row">
+            @{Html.RenderAction("NavBar", "Users");}
+            <div class="col-md-8">
+                <div class="slide-profile" style="padding: 0px !important;">
+                    <div class="banner-gift">
+                        <div style="font-size:30px;color: white;width: 55%;margin: 69px 0px 0px 15px; font-weight: 700;">PHIẾU QUÀ TẶNG </div>
+                    </div>
+                    <div style="padding: 10px">
+                        <div class="row mt-3">
+                            <div class="col-6">
+                                <div style="display:flex;align-items: center">
+                                    <div>
+                                        <img style="object-fit: cover;width: 100px;height: 100px" src="https://res.klook.com/image/upload/v1645088422/20220217%20egc%20assets%20update/An_easy_way_to_pay_144x144.png">
+                                    </div>
+                                    <div style="margin-left: 6px">
+                                        <b style="font-size: 16px;margin-bottom: 3px">Dễ thanh toán</b>
+                                        <p>Chỉ cần chọn phiếu quà tặng Klook tại trang thanh toán</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div style="display:flex;align-items: center">
+                                    <div>
+                                        <img style="object-fit: cover;width: 100px;height: 100px" src="https://res.klook.com/image/upload/v1645088421/20220217%20egc%20assets%20update/Our_gift_card_never_expires_144x144.png">
+                                    </div>
+                                    <div style="margin-left: 6px">
+                                        <b style="font-size: 16px;margin-bottom: 3px">Không bao giờ hết hạn</b>
+                                        <p> Bạn chưa có kế hoạch? Đừng lo lắng - hãy dùng phiếu quà tặng bất cứ lúc nào</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div style="display:flex;align-items: center">
+                                    <div>
+                                        <img style="object-fit: cover;width: 100px;height: 100px" src="https://res.klook.com/image/upload/v1645088421/20220217%20egc%20assets%20update/A_world_of_possibilities_144x144.png">
+                                    </div>
+                                    <div style="margin-left: 6px">
+                                        <b style="font-size: 16px;margin-bottom: 3px">Rất quyền năng</b>
+                                        <p>Áp dụng cho mọi dịch vụ trên Klook</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div style="display:flex;align-items: center">
+                                    <div>
+                                        <img style="object-fit: cover;width: 100px;height: 100px" src="https://res.klook.com/image/upload/v1645088423/20220217%20egc%20assets%20update/Use_with_other_offers_144x144.png">
+                                    </div>
+                                    <div style="margin-left: 6px">
+                                        <b style="font-size: 16px;margin-bottom: 3px">Dùng kèm với ưu đãi khác & tiết kiệm thêm</b>
+                                        <p>Dùng chung với Klook credits hay mã ưu đãi? Không thành vấn đề</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-5">
+                            <div style="font-size: 22px;font-weight: 700">Chia sẻ niềm vui với mọi người</div>
+                            <div class="mt-4" style="width: 100%;">
+                                <div class="row">
+                                    <div style="background-image: url('https://down-vn.img.susercontent.com/file/vn-50009109-533ed0b7fee2f3421018045d0c2336f6'); background-size: cover; width: 100%;padding-top:30%">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top:40px">
+                            <div style="display:inline-flex;align-items:center">
+                                <div style="width: 6px;height: 44px; background-color: #ff5b00;border-radius: 6px;margin-right: 5px;">
+                                </div>
+                                <p style="margin-bottom:0;font-size: 24px;font-weight: 600;">Các voucher hiện có</p>
+                            </div>
+                            <div class="card-container d-flex justify-content-center">
+                                <div class="card-wrapper d-flex flex-wrap justify-content-left" style="max-width:100%">
+                                    @foreach (var i in Model)
+                                    {
+                                        <section style="cursor:pointer" class="cardd border p-2 mx-2 my-2" onclick="copyVoucherId('{{this.idvoucher}}')">
+                                            <div class="card-leftt bg-danger text-white d-flex align-items-center">
+                                                <span>@i.idvoucher</span>
+                                            </div>
+                                            <div class="card-rightt p-3">
+                                                <p class="card-info mb-2">@i.namevc</p>
+                                                <p class="card-time mb-2">HSD: @i.datefrom - @i.dateto</p>
+                                                @if (i.valuevc.Contains("%"))
+                                                {
+                                                    <b class="card-time text-danger">Giảm: @i.valuevc</b>
+                                                }
+                                                else
+                                                {
+                                            <b class="card-time text-danger">Giảm: @decimal.Parse(i.valuevc).ToString("#,##0đ")</b>
+                                                }
+                                            </div>
+                                        </section>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--      <div id="pagination-container"></div>-->
+            </div>
+        </div>
+    </div>
+</section>
+<script src="~/Scripts/js/profile.js"></script>
+<script src="~/Scripts/js/purchase.js"></script>

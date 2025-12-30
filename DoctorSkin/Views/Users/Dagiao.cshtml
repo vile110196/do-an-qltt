@@ -1,0 +1,398 @@
+﻿
+@model IEnumerable<DoctorSkin.Models.Bills>
+@{
+    DoctorSkin.Models.DoctorSkinEntities db = new DoctorSkin.Models.DoctorSkinEntities();
+}
+<style>
+    .btn-mualại, .btn-danhgia {
+        background-color: #ee4d2d;
+        color: white;
+        font-weight: bold
+    }
+
+    .fa-star {
+        color: #eda500
+    }
+
+    .image-container {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 10px;
+    }
+
+    .add-image {
+        position: relative;
+        width: 100px;
+        height: 100px;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    .add-image-icon {
+        font-size: 30px;
+        color: #ccc;
+    }
+
+    .add-image:hover .add-image-icon {
+        color: #333;
+    }
+
+    .add-image input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+    }
+
+    .image-container .image-item {
+        position: relative;
+        width: 100px;
+        height: 100px;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+        .image-container .image-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    .image-item .delete-image {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        font-size: 14px;
+        color: #fff;
+        background-color: #f00;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .imgWrapp {
+        overflow: hidden;
+        position: relative;
+        cursor: pointer;
+    }
+
+    .img-hover {
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .imgWrapp:hover .img-hover {
+        transform: scale(1.1);
+    }
+
+    .imgWrapp:hover::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 99;
+        background-color: rgba(0, 0, 0, 0.3);
+    }
+</style>
+<div class="list-bill">
+    @foreach (var i in Model)
+    {
+        var pr = db.Products.Find(i.idp);
+        var brand = db.Brands.Find(pr.idbrand);
+        <div class="div-div-item-bill">
+            <div>
+                @Html.Action("getProductByBill", "Users", new { status = "Thành công", idbill = i.idbill })
+                <div class="aa1">
+                    <div class="aa1- aa1-1"></div>
+                    <div class="aa1- aa1-2"></div>
+                </div>
+                <div class="bill-item_footer">
+                    <div>
+                        <div style="display:flex;justify-content:right; align-items:center ; color:#ee4d2d;font-size:20px">
+                            <span style="font-size:14px !important;color:black !important;margin-right:4px">Thành tiền:</span>
+                            @decimal.Parse(i.totalbill).ToString("#,##0đ")
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: right; align-items: center;margin-top:20px">
+                        <div>
+                            <button class="btn-footer btn-mualại">Mua lại</button>
+                        </div>
+                        <div>
+                            <button class="btn-footer btn-lienhe btn-middle">Liên hệ người bán</button>
+                        </div>
+                        @if (i.yesfb == true)
+                        {
+                            <div>
+                                <button class="btn-footer btn-xemdanhgia" data-toggle="modal" data-target="#fbModal" onclick="xemdanhgia('@i.iduser,@i.idbill,@i.idp')">Xem đánh giá</button>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="div-btn-seefb">
+                                <button class="btn-footer btn-danhgia btnfeedback" data-toggle="modal" data-target="#ModalFeedback" data-idbill="@i.idbill" data-idp="@i.idp">Đánh giá</button>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- MODAL XEM ĐÁNH GIÁ -->
+<div class="modal fade" id="fbModal" tabindex="-1" role="dialog" aria-labelledby="fbModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="display:flex;align-items:center">
+                <div style="font-size:25px" class="modal-title" id="exampleModalLabel">Đánh giá sản phẩm</div>
+                <div style="flex:auto">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span style="font-size:25px" aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="date-fb"></div>
+                    <div class="form-group list-star">
+                        @*<i class="fa fa-star" aria-hidden="true"></i>*@
+                    </div>
+                    <div class="form-group">
+                        <div class="content-fb"></div>
+                        <div class="list-imgfb" style="width:100%;display:flex;overflow:hidden;height:120px;margin-top:15px" id="list-imgfb">
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<!-- MODAL ĐÁNH GIÁ -->
+<div class="modal fade modalFeedback" id="ModalFeedback" tabindex="-1" role="dialog" aria-labelledby="ModalFeedbackLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalFeedbackLabel">ĐÁNH GIÁ CỦA BẠN VỀ CHẤT LƯỢNG SẢN PHẨM</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form @*id="uploadForm" method="post" enctype="multipart/form-data"*@>
+                <div class="modal-body">
+                    <div>
+                        <div class="form-group">
+                            <div class="rating mx-auto d-flex justify-content-center" id="rating">
+                                <i class="fa fa-star star_feedback mx-3" style="font-size:2rem; cursor:pointer;" data-value="1"></i>
+                                <i class="fa fa-star star_feedback mx-3" style="font-size:2rem; cursor:pointer;" data-value="2"></i>
+                                <i class="fa fa-star star_feedback mx-3" style="font-size:2rem; cursor:pointer;" data-value="3"></i>
+                                <i class="fa fa-star star_feedback mx-3" style="font-size:2rem; cursor:pointer;" data-value="4"></i>
+                                <i class="fa fa-star star_feedback mx-3" style="font-size:2rem; cursor:pointer;" data-value="5"></i>
+                            </div>
+                            <style>
+                                .fa-solid.fa-star {
+                                    color: gold;
+                                }
+
+                                .selected {
+                                    font-weight: bold;
+                                }
+                            </style>
+                        </div>
+                        <div class="form-group">
+                            <h4 for="message-text" class="col-form-label">Nội dung đánh giá</h4>
+                            <textarea class="form-control" id="message-text" rows="5" style="font-size:1.2rem;"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <h4 class="col-form-label" id="totalSize">Ảnh (nếu có): <span>0</span> MB</h4>
+                            <div class="image-container">
+                                <div class="add-image">
+                                    <span class="add-image-icon"><i class="fa fa-plus" aria-hidden="true"></i></span>
+                                    <input type="file" class="image-input" accept="image/*" multiple>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="btnhuyfb" data-dismiss="modal">Hủy</button>
+                    <button type="submit" id="sendfeedback" class="btn btn-primary" data-dismiss="modal">Gửi đánh giá</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div id="success-message" class="alert alert-danger" style="box-shadow:3px 3px 15px #333;min-width: 250px;display: none; position: fixed; top: 65px; right: 0px; z-index: 999;">
+    Đã gửi đánh giá thành công
+</div>
+
+<script>
+
+    var totalSize = 0; // Khởi tạo biến tổng kích thước
+    var numFilesUploaded = 0; // Khởi tạo biến đếm số lượng tập tin ảnh đã được tải lên
+
+    $('.image-input').on('change', function (e) {
+        var files = e.target.files;
+        numFilesUploaded = 0; // Reset biến đếm
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var image = $('<div>').addClass('image-item')
+                    .append($('<img>').attr('src', e.target.result))
+                    .append($('<div>').addClass('delete-image').html('<i class="fa fa-times-circle" aria-hidden="true"></i>')
+                        .click(function () {
+                            totalSize -= file.size; // Trừ kích thước ảnh khỏi biến tổng
+                            /*{{!-- console.log("Total size: " + totalSize) --}}*/
+                            $("h4#totalSize span").text((totalSize / 1024 / 1024).toFixed(3))
+                            $(this).parent().remove();
+                        }));
+                $('.add-image').before(image);
+                totalSize += file.size; // Cộng thêm kích thước ảnh vào biến tổng
+                //{ { !--console.log("Total size: " + totalSize) --} }
+                $("h4#totalSize span").text((totalSize / 1024 / 1024).toFixed(3))
+                numFilesUploaded++; // Tăng biến đếm
+                if (numFilesUploaded === files.length) { // Kiểm tra nếu tất cả các tập tin ảnh đã được tải lên thì tính toán tổng kích thước
+                    if (totalSize > 1 * 1024 * 1024) { // Kiểm tra nếu tổng kích thước vượt quá 1MB thì thông báo
+                        swal("Thông báo!", "Kích thước ảnh vượt quá 1MB", "warning")
+                        $('.image-item').last().remove(); // Xóa ảnh cuối cùng vừa được thêm vào
+                        totalSize -= file.size; // Trừ kích thước ảnh cuối cùng khỏi biến tổng
+                        //{ { !--console.log("Total size: " + totalSize) --} }
+                        $("h4#totalSize span").text((totalSize / 1024 / 1024).toFixed(3))
+                        return; // Thoát khỏi hàm
+                    }
+                }
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+
+    let feedbackData = {};
+    const rating = document.getElementById('rating');
+    const stars = rating.querySelectorAll('.star_feedback');
+    let selectedStar = 0;
+
+    function toggleStarClass(index) {
+        for (let i = 0; i < stars.length; i++) {
+            if (i <= index - 1) {
+                stars[i].classList.remove('fa-regular');
+                stars[i].classList.add('fa-solid', 'selected');
+            } else {
+                stars[i].classList.remove('fa-solid', 'selected');
+                stars[i].classList.add('fa-regular');
+            }
+        }
+    }
+
+    stars.forEach((star) => {
+        star.addEventListener('mouseover', () => {
+            console.log("over")
+            const index = parseInt(star.getAttribute('data-value'));
+            toggleStarClass(index);
+        });
+
+        star.addEventListener('click', () => {
+            const index = parseInt(star.getAttribute('data-value'));
+            selectedStar = index;
+            toggleStarClass(index);
+        });
+    });
+
+    rating.addEventListener('mouseout', () => {
+        toggleStarClass(selectedStar);
+    });
+
+    $('.btnfeedback').click(function (e) {
+        console.log($(this).data('idbill'))
+        feedbackData['idbill'] = String($(this).data('idbill'));
+        feedbackData['idp'] = Number($(this).data('idp'));
+    });
+
+    $('#sendfeedback').click(function (e) {
+        e.preventDefault();
+        // Lấy danh sách các ảnh trong image-container
+        var imageList = [];
+        $('.image-container .image-item').each(function () {
+            var imageUrl = $(this).find('img').attr('src');
+            imageList.push(imageUrl);
+        });
+        // Thêm danh sách ảnh vào feedbackData
+        feedbackData['images'] = imageList
+        feedbackData['star'] = Number(selectedStar);
+        feedbackData['cmt'] = $('#message-text').val();
+        feedbackData['iduser'] = iduser;
+
+        console.log(feedbackData)
+
+        $.ajax({
+            type: "POST",
+            url: "/Feedbacks/add",
+            dataType: "json",
+            url: "https://localhost:44307/feedbacks/add",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            data: JSON.stringify(feedbackData),
+            success: function (res) {
+                if (res.code==0) {
+                    swal({
+                        title: 'Thành công',
+                        text: 'Đã gửi đánh giá thành công',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    })
+                    .then(function (result) {
+                        let btnfeedback = $('.btnfeedback')
+                        btnfeedback.css("display", "none")
+                        document.querySelector('.div-btn-seefb').innerHTML = `<button class="btn-footer btn-xemdanhgia" data-toggle="modal" data-target="#fbModal" onclick="xemdanhgia('${iduser},${feedbackData['idbill']},${feedbackData['idp']}')">Xem đánh giá</button>`
+                    })
+                }
+                else {
+                    Swal.fire({
+                        title: 'Không thành công',
+                        text: 'Hãy chọn ngôi sao để đánh giá',
+                        icon: 'warning',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                if (xhr.status === 413) {
+                    $('#success-message').text("Lỗi: Kích thước quá lớn! Vui lòng các ảnh dưới 1MB.");
+                    $("#success-message").fadeIn().delay(3000).fadeOut();
+                } else {
+                    console.log('Lỗi khi gửi đánh giá: ', errorThrown);
+                }
+            }
+        });
+
+    })
+</script>

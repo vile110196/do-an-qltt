@@ -1,0 +1,191 @@
+﻿@model IEnumerable<DoctorSkin.Models.Bills>
+<style>
+    .active {
+        background-color: #ebe6e6;
+    }
+
+    .list-bill {
+        margin-top: 20px;
+        background-color: white
+    }
+
+    .bill-item {
+        background-color: white;
+        margin-bottom: 10px
+    }
+
+    .mall {
+        background-color: #d0011b;
+        color: white;
+        padding: 4px 6px;
+        border-radius: 4px;
+        width: fit-content;
+        font-size: 12px
+    }
+
+    .head-left {
+        display: flex;
+        align-items: center
+    }
+
+    .bill-item_head {
+        display: flex;
+        padding: 8px;
+        justify-content: space-between;
+        border-bottom: 1px solid rgba(0,0,0,.09);
+    }
+
+    .bill-item_content {
+        margin-top: 10px;
+    }
+
+    .bill-item_content-main {
+        display: flex;
+        /*justify-content: space-between;*/
+        align-items: center;
+        padding:0 8px;
+
+    }
+
+    .div-namepr {
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        display: -webkit-box;
+        margin: 0 0 5px;
+        font-size: 16px;
+        line-height: 22px;
+        max-height: 48px;
+    }
+
+    .oldprice {
+        text-decoration-line: line-through !important;
+        color: #000;
+        opacity: .26;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-right: 4px
+    }
+
+    ._7ngay {
+        padding: 2px 4px;
+        vertical-align: middle;
+        font-size: 12px;
+        line-height: 16px;
+        border-radius: 1px;
+        color: #ee4d2d;
+        border: 0.5px solid #ee4d2d;
+        width: fit-content
+    }
+
+    .aa1 {
+        width: 100%;
+        height: 0;
+        border-bottom: 1px dotted rgba(0,0,0,.09);
+        position: relative;
+    }
+
+    .aa1- {
+        box-sizing: border-box;
+        background: #f5f5f5;
+        width: 0.4375rem;
+        height: 0.4375rem;
+        border-radius: 50%;
+        z-index: 1;
+        position: absolute;
+        top: 0;
+    }
+
+    .aa1-1 {
+        left: 0;
+        transform: translate(-50%,-50%);
+    }
+
+    .aa1-2 {
+        right: 0;
+        transform: translate(50%,-50%);
+    }
+
+    .bill-item_footer {
+        background-color: #fffefb
+    }
+
+    .bill-item_footer {
+        padding: 18px
+    }
+
+    .btn-footer {
+        min-width: 150px;
+        padding: 8px 10px;
+        border: 1px solid rgba(90, 125, 188, 0.05);
+        border-radius: 2px;
+        background-color: white;
+        color: #555
+    }
+
+    .btn-middle {
+        margin: 0 4px;
+    }
+
+    .btn-cho {
+        background-color: rgba(90, 125, 188, 0.05)
+    }
+    .div-div-item-bill {
+        box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
+        margin-bottom:12px;
+    }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
+<link href="~/Content/assets/css/profile.css" rel="stylesheet" />
+<link href="~/Content/assets/css/index.css" rel="stylesheet" />
+
+<section id="aa-promo">
+    <div class="main">
+        <div class="row">
+            @{Html.RenderAction("NavBar", "Users");}
+            <div class="col-md-8">
+                <div class="tab-log" style="padding: 0;width:100%">
+                    <div>
+                        <nav>
+                            <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                                <a class="nav-item nav-link active" id="nav-choxacnhan-tab" data-toggle="tab"
+                                   href="#choxacnhan" role="tab" aria-controls="choxacnhan" aria-selected="true"
+                                   style="font-size: 16px; ">Chờ xác nhận</a>
+                                <a class="nav-item nav-link" id="daxacnhan" data-toggle="tab" href="#nav-daxacnhan"
+                                   role="tab" aria-controls="nav-daxacnhan" aria-selected="false"
+                                   style="font-size: 16px; ">Đã xác nhận</a>
+                                <a class="nav-item nav-link" id="nav-hoanthanh-tab" data-toggle="tab"
+                                   href="#nav-hoanthanh" role="tab" aria-controls="nav-hoanthanh" aria-selected="false"
+                                   style="font-size: 16px; ">Thành công</a>
+                                <a class="nav-item nav-link" id="nav-huy-tab" data-toggle="tab" href="#nav-huy"
+                                   role="tab" aria-controls="nav-huy" aria-selected="false"
+                                   style="font-size: 16px; ">Đã hủy</a>
+                            </div>
+                        </nav>
+                        <div class="tab-content" id="nav-tabContent">
+                            @* CHỜ XÁC NHẬN *@
+                            <div class="tab-pane fade show active in" id="choxacnhan" role="tabpanel" aria-labelledby="nav-choxacnhan-tab">
+                                @{ Html.RenderAction("Choxacnhan", "Users");}
+                            </div>
+                            <div class="tab-pane fade" id="nav-daxacnhan" role="tabpanel" aria-labelledby="daxacnhan">
+                                @{ Html.RenderAction("Daxacnhan", "Users");}
+                            </div>
+                            <div class="tab-pane fade" id="nav-hoanthanh" role="tabpanel" aria-labelledby="nav-hoanthanh-tab">
+                                @{ Html.RenderAction("Dagiao", "Users");}
+                            </div>
+                            <div class="tab-pane fade" id="nav-huy" role="tabpanel" aria-labelledby="nav-huy-tab">
+                                @{ Html.RenderAction("Dahuy", "Users");}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="~/Scripts/js/profile.js"></script>
+<script src="~/Scripts/js/purchase.js"></script>

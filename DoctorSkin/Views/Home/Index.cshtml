@@ -1,0 +1,386 @@
+﻿@{
+    ViewBag.Title = "Trang chủ";
+    DoctorSkin.Models.DoctorSkinEntities db = new DoctorSkin.Models.DoctorSkinEntities();
+
+    var banners = db.Banners.ToList();
+}
+<link href="~/Content/assets/css/chat.css" rel="stylesheet" />
+
+<style>
+    .card_home-title {
+        height: 100px;
+    }
+
+    .card-dd {
+        height: 350px;
+    }
+</style>
+
+
+@Html.Action("slideBanner", "Default", new { page = "homepage" })
+
+<section>
+</section>
+
+
+<!-- Start Promo section -->
+<section id="aa-promo">
+    <div style="padding: 2rem 15%">
+        <div class="row">
+            <div class="col-lg-4 col-12">
+                <div class="card-dd" style="border-radius:6px;padding:25px;box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;">
+                    <div style="width: 90px;
+          height: 90px;
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: #e0eff6;
+          margin: 0 auto;
+          margin-bottom: 0;">
+                        <img style="margin: 0 auto;"
+                             src="https://o2skin-media.hn.ss.bfcplatform.vn/wp-content/uploads/2021/10/m8SkLbRj-Asset-3.png" />
+                    </div>
+                    <div class="card_home">
+                        <div class="card_home-title">
+                            <p style="text-align: center; font-weight: 700; font-size: 30px;">LUÔN TRUNG THỰC</p>
+                        </div>
+                        <div class="card_home-content">
+                            <p style="text-align: justify;">
+                                Trung thực là giá trị cốt lõi hàng đầu của O2 SKIN. O2 SKIN cam kết luôn
+                                tư vấn trung thực về hiệu quả điều trị và chỉ tư vấn sản phẩm thực sự cần thiết cho khách hàng.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-12">
+                <div class="card-dd" style="border-radius:6px;padding:25px;box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;">
+                    <div style="width: 90px;
+          height: 90px;
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: #e0eff6;
+          margin: 0 auto;
+          margin-bottom: 0;">
+                        <img style="margin: 0 auto;"
+                             src="https://o2skin-media.hn.ss.bfcplatform.vn/wp-content/uploads/2021/10/Asset-2.png" />
+                    </div>
+                    <div class="card_home">
+                        <div class="card_home-title">
+                            <p style="text-align: center; font-weight: 700; font-size: 30px;">CHUẨN Y KHOA</p>
+                        </div>
+                        <div class="card_home-content">
+                            <p style="text-align: justify;">
+                                Để đạt hiệu quả điều trị cao & an toàn cho da, tất cả các phương pháp và sản phẩm trị mụn được chọn lựa sử dụng tại O2 SKIN đều có căn cứ y học và bằng chứng lâm sàng…
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-12">
+                <div class="card-dd" style="border-radius:6px;padding:25px;box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;">
+                    <div style="width: 90px;
+          height: 90px;
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: #e0eff6;
+          margin: 0 auto;
+          margin-bottom: 0;">
+                        <img style="margin: 0 auto;"
+                             src="https://o2skin.vn/wp-content/uploads/2024/05/icon-lien-tuc-cai-tien.png" />
+                    </div>
+                    <div class="card_home">
+                        <div class="card_home-title">
+                            <p style="text-align: center; font-weight: 700; font-size: 30px;">LIÊN TỤC CẢI TIẾN</p>
+                        </div>
+                        <div class="card_home-content">
+                            <p style="text-align: justify;">
+                                O2 SKIN trân trọng mỗi góp ý của khách hàng và cải tiến mỗi ngày để mang đến chất lượng dịch vụ ngày càng tốt hơn nữa…
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- / popular section -->
+<!-- Support section -->
+<section id="aa-support" style="background-color:white !important">
+    <div class="container">
+        <div class="row">
+            <!--<div class="col-12 col-md-6">
+                <div>-->
+                    @*<img src="https://o2skin-media.hn.ss.bfcplatform.vn/wp-content/uploads/2023/02/tong-quan-phong-kham-da-lieu-o2skin.jpg" alt="Phòng khám chuyên trị mụn chuẩn y khoa" style="width:100%" />*@
+                <!--</div>-->
+            @*</div>*@
+            @*<div class="col-12 col-md-6">*@
+                <div class="aa-support-area">
+                    <p style="font-weight:bold;font-size:60px;text-align:center">O2 SKIN - Hệ Thống Phòng Khám Chuyên Trị Mụn dẫn đầu từ năm 2015</p>
+                    <!-- single support -->
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="aa-support-single">
+                            <p style="color: #3467ef !important;font-size:50px;font-weight:bold">20+</p>
+                            <p style="color: #3467ef !important;font-size:20px;font-weight:bold">Bác sĩ chuyên khoa da liễu</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="aa-support-single" style="color: #3467ef">
+                            <p style="color: #3467ef !important;font-size:50px;font-weight:bold">30+</p>
+                            <p style="color: #3467ef !important;font-size:20px;font-weight:bold">Dược sĩ tư vấn</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="aa-support-single" style="color: #3467ef">
+                            <p style="color: #3467ef !important;font-size:50px;font-weight:bold">200+</p>
+                            <p style="color: #3467ef !important;font-size:20px;font-weight:bold">Điều dưỡng chăm sóc da</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @*</div>*@
+</section>
+
+<!-- BÁC SĨ -->
+<section id="aa-banner" style="margin-top:40px;
+padding-bottom: 10% !important;
+background-image: url(https://o2skin.cdn.vccloud.vn/wp-content/uploads/2022/01/home-gap-go-bac-si-bg.png?id=6177) !important;
+background-position: center !important; background-repeat: no-repeat !important;
+background-size: cover !important;">
+    <div style="padding: 2rem 9%;margin: 20px 0px;" class="block-doctor">
+        <div class="row" style="">
+            <div class="col-md-6">
+                <div>
+                    <h3 style="font-size: 34px;font-weight: 700;">Tổng quan về phòng khám chuyên khoa Da liễu O2 SKIN</h3>
+                    <div>
+                        <img style="width: 100%;"
+                             src="https://o2skin-media.hn.ss.bfcplatform.vn/wp-content/uploads/2023/02/tong-quan-phong-kham-da-lieu-o2skin.jpg"alt="">
+                        <p> </p><br />
+                        <p style="font-size: 18px; text-align: justify;">
+                            Với kinh nghiệm dày dặn trong lĩnh vực Da liễu và điều trị
+                            mụn chuyên sâu cùng sự thân thiện với khách
+                            hàng, Đội ngũ hơn 20 Bác sĩ Da liễu tại O2 SKIN luôn nhận được rất nhiều sự yêu mến từ các bạn trẻ.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div style="margin-top: 10%">
+                    <p style="font-size: 30px;font-weight: 700;text-align:center">Gặp gỡ bác đội ngũ Bác sĩ Da liễu O2 SKIN</p>
+                    <div class="row">
+                        @{ Html.RenderAction("getDoctor", "Home");}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section id="aa-banner" style="margin-top: -180px; padding-bottom: 10% !important; background-image: url(https://i.pinimg.com/originals/e1/cf/5d/e1cf5def07484612099f3def58a8e79f.jpg) !important; background-position: center !important; background-repeat: no-repeat !important; background-size: cover !important;height:500px; ">
+    <div style="padding: 2rem 9%;margin: 20px 0px;" class="block-doctor">
+        <div class="row" style="">
+            <div class="col-md-6">
+                <div>
+                    @*<h3 style="font-size: 34px;font-weight: 700;">Tổng quan về phòng khám chuyên khoa Da liễu O2 SKIN</h3>*@
+                    <div>
+                        <img style="width: 80%;"
+                             src="https://o2skin-media.hn.ss.bfcplatform.vn/wp-content/uploads/2021/10/s3-tim.png" alt="">
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div style="margin-top: 3%">
+                    <p style="color:white;font-size: 30px;font-weight: 750;text-align:center">Khám phá hành trình trị mụn thành công</p>
+                    <div style="display:flex;">
+                        <div style="flex: 1; padding: 10px;  ">
+                            <img src="https://o2skin-media.hn.ss.bfcplatform.vn/wp-content/uploads/2023/07/KH-3.png" style="height: 200px; width: 200px; place-items: center;" />
+                            <p style="color:white;text-align:center;padding-top:10px;font-size:20px"><strong>Phi Giao</strong></p>
+                            <p style="color:white; font-size:18px; text-align:center;">Chia sẻ câu chuyện trị mụn thành công chỉ trong 5 tháng</p>
+                        </div>
+                        <div style="flex: 1; padding: 10px; ">
+                            <img src="https://o2skin-media.hn.ss.bfcplatform.vn/wp-content/uploads/2021/12/6-C-LA-THANH-THAI.png" style="height: 200px; width: 200px; place-items: center" />
+
+                            <p style="color:white;text-align:center;padding-top:10px;font-size:20px"><strong>La Thành Thái</strong></p>
+                            <p style="color:white; font-size:18px; text-align:center">Chia sẻ câu chuyện trị mụn thành công chỉ trong 3 tháng</p>
+
+                        </div>
+                        <div style="flex: 1; padding: 10px; ">
+                            <img src="https://o2skin-media.hn.ss.bfcplatform.vn/wp-content/uploads/2023/07/KH-1.png" style="height: 200px; width: 200px; place-items: center" />
+
+                            <p style="color:white;text-align:center;padding-top:10px;font-size:20px"><strong>Hương Giang</strong></p>
+                            <p style="color:white; font-size:18px; text-align:center">Chia sẻ câu chuyện trị mụn thành công chỉ trong 6 tháng</p>
+
+                        </div>
+                    </div>
+                    
+                    <p style="color:white;font-size:16px">Xem thêm hơn 500+ câu chuyện khách hàng điều trị thành công <a href="https://www.youtube.com/watch?v=AqAkYOIaFy4" class="button" style="background-color:green; padding: 6px 10px;color:white">Xem thêm</a>
+<p> 
+
+
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@*3 bước điều tị mụn*@
+<section id="aa-support" style="background-color:white !important">
+    <div class="container">
+        <div class="row">
+            <!--<div class="col-12 col-md-6">
+                <div>-->
+            @*<img src="https://o2skin-media.hn.ss.bfcplatform.vn/wp-content/uploads/2023/02/tong-quan-phong-kham-da-lieu-o2skin.jpg" alt="Phòng khám chuyên trị mụn chuẩn y khoa" style="width:100%" />*@
+            <!--</div>-->
+            @*</div>*@
+            @*<div class="col-12 col-md-6">*@
+            <div class="aa-support-area">
+                <p style="font-weight:bold;font-size:40px;text-align:center">
+                    3 Bước Để Điều Trị Mụn Thành Công
+
+                </p>
+                <p style="font-weight:bold;font-size:40px;text-align:center">
+
+                    Và Ngừa Tái Phát Dành Cho Bạn!
+                </p>
+                <p style="font-size:20px;text-align:center;">
+                    “Hiệu quả đã được chứng thực dựa trên 460.000+ Khách hàng điều trị mụn thành công tại O2 SKIN”
+                </p>
+                <!-- single support -->
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <div class="aa-support-single">
+                        <p style="color: #3467ef !important;font-size:50px;font-weight:bold">Bước 1</p>
+                        <img src="https://o2skin-media.hn.ss.bfcplatform.vn/wp-content/uploads/2023/07/BUOC-1.png" />
+                        <p style="font-size:20px;font-weight:bold; color:black;padding-top:10px;">Khám mụn và tư vấn điều trị với Bác sĩ da liễu</p>
+                        <p style="font-size:16.5px; color:black;padding-top:10px;text-align:start;">Khám mụn với bác sĩ để xác định tình trạng, nguyên nhân gây mụn và các yếu tố ảnh hưởng(Hormone, chế độ chăm sóc da, ăn uống, các thói quen xấu...)</p><br /><br />
+                        <p style="font-size:18px;font-weight:bold; color:black;padding-top:10px;">Phí khám mụn lần đầu: 100.000vnđ</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <div class="aa-support-single" style="color: #3467ef">
+                        <p style="color: #3467ef !important;font-size:50px;font-weight:bold">Bước 2</p>
+                        <img src="https://o2skin-media.hn.ss.bfcplatform.vn/wp-content/uploads/2023/07/BUOC-2.png" />
+
+                        <p style="font-size:20px;font-weight:bold; color:black;padding-top:10px;">Điều trị mụn theo phác đồ dành riêng cho bạn</p>
+                        <ol style="padding-top:10px;">
+                            <li style=" list-style-type: disc;text-align:start;color:black;">Cùng Bác sĩ trao đổi, thống nhất phương pháp điều trị mụn có lợi và tiết kiệm nhất cho bạn.</li>
+                            <li style=" list-style-type: disc;text-align:start;color:black;">Điều trị mụn với thuốc, dịch vụ và sản phẩm chăm sóc da theo hướng dẫn của bác sĩ.</li>
+                        </ol>
+                        <a href="https://o2skin.vn/phuong-phap-dieu-tri-mun-theo-phac-do-cua-nganh-da-lieu-hien-nay-509/" class="button" style=" color:#4169E1;font-size:18px;">Xem thêm : Phác đồ điệu trị mụn cá nhân</a>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <div class="aa-support-single" style="color: #3467ef">
+                        <p style="color: #3467ef !important;font-size:50px;font-weight:bold">Bước 3</p>
+                        <img src="https://o2skin-media.hn.ss.bfcplatform.vn/wp-content/uploads/2023/04/BUOC-3.png" />
+
+                        <p style="font-size:19px;font-weight:bold; color:black;padding-top:10px;">Chăm sóc da tại nhà và tái khám miễn phí trong suốt quá trình điều trị</p>
+                        <ol style="padding-top:10px;">
+                            
+                            <li style=" list-style-type: disc;text-align:start;color:black;">Chăm sóc da, tự ngừa mụn tái phát tại nhà theo hướng dẫn của bác sĩ.</li><br />
+                            
+                            <li style=" list-style-type: disc;text-align:start;color:black;">Tái khám đúng hẹn để bác sĩ điều chỉnh phác đồ dựa trên mức độ đáp ứng với phương pháp điều trị.</li>
+                        </ol>
+                        <a href="https://o2skin.vn/bang-gia/" class="button" style=" color:#4169E1;font-size:17px;">Xem thêm : Dịch vụ và Bảng giá tại O2 Skin</a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*</div>*@
+</section>
+<!-- / Testimonial -->
+<!-- Latest Blog -->
+
+<section id="aa-latest-blog">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="aa-latest-blog-area">
+                    <h2>Kiến thức trị mụn dành cho bạn</h2>
+                    <div class="row">
+                        @{Html.RenderAction("getBlog", "Home");}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- / Latest Blog -->
+<!-- Client Brand -->
+<section id="aa-client-brand" style="background-color:white !important">
+    <div class="container">
+        <div style="display:flex;flex-direction:column;align-items:center">
+            <p style="font-size:28px;font-weight:700">Truyền thông nói về O2 SKIN?</p>
+            <p style="font-size:18px;width:50%;text-align:justify">O2 SKIN được vinh dự nhắc đến trên nhiều tờ báo, đài truyền hình uy tín với các chủ đề chia sẻ kiến thức trị mụn chuẩn y khoa, câu chuyện của nhiều bạn trẻ đã lấy lại tự tin và hạnh phúc sau hành trình điều trị mụn thành công tại O2 SKIN.</p>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="aa-client-brand-area">
+                    <ul class="aa-client-brand-slider">
+                        @{ Html.RenderAction("getMedia", "Home");}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- / Client Brand -->
+<!-- Subscribe section -->
+<section id="aa-subscribe">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div>
+                    <div>
+                        <img src="https://o2skin-media.hn.ss.bfcplatform.vn/wp-content/uploads/2021/10/bg-png-form-sub.png" />
+                    </div>
+                    <div>
+                        <p style="font-weight:700;font-size:16px">Phòng khám chuyên khoa da liễu O2 SKIN</p>
+                    </div>
+                    <div style="display:flex;align-items:center">
+                        @*<img style="width:20px" src="https://o2skin.cdn.vccloud.vn/wp-content/uploads/2021/10/Asset-109.svg" />*@
+                        <p style="margin-bottom:0px;margin-left:4px">Hotline đặt hẹn: 1900 3147</p>
+                    </div>
+                    <div style="display:flex;align-items:center">
+                        @*<img style="width:20px" src="https://o2skin.cdn.vccloud.vn/wp-content/uploads/2021/10/Asset-119.svg" />*@
+                        <p style="margin-bottom:0px;margin-left:4px">Thứ 2 - 6: 13:00 - 18:30 | Thứ 7 và Chủ nhật: 08:00 - 18:30</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="" style="display:flex;align-items:center;flex-direction:column">
+                    <h2 style="font-weight:700">Đăng ký tư vấn với Bác sĩ</h2>
+                    <form action="" class="" style="width:100%">
+                        <div class="form-group">
+                            <input style="width: 100%; padding: 10px; border-radius: 6px; border: none; box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;" required type="text class="form-control" placeholder="Họ và tên" name="">
+                        </div>
+                        <div class="form-group">
+                            <input style="width: 100%; padding: 10px; border-radius: 6px; border: none; box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;" required type="text class="form-control" placeholder="Email của bạn" name="">
+                        </div>
+                        <div class="form-group">
+                            <input style="width: 100%; padding: 10px; border-radius: 6px; border: none; box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;" required type="text class="form-control" placeholder="Số điện thoại" pattern="[0-9]{10}" name="">
+                        </div>
+                        <button type="submit" style="background-image: linear-gradient(to right,#20bded,#11c595);border:none;padding:15px;border-radius:6px;width:40%;color:white;font-size:20px;font-weight:700">Đăng ký</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- / Subscribe section -->
+
+

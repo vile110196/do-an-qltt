@@ -1,0 +1,15 @@
+﻿@model List<DoctorSkin.Models.Products>
+
+@foreach (var i in Model)
+{
+    <li>
+        <a href="#" class="aa-cartbox-img"><img alt="img" src="@i.img"></a>
+        <div class="aa-cartbox-info">
+            <h4><a href="#" style="-webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; display: -webkit-box;">@i.namep</a></h4>
+            <div style="display: flex;align-items:center;">
+                <p style="margin-bottom:0px">@decimal.Parse(i.newprice).ToString("#,##0đ")</p>
+                <img src="https://cf.shopee.vn/file/8d6d5ee795e7675fed39d31ba04c3b92_xhdpi" style="width:30px" />
+            </div>
+        </div>
+    </li>
+}

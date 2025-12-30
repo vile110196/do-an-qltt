@@ -1,0 +1,97 @@
+﻿@{
+    DoctorSkin.Models.DoctorSkinEntities db = new DoctorSkin.Models.DoctorSkinEntities();
+
+    var banners = db.Banners.ToList();
+
+    var active = true;
+    var index = 0;
+}
+
+<link href="~/Content/assets/css/nouislider.css" rel="stylesheet" />
+
+<style>
+    .active-brand {
+        color: blue;
+    }
+</style>
+
+<!-- catg header banner section -->
+@Html.Action("slideBanner", "Default", new { page = "productpage" })
+<!-- / catg header banner section -->
+<!-- product category -->
+<section id="aa-product-category">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9 col-md-9 col-sm-8 col-md-push-3">
+                @Html.Action("getListProduct", "Default", new { typep = Model.typep })
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-4 col-md-pull-9">
+                <aside class="aa-sidebar">
+                    <!-- single sidebar -->
+                    <div class="aa-sidebar-widget">
+                        <h3>Sản phẩm khác</h3>
+                        <ul class="aa-catg-nav">
+                            @{ Html.RenderAction("getCat", "Products");}
+                        </ul>
+                    </div>
+
+                    <div class="aa-sidebar-widget">
+                        <h3>Thương hiệu</h3>
+                        <div class="aa-color-tag">
+
+                            @{ Html.RenderAction("getRandomBrand", "Default");}
+                        </div>
+                    </div>
+                    <!-- single sidebar -->
+                    <div class="aa-sidebar-widget">
+                        <h3>Sản phẩm giảm giá</h3>
+                        <div class="aa-recently-views">
+                            <ul>
+                                @{ Html.RenderAction("getListProductSale", "Default");}
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- single sidebar -->
+                    <div class="aa-sidebar-widget">
+                        <h3>Top sản phẩm ưu thích</h3>
+                        <div class="aa-recently-views">
+                            <ul>
+                                @{ Html.RenderAction("getListProductTopRate", "Default");}
+                            </ul>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<div id="loading">
+    <img src="~/Content/assets/img/loading.svg" />
+</div>
+
+<!-- / Subscribe section -->
+<link href="~/Content/assets/css/nouislider.css" rel="stylesheet" />
+<script src="~/Scripts/js/nouislider.js"></script>
+<script src="~/Scripts/js/custom.js"></script>
+<script src="~/Scripts/js/loading.js"></script>
+
+<script type="text/javascript">
+    function handleSelect(elm) {
+        window.location = "?sortOrder=" + elm.value;
+    }
+
+    let url = window.location.pathname
+    const myOptsBrand = Array.from(document.querySelectorAll('.choose-brand'));
+    myOptsBrand.map(ele => {
+        if (ele.getAttribute('href') == url)
+            ele.classList.add('active-brand');
+    });
+
+    const myOptsType = Array.from(document.querySelectorAll('.choose-type'));
+    myOptsType.map(ele => {
+        if (ele.getAttribute('href') == url)
+            ele.classList.add('active-brand');
+    });
+</script>

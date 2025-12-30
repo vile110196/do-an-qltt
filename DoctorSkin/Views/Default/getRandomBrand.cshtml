@@ -1,0 +1,7 @@
+﻿@model List<DoctorSkin.Models.Brands>
+@foreach (var i in Model)
+{
+    <div>
+        <a href="/thuong-hieu/@i.meta" class="choose-brand">@i.namebrand</a>
+    </div>
+}

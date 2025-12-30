@@ -1,0 +1,112 @@
+﻿@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/Content/assets/css/style1.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link href="~/Content/assets/css/loading.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="//o2skin.vn/wp-content/uploads/2021/09/favicon.ico" type="image/x-icon">
+
+    <style>
+        .error-text {
+            color: #721c24;
+            padding: 8px 10px;
+            text-align: center;
+            border-radius: 5px;
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            /*display: none;*/
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <img class="logoImg" src="https://o2skin.vn/wp-content/uploads/2024/05/logo-o2skin.png"
+             style="width:100%;object-fit:cover">
+    </div>
+    <div class="container" id="container">
+        <div class="form-container sign-up-container">
+            @*@Html.AntiForgeryToken()*@
+            <form method="post" id="register-form" action="/users/create" enctype="multipart/form-data">
+                <input name="name" type="text" required placeholder="Họ và tên" />
+                <input name="email" type="email" required placeholder="Email" />
+                <div class="form-group"
+                     style="width: 100%; float: left; display: flex; align-items: center; justify-content: flex-start;">
+                    <label>Giới tính</label>
+                    <div class="form-check form-check-inline" style="display:flex">
+                        <div>
+                            <input class="form-check-input" type="radio" name="gender" value="Male" id="male" checked>
+                            Nam
+                        </div>
+                        <div>
+                            <input class="form-check-input" type="radio" name="gender" value="Female" id="female"> Nữ
+                        </div>
+                        <div>
+                            <input class="form-check-input" type="radio" name="gender" value="Other" id="other"> Khác
+                        </div>
+                    </div>
+                </div>
+                <input name="phone" placeholder="Số điện thoại" required />
+                <input name="birth" type="date" placeholder="Ngày sinh" required />
+                <input required id="password" name="password" type="password" placeholder="Mật khẩu" minlength="8" />
+                <input required id="confirm_password" type="password" placeholder="Nhập lại mật khẩu" minlength="8" />
+                <div class="custom-file">
+                    <input type="file" name="file" class="custom-file-input" id="file" accept="image/*" required>
+                </div>
+                <span id="messageMatch"></span>
+                @*<div class="error-text" id="error-text">Hello</div>*@
+                <button type="submit" class="btn-regist">Đăng Ký</button>
+            </form>
+        </div>
+        <div class="form-container sign-in-container">
+            <form id="login-form" action="/users/login" method="post" enctype="multipart/form-data">
+                <h1 class="headerLogin">Đăng Nhập</h1>
+                <input id="email-login" name="email" type="text" placeholder="Email/Số điện thoại" required />
+                <input id="password-login" name="password" type="password" placeholder="Mật khẩu" required />
+                <div class="passwordFind">
+                    <a href="/users/forgot">Quên mật khẩu? </a>
+                </div>
+                <button type="submit" name="submitLogin">Đăng Nhập</button>
+
+                
+            </form>
+
+        </div>
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                    <h1>O2 SKIN Trị mụn chuẩn y khoa</h1>
+                    <p>Để có thể sử dụng những chức năng, vui lòng đăng ký</p>
+                    <button class="ghost" id="signIn">Đăng Nhập</button>
+                </div>
+                <div class="overlay-panel overlay-right">
+                    <h1>Xin chào</h1>
+                    <p class="signUpIntroduction">
+                        Vui lòng đăng nhập để có thể thực hiện những chức năng trong hệ thống
+                    </p>
+                    <button class="ghost" id="signUp">Đăng Ký</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="loading">
+        <img src="~/Content/assets/img/loading.svg" />
+    </div>
+    <script src="~/Scripts/js/user.js"></script>
+    <script src="~/Scripts/js/loading.js"></script>
+</body>
+
+</html>

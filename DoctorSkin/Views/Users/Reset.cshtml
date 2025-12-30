@@ -1,0 +1,57 @@
+﻿
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/Content/assets/css/style1.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link href="~/Content/assets/css/loading.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="//o2skin.vn/wp-content/uploads/2021/09/favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+    <div>
+        <img class="logoImg" src="https://o2skin.cdn.vccloud.vn/wp-content/uploads/2022/01/logo-o2skin.png"
+             style="width:100%;object-fit:cover">
+    </div>
+    <div class="container" id="container">
+        <div class="form-container sign-in-container">
+            <form method="POST" action="/users/resetpass" id="reset-form">
+                <h1 class="headerLogin">Cập nhật mật khẩu mới</h1>
+                <input required name="token" type="text" placeholder="Mã xác thực" />
+                <input required id="password" name="password" type="password" min="8" placeholder="Nhập mật khẩu mới" />
+                <input required id="confirm_password" name="repass" type="password" min="8" placeholder="Nhập lại mật khẩu" />
+                <button id="submitForgot" type="submit" name="submitForgot">Xác nhận</button>
+            </form>
+        </div>
+        <div class="overlay-container">
+            <div class="overlay">
+
+                <div class="overlay-panel overlay-right">
+                    <h1 class="forgotPassTitle">Tạo mật khẩu mới</h1>
+                    <p class="forgotPassIntroduction">Để giữ an toàn cho tài khoản của bạn, DoctorSKin muốn đảm bảo rằng bạn chính là người đang cố đăng nhập</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="loading">
+        <img src="~/Content/assets/img/loading.svg" />
+    </div>
+    <script src="~/Scripts/js/user.js"></script>
+    <script src="~/Scripts/js/loading.js"></script>
+    
+    <script>
+        
+    </script>
+</body>
+</html>

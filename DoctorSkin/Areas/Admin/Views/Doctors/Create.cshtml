@@ -1,0 +1,291 @@
+﻿@model IEnumerable<DoctorSkin.Models.ViewModel.MedicinesModel>
+@{
+    ViewBag.Title = "Khám bệnh";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+
+    DoctorSkin.Models.DoctorSkinEntities db = new DoctorSkin.Models.DoctorSkinEntities();
+
+}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.2/css/jquery.dataTables.min.css" />
+<style>
+    .nav-table {
+        padding: 12px 16px;
+        background: #f6f6f6;
+        border-radius: 4px;
+        color: #757575;
+        font-size: 14px;
+        border: 1px solid #e8e8e8;
+    }
+    .div-bill {
+        position: sticky;
+        bottom: 0;
+        background-color: #ee4d2d;
+        padding: 10px;
+        margin-top: 321px;
+    }
+    #tongtien {
+        text-align: end;
+        font-size: 24px;
+        font-weight: 700;
+        color: white;
+    }
+</style>
+<div class="sales-boxes">
+    @{ Html.RenderAction("listMedicine", "Doctors");}
+    <div class="recent-sales box" style="height: 520px; overflow: auto;padding:0px !important;">
+        <div style="position: relative; padding: 20px 30px;">
+            <div class="title" style="width: fit-content; margin: 0 auto;">
+                Hóa đơn
+            </div>
+            <div class="nav-table">
+                <div class="row">
+                    <div class="col-md-4">Sản phẩm</div>
+                    <div class="col-md-2" style="text-align: center;">Đơn giá</div>
+                    <div class="col-md-2">Số lượng</div>
+                    <div class="col-md-2">Tổng tiền</div>
+                    <div class="col-md-2" style="text-align: right;">Thao tác</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12" id="prescription" style="position: relative;">
+
+                </div>
+            </div>
+        </div>
+        <div class="div-bill">
+            <div id="tongtien">0đ</div>
+        </div>
+    </div>
+
+
+
+</div>
+
+<div class="sales-boxes" style="margin-top:15px">
+    <div class="recent-sales box" style="width: 100%;">
+        <div class="col-md-12">
+            <div >
+                <form id="add-form">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div>
+                                    <label for="namesv" class="col-form-label">Tên khách hàng</label>
+                                    <input placeholder="Nhập tên khách hàng" required type="text" class="form-control" id="name" name="name">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div>
+                                    <label for="namesv" class="col-form-label">Giới tính</label>
+                                    <select class="form-control" id="gender" name="gender">
+                                        <option value="Male" selected>Nam</option>
+                                        <option value="Female">Nữ</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div>
+                                    <label for="namesv" class="col-form-label">Tuổi</label>
+                                    <input placeholder="Tuổi" required type="number" class="form-control" id="age" name="age">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div>
+                                    <label for="namesv" class="col-form-label">Số điện thoại</label>
+                                    <input placeholder="Số điện thoại" required type="text" class="form-control" id="phone" name="phone" pattern="0\d{9}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="descriptionsv" class="col-form-label">Tình trạng bệnh lý</label>
+                        <textarea rows="10" placeholder="Tình hình bệnh lý của bệnh nhân" required type="text" class="form-control"
+                                  id="diagnose" name="diagnose"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="pricesv" class="col-form-label">Ngày tái khám</label>
+                        <input class="form-control" type="datetime-local" name="date_re" id="date_re">
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                        <button type="submit" class="btn btn-primary">Thêm</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+<script src="https://cdn.datatables.net/1.11.2/js/jquery.dataTables.min.js"></script>
+<script>
+    document.getElementById('item-khambenh').classList.add("active")
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const dataTableExample = document.querySelector('#dataTables-example');
+        if (dataTableExample) {
+            var table = new DataTable(dataTableExample, {
+                responsive: true
+            });
+        }
+    });
+</script>
+
+
+<script>
+    let data = []
+
+    function formatCurrency(amount) {
+        return amount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+    }
+
+    function total() {
+        let tongtien =  data.reduce((acc, current) => acc + current.dongia * current.soluong, 0)
+        $('#tongtien').text(formatCurrency(tongtien))
+        return tongtien;
+    }
+
+    function prescription(data) {
+        let prescription = $('#prescription')
+        prescription.append(` <div class="row mt-3">
+                        <div class="col-md-4">
+                            <div>
+                                ${data.name}
+                            </div>
+                        </div>
+                        <div class="col-md-2" style="text-align:center">
+                            <div>
+                                ${data.dongia}
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div>
+                                <input style="padding:4px;width:100%" id="soluong" type="number" value="1" min="1" style="width:100%" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div>
+                                ${data.total}
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div>
+                                <a style="color:red" id="delete-item" data-stt="${data.stt}" data-name="${data.name}" data-price="${data.dongia}">Xóa</a>
+                            </div>
+                        </div>
+                    </div>`)
+    }
+
+    function chon(ele) {
+        let name = $(ele).data('name')
+        let price = $(ele).data('price')
+        let newitem = {
+            stt: $(ele).data('stt'),
+            id: $(ele).data('id'),
+            type: Number($(ele).data('type')),
+            name: name,
+            dongia: price,
+            soluong: 1,
+            total: price
+        }
+        data.push(newitem)
+        $(ele).prop('disabled', true)
+        console.log(data)
+        prescription(newitem)
+        console.log(total())
+        total()
+    }
+
+    $(document).on('click', '#prescription input[id="soluong"]', function () {
+        const quantity = parseInt($(this).val(), 10);
+        const name = $(this).closest('.row').find('.col-md-4 div').text().trim();
+        const price = parseFloat($(this).closest('.row').find('.col-md-2 div').text().trim());
+
+        const index = data.findIndex(item => item.name === name && item.dongia === price);
+        if (index != -1) {
+            data[index].soluong = quantity;
+            const total = price * quantity;
+            $(this).closest('.row').find('.col-md-2:eq(2) div').text(total);
+            console.log(data)
+            
+        }
+        total()
+    });
+
+    $(document).on('click', '#delete-item', function () {
+        let name = $(this).data('name');
+        let price = $(this).data('price');
+        let stt = $(this).data('stt');
+
+        let index = data.findIndex(item => item.name === name && item.dongia === price);
+        if (index !== -1) {
+            data.splice(index, 1); // Remove the item from the data array
+            $(this).closest('.row').remove(); // Remove the corresponding HTML element
+            $(`#chon-${stt}`).prop('disabled', false);
+            total()
+            console.log(total())
+        }
+    });
+
+    $("#add-form").submit(function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        console.log(data)
+
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: "/admin/doctors/prescription",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            data: JSON.stringify({
+                    name: $('#name').val(),
+                    age: $('#age').val(),
+                    phone: $('#phone').val(),
+                    gender: $('#gender').val(),
+                    diagnose: $('#diagnose').val(),
+                    prescription: JSON.stringify(data),
+                    pay: data.reduce((acc, current) => acc + current.dongia * current.soluong, 0),
+                    date_re: $('#date_re').val()
+            }),
+            success: function (res) {
+                if (res.code == 0) {
+                    swal({
+                        title: "Thành công",
+                        text: "Lưu thông tin bệnh án thành công",
+                        icon: "success",
+                        buttons: true,
+                        dangerMode: true,
+                    }).then(() => {
+                        window.location.reload()
+                    })
+                }
+
+                if (res.code == 1) {
+                    swal({
+                        title: "Lỗi",
+                        text: "Xảy ra lỗi khi lưu thông tin",
+                        icon: "danger",
+                        buttons: true,
+                        dangerMode: true,
+                    }).then(() => {
+                        window.location.reload()
+                    })
+                }
+            },
+            error: function (err) {
+                console.log("Lỗi Api")
+            }
+        })
+    })
+</script>
+
+

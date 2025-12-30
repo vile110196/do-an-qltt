@@ -1,0 +1,33 @@
+﻿@model PagedList.IPagedList<DoctorSkin.Models.BlogDetails>
+@using PagedList.Mvc;
+
+@foreach (var i in Model)
+{
+    <div class="">
+        <article class="aa-latest-blog-single" style="display:flex">
+            <figure class="aa-blog-img">
+                <a href="/bai-viet/@i.metablog"><img alt="img" style="object-fit:cover" src="@i.cardimg"></a>
+                <figcaption class="aa-blog-img-caption">
+                    <a href="#"><i class="fa fa-comment-o"></i>20</a>
+                    <span href="#"><i class="fa fa-clock-o"></i>@i.date_up</span>
+                </figcaption>
+            </figure>
+            <div class="aa-blog-info" style="width:100% !important">
+                <div style="padding: 0 8px; text-align: justify; width: 100% !important">
+                    <div style="">
+                        <h3 class="aa-blog-title"><a href="/bai-viet/@i.metablog">@i.title</a></h3>
+                    </div>
+                    <div>
+                        <p style=" -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; display: -webkit-box;">@i.shortcontent</p>
+                    </div>
+                    <div>
+                        <a class="aa-read-mor-btn" href="/bai-viet/@i.metablog">Xem thêm<span class="fa fa-long-arrow-right"></span></a>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+}
+<div class="aa-blog-archive-pagination">
+    @Html.PagedListPager(Model, page => Url.Action("Index", "BlogByType", new { page }))
+</div>

@@ -1,0 +1,45 @@
+﻿@model IEnumerable<DoctorSkin.Models.ViewModel.MedicinesModel>
+
+<div class="recent-sales box" style="height: 520px;overflow: auto">
+    <div class="col-md-12" style="overflow:auto;height: 100%">
+        <div>
+            <div class="title" style="width:fit-content;margin:0 auto">
+                Danh mục sản phẩm
+            </div>
+            <div style="margin-top: 20px">
+                <table class="table" id="dataTables-example">
+                    <thead>
+                        <tr>
+                            <th>
+                                Tên sản phẩm
+                            </th>
+                            <th>
+                                Giá
+                            </th>
+                            <th>
+                                Thao tác
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr id="row-@item.stt">
+                                <td>
+                                    @item.name
+                                </td>
+                                <td>
+                                    @item.price
+                                </td>
+                                <td>
+                                    <button class="btn btn-success" id="chon-@item.stt" data-type="@item.type" data-price="@item.price" data-stt="@item.stt" data-id="@item.id" data-name="@item.name" onclick="chon(this)">Chọn</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

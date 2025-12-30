@@ -1,0 +1,177 @@
+﻿@model DoctorSkin.Models.Products
+@{
+    ViewBag.Title = "Chỉnh sửa sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+
+    DoctorSkin.Models.DoctorSkinEntities db = new DoctorSkin.Models.DoctorSkinEntities();
+
+    var type = db.Categories.ToList();
+    var brands = db.Brands.ToList();
+}
+
+<style>
+    form {
+        width: 100%
+    }
+</style>
+
+<div class="sales-boxes">
+    <div class="recent-sales box" style="width: 100%;">
+        <div class="col-md-12">
+            <div>
+                <div class="title btn btn-primary" style="width:fit-content;margin:0 auto">
+                    Sửa thông tin sản phẩm
+                </div>
+                <div style="margin-top: 20px">
+                    <div class="row dvdvitem">
+                        @using (Html.BeginForm("Edit", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.idp)
+
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(model => model.typep, "Loại sản phẩm")
+                                    @Html.DropDownListFor(model => model.typep, new SelectList(
+                                        type.Select(i => new SelectListItem { Value = i.typep.ToString(), Text = i.namec }), "Value", "Text"), new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.typep, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(model => model.idbrand, "Nhãn hàng")
+                                    @Html.DropDownListFor(model => model.idbrand, new SelectList(
+                                        brands.Select(i => new SelectListItem { Value = i.idbrand.ToString(), Text = i.namebrand }), "Value", "Text"), new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.idbrand, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(model => model.namep, "Tên sản phẩm")
+                                    @Html.EditorFor(model => model.namep, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.namep, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(model => model.newprice, "Giá sản phẩm")
+                                    @Html.EditorFor(model => model.newprice, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.newprice, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(model => model.oldprice, "Giá cũ sản phẩm")
+                                    @Html.EditorFor(model => model.oldprice, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.oldprice, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Hình đại diện", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-12">
+                                    <input type="file" name="img" id="img" accept=".jpg,.png,.gif,.jpeg,.bmp" />
+                                </div>
+                                <div class="col-md-12 mt-3">
+                                    <img id="previewImage" src="@Model.img" style="width:100px" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(model => model.statep, "Nhóm")
+                                    <select class="form-control" id="statep" name="statep">
+                                        <option value="No">Không</option>
+                                        <option value="Hot">Hot</option>
+                                        <option value="New">New</option>
+                                        <option value="Sale">Sale</option>
+                                        <option value="Sold out">Sold out</option>
+                                    </select>
+                                    @Html.ValidationMessageFor(model => model.statep, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(model => model.avilability, "Tình trạng")
+                                    <select class="form-control" id="avilability" name="avilability">
+                                        <option value="Còn hàng">Còn hàng</option>
+                                        <option value="Hết hàng">Hết hàng</option>
+                                    </select>
+                                    @Html.ValidationMessageFor(model => model.statep, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(model => model.hide, "Ẩn sản phẩm")
+                                    <div class="checkbox">
+                                        @Html.EditorFor(model => model.hide)
+                                        @Html.ValidationMessageFor(model => model.hide, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(model => model.hide, "Miêu tả sản phẩm")
+                                    @Html.TextAreaFor(model => model.descr)
+                                    @Html.ValidationMessageFor(model => model.descr, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input style="background-color:black;color:white" type="submit" value="Cập nhật" class="btn btn-default" />
+                                </div>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Areas/Content/ckfinder/ckfinder.js"></script>
+<script src="~/Areas/Content/ckeditor/ckeditor.js"></script>
+<script type="text/javascript">
+    var editor = CKEDITOR.replace("descr");
+    var editor = CKEDITOR.replace("descr", { height: '800px' });
+    customConfig: '/Areas/admin/Content/ckeditor/config.js';
+</script>
+<script>
+    $(function () {
+        $("#name").keyup(function () {
+            var text = $.trim($(this).val().toLowerCase());
+            var text_create;
+            text_create = text.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a").replace(/\ /g, '-').replace(/đ/g, "d").replace(/đ/g, "d").replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y").replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u").replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ.+/g, "o").replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ.+/g, "e").replace(/ì|í|ị|ỉ|ĩ/g, "i");
+            $('#meta').val(text_create);
+        }).keyup();
+    });
+</script>
+
+<script>
+    // Lắng nghe sự kiện khi người dùng chọn tệp
+    document.getElementById('img').addEventListener('change', function (event) {
+        var file = event.target.files[0];
+        var reader = new FileReader();
+
+        // Đọc tệp và hiển thị ảnh được chọn
+        reader.onload = function (e) {
+            var previewImage = document.getElementById('previewImage');
+            previewImage.src = e.target.result;
+            previewImage.style.display = 'block';
+        };
+
+        reader.readAsDataURL(file);
+    });
+</script>

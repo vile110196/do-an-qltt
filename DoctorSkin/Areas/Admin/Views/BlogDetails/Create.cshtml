@@ -1,0 +1,130 @@
+﻿@model DoctorSkin.Models.BlogDetails
+
+@{
+    ViewBag.Title = "Trang chủ";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+
+    DoctorSkin.Models.DoctorSkinEntities db = new DoctorSkin.Models.DoctorSkinEntities();
+
+    var typeBlog = db.BlogType.ToList();
+}
+
+<style>
+    form {
+        width: 100%
+    }
+    .btn-create {
+        color: #fff;
+        background-color: #ee4d2d;
+        border-color: #ee4d2d;
+    }
+</style>
+
+<div class="sales-boxes">
+    <div class="recent-sales box" style="width: 100%;">
+        <div class="col-md-12">
+            <div>
+                <div class="title" style="width: fit-content; margin: 0 auto; color: #ee4d2d">
+                    Thêm bài viết mới
+                </div>
+                <div style="margin-top: 20px">
+                    <div class="row dvdvitem">
+                        @using (Html.BeginForm("Create", "BlogDetails", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-horizontal">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        @Html.LabelFor(model => model.idbt, "Thể loại bài viết")
+                                        @Html.DropDownListFor(model => model.idbt, new SelectList(
+                                            typeBlog.Select(i => new SelectListItem { Value = i.idbt.ToString(), Text = i.namebt }), "Value", "Text"), new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.idbt, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("Hình đại diện", htmlAttributes: new { @class = "control-label col-md-2", required = "required" })
+                                    <div class="col-md-12">
+                                        <input type="file" name="cardimg" id="cardimg" accept=".jpg,.png,.gif,.jpeg,.bmp" />
+                                    </div>
+                                    <div>
+                                         <img id="previewImage" src="#" alt="Preview Image" style="max-width: 300px; max-height: 300px; display: none;" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("Tiêu đề", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-12">
+                                        @Html.EditorFor(model => model.title, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                                        @Html.ValidationMessageFor(model => model.title, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("Chủ đề bài viết", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-12">
+                                        @Html.EditorFor(model => model.shortcontent, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                                        @Html.ValidationMessageFor(model => model.shortcontent, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("Nội dung bài viết", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-12">
+                                        @Html.TextAreaFor(model => model.contentblog,new { required = "required" })
+                                        @Html.ValidationMessageFor(model => model.contentblog, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <input type="submit" value="Thêm mới" class="btn btn-create" />
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Areas/Content/ckfinder/ckfinder.js"></script>
+<script src="~/Areas/Content/ckeditor/ckeditor.js"></script>
+<script type="text/javascript">
+    var editor = CKEDITOR.replace("contentblog");
+    var editor = CKEDITOR.replace("contentblog", { height: '600px' });
+    customConfig: '~/Areas/Content/ckeditor/config.js';
+
+    var editorData = CKEDITOR.instances.shortcontent.getData();
+    console.log(editorData);
+</script>
+<script>
+    $(function () {
+        $("#name").keyup(function () {
+            var text = $.trim($(this).val().toLowerCase());
+            var text_create;
+            text_create = text.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a").replace(/\ /g, '-').replace(/đ/g, "d").replace(/đ/g, "d").replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y").replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u").replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ.+/g, "o").replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ.+/g, "e").replace(/ì|í|ị|ỉ|ĩ/g, "i");
+            $('#meta').val(text_create);
+        }).keyup();
+    });
+</script>
+<script>
+    // Lắng nghe sự kiện khi người dùng chọn tệp
+    document.getElementById('cardimg').addEventListener('change', function (event) {
+        var file = event.target.files[0];
+        var reader = new FileReader();
+
+        // Đọc tệp và hiển thị ảnh được chọn
+        reader.onload = function (e) {
+            var previewImage = document.getElementById('previewImage');
+            previewImage.src = e.target.result;
+            previewImage.style.display = 'block';
+        };
+
+        reader.readAsDataURL(file);
+    });
+</script>

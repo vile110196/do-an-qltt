@@ -1,0 +1,121 @@
+﻿@model List<DoctorSkin.Models.Products>
+@{ 
+    DoctorSkin.Models.DoctorSkinEntities db = new DoctorSkin.Models.DoctorSkinEntities();
+
+
+}
+
+<section id="aa-promo" style="margin-top:20px;margin-bottom:180px">
+    <div class="container">
+        @if (Model.Count()<=0)
+        {
+            <div style="background-image: url('https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/assets/4cddac8a462d1f793ceb4194c08ef8ee.png'); background-size: cover; width: 200px; height: 200px; margin:0 auto "></div>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-sm-12" style="background-color: #F5F5F5;padding:12px">
+                    <div class="col-md-6">
+                        <p>Sản phẩm</p>
+                    </div>
+                    <div class="col-md-2">
+                        <p>Đơn giá</p>
+                    </div>
+                    <div class="col-md-1">
+                        <p>Số lượng</p>
+                    </div>
+                    <div class="col-md-2">
+                        <p>Thành tiền</p>
+                    </div>
+                    <div class="col-md-1">
+                        <p>Thao tác</p>
+                    </div>
+                </div>
+                <div class="col-sm-12" style="background-color:#f5f5f5;margin-top:20px">
+                    <div id="table-data-cart" style="padding:12px">
+                        @foreach (var item in Model)
+                        {
+                            string iduser = (String)Session["iduser"];
+                            int amount = db.Carts.Where(c => c.idp == item.idp && c.iduser.Equals(iduser)).FirstOrDefault().quanlity;
+
+                            <div class="row" id="div-pr-@item.idp" stock="@item.avilability">
+                                <div class="row" style="margin-bottom:15px">
+                                    <div class="col-md-4" style="display: flex;justify-content: space-between;">
+                                        <div>
+                                            <input class="check-item" type="checkbox" data-namep="@item.namep" data-brandp="@db.Brands.Find(item.idbrand).namebrand" data-imgp="@item.img" data-idp="@item.idp" data-price="@item.newprice" data-amount="@amount" />
+                                        </div>
+                                        <div class="" style="padding: 0 8px;">
+                                            <a class="aa-cartbox-img" href="#">
+                                                <img style="width: 100px;height: 100px;object-fit: cover;" src="@item.img" alt="img" />
+                                            </a>
+                                        </div>
+                                        <div>
+                                            <a href="#" style="-webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; display: -webkit-box;font-size:14px">@item.namep</a>
+                                            <img style="height: 18px;object-fit: contain;" src="@item.img" alt="" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div style="opacity: 0.7;">
+                                            <div>Thương hiệu:</div>
+                                            <div>@db.Brands.Find(item.idbrand).namebrand</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div>
+                                            <p class="money dongia-@item.idp" value="@item.newprice">@decimal.Parse(@item.newprice).ToString("#,##0đ")</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div>
+                                            <input class="amount-item amount-item-@item.idp" data-idp="@item.idp" style="width: 100%;" type="number" min="1" value="@amount" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div>
+                                            <p class="money total-item-@item.idp" value="@Math.Abs(amount*int.Parse(item.newprice))" style="color: #ee4d2d">@decimal.Parse(@Math.Abs(amount * int.Parse(item.newprice)).ToString()).ToString("#,##0đ")</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div>
+                                            <a class="aa-remove-product" href="#" style="top:0 !important">
+                                                <span class="fa fa-times" onclick="deletePro(@item.idp)"></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div style="position:fixed;background-color:white;width:1170px;z-index:999">
+                    <div style="display:flex; justify-content:space-between;padding:10px;width:100%; align-items:center">
+                        <div style="display:flex; justify-content:space-around;">
+                            <div>
+                                <input type="checkbox" />
+                                <label>Chọn tất cả (@Model.Count() sản phẩm)</label>
+                            </div>
+                            <div style="margin-left:25px">Xóa</div>
+                        </div>
+                        <div style="display:flex; justify-content:space-between;align-items:center">
+                            <div class="note">Tổng thanh toán (0 sản phẩm)</div>
+                            <div id="total" style="padding: 0px 15px; color: rgb(238, 77, 45);font-size:20px" value="0">0</div>
+                            <div>
+                                <button id="thanhtoan" style="background-color: rgb(238, 77, 45); padding: 10px 20px; border: none; color: white; font-size: 18px; font-weight: 400">Mua hàng</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>
+<script>
+    
+</script>

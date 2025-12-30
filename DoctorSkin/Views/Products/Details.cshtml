@@ -1,0 +1,124 @@
+﻿@model DoctorSkin.Models.Products
+@{
+    DoctorSkin.Models.DoctorSkinEntities db = new DoctorSkin.Models.DoctorSkinEntities();
+    var brand = db.Brands.FirstOrDefault(s => s.idbrand == Model.idbrand);
+    string[] listimg = Model.listimg.Split(',');
+    int countFB = db.Feedbacks.Where(s => s.idp == Model.idp).ToList().Count();
+}
+
+<style>
+    h2 {
+        color: black !important;
+    }
+</style>
+<section id="aa-product-details">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="aa-product-details-area">
+                    <div class="aa-product-details-content">
+                        <div class="row">
+                            <!-- Modal view slider -->
+                            <div class="col-md-5 col-sm-5 col-xs-12">
+                                <div class="aa-product-view-slider">
+                                    <div id="demo-1" class="simpleLens-gallery-container">
+                                        <div class="simpleLens-container">
+                                            <div class="simpleLens-big-image-container"><a data-lens-image="@listimg[0]" class="simpleLens-lens-image"><img src="@listimg[0]" class="simpleLens-big-image"></a></div>
+                                        </div>
+                                        <div class="simpleLens-thumbnails-container">
+                                            @foreach (var i in listimg)
+                                            {
+                                                <a data-big-image="@i" data-lens-image="@i" class="simpleLens-thumbnail-wrapper">
+                                                    <img style="width:70px;height:70px;object-fit:contain" src="@i">
+                                                </a>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal view content -->
+                            <div class="col-md-7 col-sm-7 col-xs-12">
+                                <div class="aa-product-view-content">
+                                    <h3>@Model.namep</h3>
+                                    <div class="aa-price-block">
+                                        <span class="aa-product-view-price" style="color: #d0011b;font-weight:bold;font-size:20px">@decimal.Parse(Model.newprice).ToString("#,##0đ")</span>
+                                        <p class="aa-product-avilability">Tình trạng: <span style="color: #08f">@Model.avilability</span></p>
+                                    </div>
+                                    <div class="aa-prod-quantity">
+                                        <form action="">
+                                            <select id="" name="">
+                                                <option selected="1" value="0">1</option>
+                                                <option value="1">2</option>
+                                                <option value="2">3</option>
+                                                <option value="3">4</option>
+                                                <option value="4">5</option>
+                                                <option value="5">6</option>
+                                            </select>
+                                        </form>
+                                        <p class="aa-prod-category">
+                                            Nhãn hàng: <a href="#">@brand.namebrand</a>
+                                        </p>
+                                    </div>
+                                    <div class="aa-prod-view-bottom">
+                                        <a onclick="addCart(@Model.idp)" class="aa-add-to-cart-btn" style="border-radius: 3px; background: #cfeadd; border: 1px solid #b6ddca; color: #326e51;">Thêm vào giỏ hàng</a>
+                                        @*<a class="aa-add-to-cart-btn" href="#" style="background: #326e52; border-radius: 3px; color: #fff;">Yêu thích</a>*@
+                                        <a class="aa-add-to-cart-btn" href="#" style="background: #ff6600; border: 1px solid #ff6600; border-radius: 3px; color: #fff;">Mua ngay</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="aa-product-details-bottom">
+                        <ul class="nav nav-tabs" id="myTab2">
+                            <li class="active"><a href="#description" data-toggle="tab" aria-expanded="true">Thông tin sản phẩm</a></li>
+                            <li><a href="#review" data-toggle="tab">Đánh giá</a></li>
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div class="tab-pane fade in active" id="description">
+                                @Html.Raw(Model.descr)
+                            </div>
+                            <div class="tab-pane fade " id="review">
+                                <div class="aa-product-review-area">
+                                    <div style="background-color: #fffbf8; min-height: 5rem; border: 1px solid #f9ede5; margin-bottom: 1rem; display: flex; align-items: center; border-radius: 2px; box-sizing: border-box; padding: 1.875rem;">
+                                        <div style="font-size:18px"><strong>@countFB</strong> <i style="font-size:16px">đánh giá cho sản phẩm này</i></div>
+                                    </div>
+
+                                    <ul class="aa-review-nav">
+
+                                        @Html.Action("GetListFeedbackByProductID", "Default", new { idp = @Model.idp })
+
+
+                                    </ul>
+
+                                    <!--review form -->
+                                    <form action="" class="aa-review-form">
+                                        <div class="form-group">
+                                            <label for="message">Your Review</label>
+                                            <textarea class="form-control" rows="3" id="message"></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="name">Name</label>
+                                            <input type="text" class="form-control" id="name" placeholder="Name">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="email">Email</label>
+                                            <input type="email" class="form-control" id="email" placeholder="example@gmail.com">
+                                        </div>
+
+                                        <button type="submit" class="btn btn-default aa-review-submit">Submit</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Related product -->
+                    @Html.Action("relatedProducts", "Default", new { typep = Model.typep })
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+

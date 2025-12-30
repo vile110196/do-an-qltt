@@ -1,0 +1,56 @@
+﻿
+@model List<DoctorSkin.Models.Products>
+<div class="aa-product-related-item">
+    <h3>Sản phẩm gợi ý</h3>
+    <ul class="aa-product-catg aa-related-item-slider">
+        <!-- start single product item -->
+        @foreach (var i in Model)
+        {
+            DoctorSkin.Models.DoctorSkinEntities db = new DoctorSkin.Models.DoctorSkinEntities();
+            string iduser = (string)Session["iduser"];
+            var checkWl = db.Wishlists.Where(s => s.idp == i.idp && s.iduser == iduser).FirstOrDefault();
+            <li>
+                <figure>
+                    <a class="aa-product-img" href="/@ViewBag.meta/@i.metap/@i.idp"><img src="@i.img" style="width:100%;height:250px;object-fit:cover" alt="polo shirt img"></a>
+                    <a onclick="addCart(@i.idp)" class="aa-add-card-btn"><span class="fa fa-shopping-cart"></span>Thêm vào giỏ hàng</a>
+                    <figcaption>
+                        <div class="aa-product-title" style="font-size: 14px !important;height:60px; text-align: left; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; display: -webkit-box;"><a href="#">@i.namep</a></div>
+                        <span class="aa-product-price">@decimal.Parse(i.newprice).ToString("#,##0đ")</span>
+                        <span class="aa-product-price"><del>@decimal.Parse(i.oldprice).ToString("#,##0đ")</del></span>
+                    </figcaption>
+                </figure>
+                <div class="aa-product-hvr-content">
+                    <a data-toggle="tooltip" data-placement="top" title="Add to Wishlist" onclick="addWishlist(@i.idp)">
+                        @if (checkWl == null)
+                        {
+                            <span class="fa fa-heart-o" id="heart-@i.idp" value="false"></span>
+                        }
+                        else
+                        {
+                            <span class="fa fa-heart" style="color:red" id="heart-@i.idp" value="true"></span>
+                        }
+                    </a>
+                    @*<a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><span class="fa fa-exchange"></span></a>*@
+                    <a href="#" data-toggle2="tooltip" data-placement="top" title="Quick View" data-toggle="modal" data-target="#quick-view-modal"><span class="fa fa-search"></span></a>
+                </div>
+                <!-- product badge -->
+                <span class="aa-badge" value="@i.statep" href="#">@i.statep</span>
+            </li>
+        }
+    </ul>
+
+</div>
+<script src="~/Scripts/js/cart.js"></script>
+<script>
+    let listStatep = document.querySelectorAll('.aa-badge')
+    listStatep.forEach(ele => {
+        if (ele.getAttribute('value') == 'Sale')
+            ele.classList.add('aa-sale')
+        if (ele.getAttribute('value') == 'Sold out')
+            ele.classList.add('aa-sold-out')
+        if (ele.getAttribute('value') == 'Hot')
+            ele.classList.add('aa-hot')
+        if (ele.getAttribute('value') == 'New')
+            ele.classList.add('aa-new')
+    })
+</script>

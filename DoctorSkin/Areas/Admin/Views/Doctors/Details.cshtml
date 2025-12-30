@@ -1,0 +1,66 @@
+﻿@model DoctorSkin.Models.Doctors
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>Doctors</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.namedoc)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.namedoc)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.infordoc)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.infordoc)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.ava_doc)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.ava_doc)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.hide_doc)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.hide_doc)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.date_up_doc)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.date_up_doc)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.iddoc }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

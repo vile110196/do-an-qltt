@@ -1,0 +1,8 @@
+﻿@model List<DoctorSkin.Models.Services>
+
+@foreach (var i in Model)
+{
+    <div class="div-choose choose-filter">
+        <a href="/admin/@ViewBag.meta/@i.meta">@i.name_dt</a>
+    </div>
+}

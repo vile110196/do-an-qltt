@@ -1,0 +1,46 @@
+﻿@model IEnumerable<DoctorSkin.Models.Bills>
+@{
+    DoctorSkin.Models.DoctorSkinEntities db = new DoctorSkin.Models.DoctorSkinEntities();
+}
+
+@foreach (var i in Model)
+{
+    var pr = db.Products.Find(i.idp);
+    var brand = db.Brands.Find(pr.idbrand);
+    <div style="margin-bottom:20px">
+        <div class="bill-item_head">
+            <div class="head-left">
+                <div class="mall">Mall</div>
+                <div style="margin-left:4px; font-weight:bold">@brand.namebrand</div>
+            </div>
+            @if (i.status == "Đã hủy")
+            {
+                <div>
+                    <div style="color: #ee4d2d;font-size:16px">Đã hủy</div>
+                </div>
+            }
+        </div>
+        <div class="bill-item_content">
+            <div class="bill-item">
+                <div class="bill-item_content-main">
+                    <div style="display:flex;padding-right:10px;width:70%">
+                        <div>
+                            <img style="width:100px;height:100px;object-fit:cover" src="@pr.img" />
+                        </div>
+                        <div style="padding-left:10px">
+                            <div class="div-namepr">
+                                <div>@pr.namep</div>
+                            </div>
+                            <div style="margin: 0 0 5px;"><span style="opacity: 0.8;">Số lượng: </span>@i.quantity</div>
+                            <div class="_7ngay">7 ngày trả hàng</div>
+                        </div>
+                    </div>
+                    <div style="display:flex;width:30%;justify-content:end;padding-right:4px">
+                        <div class="oldprice">@decimal.Parse(pr.oldprice).ToString("#,##0đ")</div>
+                        <div class="price-item" style="color: #ee4d2d">@decimal.Parse(pr.newprice).ToString("#,##0đ")</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ }

@@ -1,0 +1,11 @@
+﻿@model List<DoctorSkin.Models.Categories>
+
+@foreach (var i in Model)
+{
+    <li class="active tab_@i.typep">
+        <a href="" data-toggle="tab">@i.namec</a>
+    </li>
+    <div>
+        @Html.Action("getProducts", "Home", new {typep=i.typep})
+    </div>
+}    

@@ -1,0 +1,279 @@
+﻿@model DoctorSkin.Models.Products
+@{
+    ViewBag.Title = "Chỉnh sửa sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+
+    DoctorSkin.Models.DoctorSkinEntities db = new DoctorSkin.Models.DoctorSkinEntities();
+
+    var type = db.Categories.ToList();
+    var brands = db.Brands.ToList();
+
+    int maxtype = db.Categories.Max(s => s.typep) + 1;
+}
+
+<style>
+    form {
+        width: 100%
+    }
+    .select1 {
+        margin-bottom: 15px;
+    }
+
+    #newTypep {
+        margin-top: 10px;
+    }
+
+    #addTypepBtn {
+        margin-top: 10px;
+    }
+    
+</style>
+
+<div class="sales-boxes">
+    <div class="recent-sales box" style="width: 100%;">
+        <div class="col-md-12">
+            <div>
+                <div class="title" style="width: fit-content; margin: 0 auto; color: #ee4d2d">
+                    Thêm sản phẩm mới
+                </div>
+                <div style="margin-top: 20px">
+                    <div class="row dvdvitem">
+                        @using (Html.BeginForm("Create", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-group">
+                                @Html.Label("Tên sản phẩm", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-12">
+                                    @Html.EditorFor(model => model.namep, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                                    @Html.ValidationMessageFor(model => model.namep, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group select1">
+                                @Html.Label("Loại sản phẩm", htmlAttributes: new { @class = "control-label col-md-2", required = "required" })
+                                <div class="col-md-12">
+                                    <select id="typep" name="typep" class="form-control">
+                                        @foreach (var item in type)
+                                        {
+                                            <option value="@item.typep">@item.namec</option>
+                                        }
+                                    </select>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <input type="text" id="newTypep" class="form-control" placeholder="Thêm loại sản phẩm mới" />
+                                        </div>
+                                        <div>
+                                            <button id="addTypepBtn" class="btn btn-primary">Thêm mới</button>
+                                        </div>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.typep, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                @Html.Label("Giá mới", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-12">
+                                    @Html.EditorFor(model => model.newprice, new { htmlAttributes = new { @class = "form-control", required = "required", type = "number" } })
+                                    @Html.ValidationMessageFor(model => model.newprice, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                @Html.Label("Giá cũ", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-12">
+                                    @Html.EditorFor(model => model.oldprice, new { htmlAttributes = new { @class = "form-control", required = "required", type = "Number" } })
+                                    @Html.ValidationMessageFor(model => model.oldprice, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Hình đại diện", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-12">
+                                    <input type="file" name="img" id="img" accept=".jpg,.png,.gif,.jpeg,.bmp" />
+                                </div>
+                                <div class="col-md-12 mt-3">
+                                    <img id="previewImage" src="#" alt="Preview Image" style="max-width: 300px; max-height: 300px; display: none;" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Nhãn hàng", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-12">
+                                    <select id="idbrand" name="idbrand" class="form-control">
+                                        @foreach (var item in brands)
+                                        {
+                                            <option value="@item.idbrand">@item.namebrand</option>
+                                        }
+                                    </select>
+                                    <div class="row mt-2">
+                                        <div class="col-md-3">
+                                            <input type="text" id="newBrand" class="form-control" placeholder="Thêm nhãn hàng mới" />
+                                        </div>
+                                        <div>
+                                            <button id="addBtnBrand" class="btn btn-primary">Thêm mới</button>
+                                        </div>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.idbrand, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Tình trạng", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-12">
+                                    <select class="form-control" id="avilability" name="avilability">
+                                        <option value="Không">Không</option>
+                                        <option value="Còn hàng">Còn hàng</option>
+                                        <option value="Hết hàng">Hết hàng</option>
+                                    </select>
+                                    @Html.ValidationMessageFor(model => model.statep, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Ẩn sản phẩm", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-12">
+                                    <div class="checkbox">
+                                        @Html.EditorFor(model => model.hide, new { required = "required" })
+                                        @Html.ValidationMessageFor(model => model.hide, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Nhóm sản phẩm", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-12">
+                                    <select class="form-control" id="statep" name="statep">
+                                        <option value="No">Không</option>
+                                        <option value="Hot">Hot</option>
+                                        <option value="New">New</option>
+                                        <option value="Sale">Sale</option>
+                                        <option value="Sold out">Sold out</option>
+                                    </select>
+                                    @Html.ValidationMessageFor(model => model.statep, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Miêu tả sản phẩm", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-12">
+                                    @Html.TextAreaFor(model => model.descr, new { required = "required" })
+                                    @Html.ValidationMessageFor(model => model.descr, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-12">
+                                    <input type="submit" value="Tạo mới" class="btn btn-create" />
+                                </div>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Areas/Content/ckfinder/ckfinder.js"></script>
+<script src="~/Areas/Content/ckeditor/ckeditor.js"></script>
+<script type="text/javascript">
+    var editor = CKEDITOR.replace("descr");
+    var editor = CKEDITOR.replace("descr", { height: '600px' });
+    customConfig: '~/Areas/Content/ckeditor/config.js';
+
+    var editorData = CKEDITOR.instances.shortcontent.getData();
+    console.log(editorData);
+</script>
+<script>
+    $(function () {
+        $("#name").keyup(function () {
+            var text = $.trim($(this).val().toLowerCase());
+            var text_create;
+            text_create = text.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a").replace(/\ /g, '-').replace(/đ/g, "d").replace(/đ/g, "d").replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y").replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u").replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ.+/g, "o").replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ.+/g, "e").replace(/ì|í|ị|ỉ|ĩ/g, "i");
+            $('#meta').val(text_create);
+        }).keyup();
+    });
+</script>
+<script>
+    // Lắng nghe sự kiện khi người dùng chọn tệp
+    document.getElementById('img').addEventListener('change', function (event) {
+        var file = event.target.files[0];
+        var reader = new FileReader();
+
+        // Đọc tệp và hiển thị ảnh được chọn
+        reader.onload = function (e) {
+            var previewImage = document.getElementById('previewImage');
+            previewImage.src = e.target.result;
+            previewImage.style.display = 'block';
+        };
+
+        reader.readAsDataURL(file);
+    });
+
+    $(document).ready(function () {
+        $('#addTypepBtn').click(function () {
+            var newTypepValue = $('#newTypep').val();
+            if (newTypepValue !== '') {
+                $.ajax({
+                    type: "POST",
+                    url: "/admin/categories/create",
+                    data: {
+                        namec: newTypepValue
+                    },
+                    success: function (res) {
+                        if (res.code == 0) {
+                            var option = $('<option>').val(res.data.typep).text(newTypepValue);
+                            $('#typep').append(option);
+                            $('#typep').val(res.data.typep);
+                            $('#newTypep').val('')
+
+                        }
+                    },
+                    error: function (err) {
+                        console.log(res)
+                    }
+                })
+            }
+            
+        });
+
+        $('#addBtnBrand').click(function () {
+            var newBrandValue = $('#newBrand').val();
+            if (newBrandValue !== '') {
+                $.ajax({
+                    type: "POST",
+                    url: "/admin/brands/create",
+                    data: {
+                        namebrand: newBrandValue
+                    },
+                    success: function (res) {
+                        console.log(res.code)
+                        if (res.code == 0) {
+                            var option = $('<option>').val(res.data.idbrand).text(newBrandValue);
+                            $('#idbrand').append(option);
+                            $('#idbrand').val(res.data.idbrand);
+                            $('#newBrand').val('')
+
+                        }
+                    },
+                    error: function (err) {
+                        console.log(res)
+                    }
+                })
+            }
+        });
+    });
+</script>
+
+
+
+
+
+
+

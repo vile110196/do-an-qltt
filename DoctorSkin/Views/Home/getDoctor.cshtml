@@ -1,0 +1,12 @@
+﻿@model List<DoctorSkin.Models.Doctors>
+
+@foreach (var i in Model)
+{
+    <div class="col-md-4">
+        <div>
+            <img style="width:100%" src="@i.ava_doc" alt="">
+            <p style=" color: #2260d6; font-size: 14px; font-weight: 600;">Bs.@i.namedoc</p>
+        </div>
+    </div>
+
+}

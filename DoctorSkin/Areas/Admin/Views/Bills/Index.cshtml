@@ -1,0 +1,545 @@
+﻿@model IEnumerable<DoctorSkin.Models.Bills>
+@{
+    ViewBag.Title = "Đơn hàng";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+
+    DoctorSkin.Models.DoctorSkinEntities db = new DoctorSkin.Models.DoctorSkinEntities();
+
+}
+<style>
+    *{
+        font-size: 16px !important
+    }
+    .active {
+        background-color: #ee4d2d;
+        color:white;
+        padding:0px 8px
+    }
+
+    .list-bill {
+        margin-top: 20px;
+        background-color: white
+    }
+
+    .bill-item {
+        background-color: white;
+        margin-bottom: 10px
+    }
+
+    .mall {
+        background-color: #d0011b;
+        color: white;
+        padding: 4px 6px;
+        border-radius: 4px;
+        width: fit-content;
+        font-size: 12px
+    }
+
+    .head-left {
+        display: flex;
+        align-items: center
+    }
+
+    .bill-item_head {
+        display: flex;
+        padding: 8px;
+        justify-content: space-between;
+        border-bottom: 1px solid rgba(0,0,0,.09);
+    }
+
+    .bill-item_content {
+        margin-top: 10px;
+    }
+
+    .bill-item_content-main {
+        display: flex;
+        /*justify-content: space-between;*/
+        align-items: center;
+        padding: 0 8px;
+    }
+
+    .div-namepr {
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        display: -webkit-box;
+        margin: 0 0 5px;
+        font-size: 16px;
+        line-height: 22px;
+        max-height: 48px;
+    }
+
+    .oldprice {
+        text-decoration-line: line-through !important;
+        color: #000;
+        opacity: .26;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-right: 4px
+    }
+
+    ._7ngay {
+        padding: 2px 4px;
+        vertical-align: middle;
+        font-size: 12px;
+        line-height: 16px;
+        border-radius: 1px;
+        color: #ee4d2d;
+        border: 0.5px solid #ee4d2d;
+        width: fit-content
+    }
+
+    .aa1 {
+        width: 100%;
+        height: 0;
+        border-bottom: 1px dotted rgba(0,0,0,.09);
+        position: relative;
+    }
+
+    .aa1- {
+        box-sizing: border-box;
+        background: #f5f5f5;
+        width: 0.4375rem;
+        height: 0.4375rem;
+        border-radius: 50%;
+        z-index: 1;
+        position: absolute;
+        top: 0;
+    }
+
+    .aa1-1 {
+        left: 0;
+        transform: translate(-50%,-50%);
+    }
+
+    .aa1-2 {
+        right: 0;
+        transform: translate(50%,-50%);
+    }
+
+    .bill-item_footer {
+        background-color: #fffefb
+    }
+
+    .bill-item_footer {
+        padding: 18px
+    }
+
+    .btn-footer {
+        min-width: 150px;
+        padding: 8px 10px;
+        border: 1px solid rgba(90, 125, 188, 0.05);
+        border-radius: 2px;
+        background-color: white;
+        color: #555
+    }
+
+    .btn-middle {
+        margin: 0 4px;
+    }
+
+    .btn-cho {
+        background-color: rgba(90, 125, 188, 0.05)
+    }
+
+    .div-div-item-bill {
+        box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
+        margin-bottom: 12px;
+    }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+        color: #ee4d2d;
+        background-color: #fff;
+        border-bottom: 3px solid #ee4d2d;
+        /* border-color: #dee2e6 #dee2e6 #fff; */
+    }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+        color: none;
+        background-color: white !important;
+        border-color: none !important;
+    }
+
+
+    .nav-table {
+        padding: 12px 16px;
+        background: #f6f6f6;
+        border-radius: 4px;
+        color: #757575;
+        font-size: 14px;
+        border: 1px solid #e8e8e8;
+    }
+
+    .iduser-div {
+        border-bottom: 1px solid #e8e8e8;
+        background-color: hsla(0,0%,96%,.5);
+        display:flex;
+        justify-content:space-between;
+        padding:16px
+    }
+
+    .item-bill {
+        margin-top: 15px;
+        color: #666;
+        background-color: #fff;
+        border: 1px solid #e8e8e8;
+        border-radius: 4px;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+        background-color:white
+    }
+
+    .pagination-list {
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+    }
+
+    .pagination-item {
+        margin: 0 5px;
+    }
+
+    .pagination-link {
+        display: inline-block;
+        padding: 5px 10px;
+        text-decoration: none;
+        color: #333;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 20px; /* Thay đổi kích thước font chữ */
+    }
+
+        .pagination-link:hover {
+            background-color: #ccc;
+        }
+
+    .pagination-page {
+        font-weight: bold;
+    }
+
+    .first .pagination-link::before,
+    .last .pagination-link::after {
+        content: "...";
+        margin: 0 3px;
+    }
+
+    .first .pagination-link:first-child::before,
+    .last .pagination-link:last-child::after {
+        content: none;
+    }
+
+    .pagination > li > a{
+        font-size:20px
+    }
+    .tab-pane{
+        background-color:white;
+        padding: 0px
+    }
+</style>
+
+<link href="~/Content/assets/css/profile.css" rel="stylesheet" />
+<link href="~/Content/assets/css/index.css" rel="stylesheet" />
+
+<div class="sales-boxes">
+    <div class="recent-sales box" style="width: 100%;">
+        <div class="col-md-12">
+            <div class="tab-log" style="padding: 0;width:100%">
+                <div>
+                    <div>
+                        <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                            <a class="nav-item nav-link active" id="nav-choxacnhan-tab" data-toggle="tab"
+                               href="#choxacnhan" role="tab" aria-controls="choxacnhan" aria-selected="true"
+                               style="font-size: 16px; ">Chờ xác nhận</a>
+                            <a class="nav-item nav-link" id="daxacnhan" data-toggle="tab" href="#nav-daxacnhan"
+                               role="tab" aria-controls="nav-daxacnhan" aria-selected="false"
+                               style="font-size: 16px; ">Đã xác nhận</a>
+                            <a class="nav-item nav-link" id="nav-hoanthanh-tab" data-toggle="tab"
+                               href="#nav-hoanthanh" role="tab" aria-controls="nav-hoanthanh" aria-selected="false"
+                               style="font-size: 16px; ">Thành công</a>
+                            <a class="nav-item nav-link" id="nav-huy-tab" data-toggle="tab" href="#nav-huy"
+                               role="tab" aria-controls="nav-huy" aria-selected="false"
+                               style="font-size: 16px; ">Đã hủy</a>
+                        </div>
+                    </div>
+                    <div class="tab-content" id="nav-tabContent">
+                        @* CHỜ XÁC NHẬN *@
+                        <div class="tab-pane fade show active in" id="choxacnhan" role="tabpanel" aria-labelledby="nav-choxacnhan-tab">
+                            @{ Html.RenderAction("Choxacnhan", "Bills");}
+                        </div>
+                        <div class="tab-pane fade" id="nav-daxacnhan" role="tabpanel" aria-labelledby="daxacnhan">
+                            @{ Html.RenderAction("Daxacnhan", "Bills");}
+                        </div>
+                        <div class="tab-pane fade" id="nav-hoanthanh" role="tabpanel" aria-labelledby="nav-hoanthanh-tab">
+                            @{ Html.RenderAction("Dagiao", "Bills");}
+                        </div>
+                        <div class="tab-pane fade" id="nav-huy" role="tabpanel" aria-labelledby="nav-huy-tab">
+                            @{ Html.RenderAction("Dahuy", "Bills");}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*MODAL XEM HÓA ĐƠN CHI TIẾT*@
+<div class="modal fade" id="billModal" tabindex="-1" role="dialog" aria-labelledby="billModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="display:flex;align-items:center">
+                <div style="font-size:25px" class="modal-title" id="exampleModalLabel">Chi tiết hóa đơn</div>
+                <div style="flex:auto">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span style="font-size:25px" aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Địa chỉ giao hàng</label>
+                        <input type="text" class="form-control" id="address-bill" placeholder="Số nhà, đường, khu phố, ..." />
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Tên khách hàng</label>
+                        <input disabled type="text" class="form-control" id="name-bill" />
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Email</label>
+                        <input disabled type="text" class="form-control" id="email-bill" />
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Số điện thoại</label>
+                        <input disabled type="text" class="form-control" id="phone-bill" />
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Mã giảm giá</label>
+                        <input disabled type="text" class="form-control" id="voucher-bill" />
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Tổng hóa đơn</label>
+                        <input disabled type="text" class="form-control" id="total-bill" />
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Trạng thái</label>
+                        <input disabled type="text" class="form-control" id="status-bill" />
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Ghi chú</label>
+                        <input type="text" class="form-control" id="note-bill" placeholder="Ghi chú đơn hàng" />
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Ngày mua hàng</label>
+                        <input disabled type="text" class="form-control" name="address" id="datebuy-bill" />
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Lý do hủy</label>
+                        <input disabled type="text" class="form-control" id="whycancel-bill" />
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Ngày nhận hàng thành công</label>
+                        <input disabled type="text" class="form-control" id="datesuccess-bill" />
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Ngoại lệ</label>
+                        <input disabled type="text" class="form-control" id="exception-bill" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" id="btnhuy" data-dismiss="modal">Hủy</button>
+                        @*<button type="submit" class="btn btn-success" id="confirmedit" onclick="saveAddress()">Cập nhật</button>*@
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+
+<script>
+    function deleteItem(idbill) {
+        $.ajax({
+            url: "/admin/bills/cancel",
+            type: "PUT",
+            data: JSON.stringify({
+                idbill: Number(idbill)
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            success: function (res) {
+                swal({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: res.message,
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    if (res.code == 0)
+                        window.location.reload()
+                })
+            },
+            error: function (xhr, status, error) {
+                console.log(stt)
+            }
+        });
+    }
+    function btnCancel(idbill) {
+        swal({
+            title: "Are you sure?",
+            text: "Hủy đơn hàng!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    deleteItem(idbill);
+                } else {
+                }
+            });
+    }
+
+    function confirmItem(idbill) {
+        $.ajax({
+            url: "/admin/bills/confirm",
+            type: "PUT",
+            data: JSON.stringify({
+                idbill: Number(idbill)
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            success: function (res) {
+                swal({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: res.message,
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    if (res.code == 0)
+                        window.location.reload()
+                })
+            },
+            error: function (xhr, status, error) {
+                console.log(stt)
+            }
+        });
+    }
+    function btnConfirm(idbill) {
+        swal({
+            title: "Are you sure?",
+            text: "Xác nhận vận chuyển đơn hàng!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    confirmItem(idbill);
+                } else {
+                }
+            });
+    }
+
+    function thanhcongItem(idbill) {
+        $.ajax({
+            url: "/admin/bills/thanhcong",
+            type: "PUT",
+            data: JSON.stringify({
+                idbill: Number(idbill)
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            success: function (res) {
+                swal({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: res.message,
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    if (res.code == 0)
+                        window.location.reload()
+                })
+            },
+            error: function (xhr, status, error) {
+                console.log(stt)
+            }
+        });
+    }
+    function thanhcong(idbill) {
+        swal({
+            title: "Are you sure?",
+            text: "Xác nhận đã giao hàng thành công!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    thanhcongItem(idbill);
+                } else {
+                }
+            });
+    }
+
+    //XEM CHI TIẾT BILL
+    function clickItemBill(idbill) {
+        $.ajax({
+            url: "/admin/bills/getdatabill",
+            type: 'GET',
+            data: { idbill: idbill },
+            success: function (res) {
+                console.log(res.bills)
+                let data = res.bills.bill
+
+                var dateString = data.datebuy;
+                var timestampString = dateString.substring(6, dateString.length - 2);
+                var timestamp = parseInt(timestampString);
+                var date = new Date(timestamp);
+                var formattedDate = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+
+                $('#address-bill').val(data.address)
+                $('#name-bill').val(res.bills.name)
+                $('#email-bill').val(res.bills.email)
+                $('#phone-bill').val(res.bills.phone)
+                $('#voucher-bill').val(data.idvoucher)
+                $('#total-bill').val(data.totalbill)
+                $('#status-bill').val(data.status)
+                $('#note-bill').val(data.note)
+                $('#datebuy-bill').val(formattedDate)
+                $('#whycancel-bill').val(data.whycancel)
+                $('#datesuccess-bill').val(data.datesuccess)
+                $('#exception-bill').val(data.exception)
+
+                var ele = $('[data-idbill="' + idbill + '"]');
+                console.log(ele.data('check'))
+                if (ele.data('check') == true) {
+                    $('#confirmedit').prop('disabled', true)
+                    $('#note-bill').prop('disabled', true)
+                    $('#address-bill').prop('disabled', true)
+                }
+                $('#confirmedit').attr("data-idbill", idbill)
+
+            },
+            error: function (xhr, status, error) {
+                console.log("lỗi")
+            }
+        });
+    }
+
+</script>

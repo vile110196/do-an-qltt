@@ -1,0 +1,167 @@
+﻿/*CHATBOX*/
+.chatboxdiv {
+	width: 60px;
+	height: 60px;
+	float: right;
+	position: fixed;
+	z-index: 998;
+	overflow: hidden;
+	background: #E8952F;
+	border-radius: 50%;
+	bottom: 18%;
+	right: 10px;
+}
+
+.emojiListdiv {
+	top: 0;
+	/*position: absolute;*/
+	background-color: #ccc;
+	width: 200px;
+	height: 200px;
+	overflow: auto;
+	display: flex;
+}
+
+.chat-content-div {
+	z-index: 100;
+}
+
+.chat-content-div-main {
+	z-index: 100;
+	position: fixed;
+	bottom: 40px;
+	right: 50px;
+	width: 360px;
+	height: 560px;
+	box-shadow: 1px 1px 10px 2px rgb(0 0 0 / 22%);
+	border-radius: 10px;
+	transition: all .2s ease-in-out;
+	animation: zoomIn .2s ease-in-out;
+	background-color: white;
+	overflow: hidden;
+	display: none;
+}
+
+.chatboxdiv:hover {
+	background-color: red;
+}
+
+.chatheader {
+	background-color: #054da4;
+	padding: 10px 14px;
+	display: flex;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.chatheader-logo {
+	display: flex;
+	align-items: center;
+}
+
+.chat-form-div {
+	position: absolute;
+	bottom: 10px;
+	width: 100%;
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+}
+
+.chat-form-div-footer {
+	background-color: #F0F0F0;
+	padding: 12px;
+}
+
+.chaticon {
+	position: absolute;
+	right: 0;
+	bottom: 17px;
+}
+
+.main-message-div {
+	position: relative;
+	height: 82%;
+}
+
+.emojiListdiv {
+	position: absolute;
+	top: 226px;
+	width: 100%;
+	background-color: white;
+	-webkit-animation: zoomIn .2s ease-in-out;
+	animation: zoomIn .2s ease-in-out;
+	display: none;
+}
+
+#emojiList {
+	top: 0;
+	background-color: white;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	padding: 0px 4px;
+	-webkit-animation: zoomIn .2s ease-in-out;
+	animation: zoomIn .2s ease-in-out;
+	border: 1px solid #ccc;
+	background-color: #fff;
+	border-radius: 10px;
+	cursor: default;
+}
+
+li {
+	list-style: none;
+}
+
+.item-emo {
+	font-size: 24px;
+	padding: 4px;
+}
+
+/*MESS*/
+.main-message {
+	margin: 10px;
+	overflow: hidden;
+	overflow-y: scroll;
+	height: 91%;
+	display: flex;
+	flex-direction: column;
+	padding-right: 4px;
+}
+
+.mess-send {
+	font-size: 16px;
+	background-color: #E8952F;
+	color: white;
+	padding: 6px;
+	width: fit-content;
+	max-width: 60%;
+	float: right;
+	border-radius: 6px;
+	/* position: relative; */
+	/* left: 283px; */
+	display: flex;
+	text-align: right;
+	/* margin-right: 100%; */
+	clear: both;
+	align-self: flex-end;
+	text-align: inherit;
+}
+
+.mess-to {
+	font-size: 16px;
+	background-color: white;
+	padding: 6px;
+	width: 60%;
+	float: left;
+	border-radius: 6px;
+	border: 1px solid #eee;
+	margin-top: 4px;
+}
+
+.close-mess:hover {
+	color: red;
+	cursor: pointer;
+}

@@ -1,0 +1,64 @@
+﻿
+@model DoctorSkin.Models.Users
+<div class="col-md-4">
+    <div class="slide-profile">
+        <div class="slide-profile-main">
+            <div class="ava-box">
+                <img class="ava-box-img" src="@Model.ava" alt="">
+            </div>
+            <div class="name_id">
+                <p class="name-profile">@Model.name</p>
+                <P>Mã thẻ: <b>@Model.iduser</b></P>
+            </div>
+        </div>
+        <div class="slide-profile-main tichluy_diem">
+            <div class="tichluy col-6">
+                <P class="tichluy_diem_main">
+                    Giá trị tích lũy
+                    <b class="money" value="@Model.total">@decimal.Parse(Model.total.ToString()).ToString("#,##0đ")</b><br>
+                </P>
+            </div>
+            <div class="diemkhadung col-6">
+                <P class="tichluy_diem_main">
+                    Điểm khả dụng
+                    <b>@Model.point điểm</b>
+                </P>
+            </div>
+        </div>
+        <div class="slide-profile-main tichluy_diem">
+            <div style="padding:0px 15px" class="choose-item-profile">
+                <!--thông tin tài khoản -->
+                <div class="choose">
+                    <a href="/users/profile" class="choose-item-profile-a">
+                        <i class="fa fa-user"></i>Thông tin tài khoản
+                    </a>
+                </div>
+                <div class="choose">
+                    <a href="/don-hang" class="choose-item-profile-a">
+                        <i class="fa fa-list-alt"></i>Lịch sử mua hàng
+                    </a>
+                </div>
+                <div class="choose">
+                    <a href="/uu-dai" class="choose-item-profile-a">
+                        <i class="fa fa-money"></i>Ưu đãi của tôi
+                    </a>
+                </div>
+                <div class="choose">
+                    <a href="/cau-hoi" class="choose-item-profile-a">
+                        <i class="fa fa-question"></i>Câu hỏi của tôi
+                    </a>
+                </div>
+                <div class="choose">
+                    <a href="/dac-quyen" class="choose-item-profile-a">
+                        <i class="fa fa-credit-card"></i>Thông tin đặc quyền thẻ
+                    </a>
+                </div>
+                <div class="choose">
+                    <a href="" class="choose-item-profile-a">
+                        <i class="fa fa-sign-out"></i>Đăng xuất
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

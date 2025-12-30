@@ -1,0 +1,167 @@
+﻿@model IEnumerable<DoctorSkin.Models.Products>
+@{
+    ViewBag.Title = "Sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+
+    DoctorSkin.Models.DoctorSkinEntities db = new DoctorSkin.Models.DoctorSkinEntities();
+
+}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.2/css/jquery.dataTables.min.css" />
+<div class="sales-boxes">
+    <div class="recent-sales box" style="width: 100%;">
+        <div class="col-md-12">
+            <div>
+                <div class="title" style="width:fit-content;margin:0 auto">
+                    Danh sách Sản phẩm
+                </div>
+                <div style="padding:0px !important">
+                    <a style="margin:0px !important" class="btn btn-primary ml-3" href="/admin/products/create">Thêm sản phẩm mới</a>
+                </div>
+                <div style="margin-top: 20px">
+                    <table class="table" id="dataTables-example">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Mã sản phẩm
+                                </th>
+                                <th>
+                                    Tên
+                                </th>
+                                <th>
+                                    Loại
+                                </th>
+                                <th>
+                                    Hiệu
+                                </th>
+                                <th>
+                                    Ảnh
+                                </th>
+                                <th>
+                                    Giá
+                                </th>
+                                <th>
+                                    Tình trạng
+                                </th>
+                                <th>
+                                    Nhóm
+                                </th>
+                                <th>
+                                    Thao tác
+                                </th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr id="row-@item.idp" @(item.hide ==true ? "style=background-color:#eee" : "")>
+                                    <td>
+                                        <a href="/san-pham/@item.metap/@item.idp">@item.idp</a>
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.namep)
+                                    </td>
+                                    <td>
+                                        @db.Categories.FirstOrDefault(s => s.typep == item.typep).namec
+                                    </td>
+                                    <td>
+                                        @db.Brands.FirstOrDefault(s => s.idbrand == item.idbrand).namebrand
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <img style="width:100px;object-fit:cover" src="@item.img" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @decimal.Parse(item.newprice).ToString("#,##0đ")
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.avilability)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.statep)
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Edit", "Edit", new { id = item.idp })
+                                        <a style="color:red" data-idp="@item.idp" onclick="btnDelete('@item.idp')">Xóa</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+<script src="https://cdn.datatables.net/1.11.2/js/jquery.dataTables.min.js"></script>
+<script>
+    document.getElementById('item-sanpham').classList.add("active")
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const dataTableExample = document.querySelector('#dataTables-example');
+        if (dataTableExample) {
+            var table = new DataTable(dataTableExample, {
+                responsive: true
+            });
+        }
+    });
+
+</script>
+<script>
+    function deleteItem(idp) {
+        $.ajax({
+            url: "/admin/products/hideProduct",
+            type: "PUT",
+            data: JSON.stringify({
+                idp: Number(idp)
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            success: function (response) {
+                swal({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Sản phẩm đã được ẩn!',
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    $('#row-' + idp).css("background-color","#eee")
+                })
+            },
+            error: function (xhr, status, error) {
+                console.log(stt)
+            }
+        });
+    }
+
+    function btnDelete(idp) {
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this item!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    // User confirmed the deletion
+                    // Proceed with the AJAX request
+                    deleteItem(idp);
+                } else {
+                    // User cancelled the deletion
+                    // Handle accordingly
+                }
+            });
+    }
+
+
+    
+</script>
+

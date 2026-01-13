@@ -1,10 +1,71 @@
 ﻿{% extends "base.html" %}
 {% block content %}
 <h2>Quản lý Hóa đơn</h2>
-<table class="table table-bordered mt-3">
+
+<form class="border rounded p-3 mb-4" method="post" action="{{ url_for('admin_bills_add') }}">
+  <h5 class="mb-3">Thêm hóa đơn</h5>
+  <div class="form-row">
+    <div class="form-group col-md-3">
+      <label>Khách hàng</label>
+      <select class="form-control" name="iduser" required>
+        {% for user in users %}
+          <option value="{{ user['iduser'] }}">{{ user['name'] }} ({{ user['iduser'] }})</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group col-md-3">
+      <label>Sản phẩm/Dịch vụ</label>
+      <select class="form-control" name="idp" required>
+        {% for product in products %}
+          <option value="{{ product['idp'] }}">{{ product['namep'] }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group col-md-2">
+      <label>Thành tiền</label>
+      <input class="form-control" name="totalmoney" placeholder="0" required>
+    </div>
+    <div class="form-group col-md-2">
+      <label>Trạng thái</label>
+      <select class="form-control" name="status">
+        <option>Chờ thanh toán</option>
+        <option>Đã thanh toán</option>
+        <option>Đã hủy</option>
+      </select>
+    </div>
+    <div class="form-group col-md-2">
+      <label>Ngày mua</label>
+      <input class="form-control" type="date" name="datebuy">
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label>Voucher</label>
+      <select class="form-control" name="idvoucher">
+        <option value="">Không dùng</option>
+        {% for voucher in vouchers %}
+          <option value="{{ voucher['idvoucher'] }}">{{ voucher['namevc'] }} ({{ voucher['idvoucher'] }})</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group col-md-2 align-self-end">
+      <button class="btn btn-primary" type="submit">Thêm</button>
+    </div>
+  </div>
+</form>
+
+<table class="table table-bordered">
   <thead class="thead-dark">
     <tr>
-      <th>ID</th><th>Sản phẩm</th><th>Khách hàng</th><th>Email</th><th>Tổng tiền</th><th>Trạng thái</th><th>Ngày mua</th><th>Voucher</th><th>Địa chỉ</th><th>Ghi chú</th>
+      <th>ID</th>
+      <th>Sản phẩm</th>
+      <th>Khách hàng</th>
+      <th>Email</th>
+      <th>Thành tiền</th>
+      <th>Trạng thái</th>
+      <th>Ngày mua</th>
+      <th>Voucher</th>
+      <th>Hành động</th>
     </tr>
   </thead>
   <tbody>
@@ -15,13 +76,105 @@
       <td>{{ bill["customer_name"] or "" }}</td>
       <td>{{ bill["email"] or "" }}</td>
       <td>{{ bill["totalmoney"] }}</td>
-      <td>{{ bill["status"] }}</td>
+      <td>{{ status_label(bill["status"]) }}</td>
       <td>{{ bill["datebuy"] }}</td>
       <td>{{ bill["idvoucher"] or "" }}</td>
-      <td>{{ bill["address"] or "" }}</td>
-      <td>{{ bill["note"] or "" }}</td>
+      <td>
+        <button class="btn btn-sm btn-info mb-1" data-toggle="modal" data-target="#detail-{{ bill['sttbill'] }}">Chi tiết</button>
+        {% if status_label(bill["status"]) != "Đã thanh toán" %}
+          <form class="d-inline" method="post" action="{{ url_for('admin_bills_mark_paid', sttbill=bill['sttbill']) }}">
+            <button class="btn btn-sm btn-success mb-1" type="submit">Đánh dấu đã thanh toán</button>
+          </form>
+        {% endif %}
+        <button class="btn btn-sm btn-secondary mb-1" data-toggle="collapse" data-target="#edit-{{ bill['sttbill'] }}">Sửa</button>
+        <form class="d-inline" method="post" action="{{ url_for('admin_bills_delete', sttbill=bill['sttbill']) }}">
+          <button class="btn btn-sm btn-danger mb-1" type="submit">Xóa</button>
+        </form>
+      </td>
+    </tr>
+    <tr class="collapse" id="edit-{{ bill['sttbill'] }}">
+      <td colspan="9">
+        <form method="post" action="{{ url_for('admin_bills_update', sttbill=bill['sttbill']) }}">
+          <div class="form-row">
+            <div class="form-group col-md-3">
+              <label>Khách hàng</label>
+              <select class="form-control" name="iduser" required>
+                {% for user in users %}
+                  <option value="{{ user['iduser'] }}" {% if user['iduser'] == bill['iduser'] %}selected{% endif %}>{{ user['name'] }} ({{ user['iduser'] }})</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-group col-md-3">
+              <label>Sản phẩm/Dịch vụ</label>
+              <select class="form-control" name="idp" required>
+                {% for product in products %}
+                  <option value="{{ product['idp'] }}" {% if product['idp'] == bill['idp'] %}selected{% endif %}>{{ product['namep'] }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-group col-md-2">
+              <label>Thành tiền</label>
+              <input class="form-control" name="totalmoney" value="{{ bill['totalmoney'] }}" required>
+            </div>
+            <div class="form-group col-md-2">
+              <label>Trạng thái</label>
+              <select class="form-control" name="status">
+                {% for label in ["Chờ thanh toán", "Đã thanh toán", "Đã hủy"] %}
+                  <option {% if status_label(bill['status']) == label %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-group col-md-2">
+              <label>Ngày mua</label>
+              <input class="form-control" type="date" name="datebuy" value="{{ bill['datebuy'][:10] if bill['datebuy'] }}">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label>Voucher</label>
+              <select class="form-control" name="idvoucher">
+                <option value="">Không dùng</option>
+                {% for voucher in vouchers %}
+                  <option value="{{ voucher['idvoucher'] }}" {% if voucher['idvoucher'] == bill['idvoucher'] %}selected{% endif %}>{{ voucher['namevc'] }} ({{ voucher['idvoucher'] }})</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-group col-md-2 align-self-end">
+              <button class="btn btn-primary" type="submit">Lưu</button>
+            </div>
+          </div>
+        </form>
+      </td>
     </tr>
     {% endfor %}
   </tbody>
 </table>
+
+{% for bill in bills %}
+<div class="modal fade" id="detail-{{ bill['sttbill'] }}" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Thông tin thanh toán</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Khách hàng:</strong> {{ bill["customer_name"] or "" }}</p>
+        <p><strong>Email:</strong> {{ bill["email"] or "" }}</p>
+        <p><strong>Sản phẩm/Dịch vụ:</strong> {{ bill["product_name"] or "" }}</p>
+        <p><strong>Thành tiền:</strong> {{ bill["totalmoney"] }} VND</p>
+        <p><strong>Voucher:</strong> {{ bill["voucher_name"] or "" }} {{ bill["idvoucher"] or "" }}</p>
+        <p><strong>Giá trị voucher:</strong> {{ bill["voucher_value"] or 0 }}</p>
+        <p><strong>Trạng thái:</strong> {{ status_label(bill["status"]) }}</p>
+        <p><strong>Ngày mua:</strong> {{ bill["datebuy"] }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
 {% endblock %}

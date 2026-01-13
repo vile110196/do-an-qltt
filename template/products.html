@@ -4,7 +4,7 @@
 <table class="table table-hover mt-3">
   <thead class="thead-light">
     <tr>
-      <th>ID</th><th>Tên</th><th>Nhóm</th><th>Thương hiệu</th><th>Giá mới</th><th>Giá cũ</th><th>Mô tả</th>
+      <th>ID</th><th>Tên</th><th>Nhóm</th><th>Thương hiệu</th><th>Giá mới</th><th>Giá cũ</th><th>Mô tả</th><th>Giỏ hàng</th>
     </tr>
   </thead>
   <tbody>
@@ -17,6 +17,11 @@
       <td>{{ p["newprice"] }}</td>
       <td>{{ p["oldprice"] }}</td>
       <td>{{ p["descr"] }}</td>
+      <td>
+        <form method="post" action="{{ url_for('cart_add', idp=p['idp']) }}">
+          <button class="btn btn-sm btn-primary" type="submit">Thêm</button>
+        </form>
+      </td>
     </tr>
     {% endfor %}
   </tbody>

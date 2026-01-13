@@ -1,0 +1,98 @@
+﻿{% extends "base.html" %}
+{% block content %}
+<h2>Quản lý Voucher</h2>
+
+<form class="border rounded p-3 mb-4" method="post" action="{{ url_for('admin_vouchers_add') }}">
+  <h5 class="mb-3">Thêm voucher</h5>
+  <div class="form-row">
+    <div class="form-group col-md-3">
+      <label>Mã voucher</label>
+      <input class="form-control" name="idvoucher" required>
+    </div>
+    <div class="form-group col-md-3">
+      <label>Tên voucher</label>
+      <input class="form-control" name="namevc" required>
+    </div>
+    <div class="form-group col-md-2">
+      <label>Giá trị</label>
+      <input class="form-control" name="valuevc" type="number" min="0" value="0">
+    </div>
+    <div class="form-group col-md-2">
+      <label>Số lượng</label>
+      <input class="form-control" name="quantity" type="number" min="0" value="0">
+    </div>
+    <div class="form-group col-md-2">
+      <label>Ẩn</label>
+      <select class="form-control" name="hide">
+        <option value="0">Hiện</option>
+        <option value="1">Ẩn</option>
+      </select>
+    </div>
+  </div>
+  <button class="btn btn-primary" type="submit">Thêm</button>
+</form>
+
+<table class="table table-bordered">
+  <thead class="thead-dark">
+    <tr>
+      <th>ID</th>
+      <th>Mã</th>
+      <th>Tên</th>
+      <th>Giá trị</th>
+      <th>Số lượng</th>
+      <th>Ẩn</th>
+      <th>Hành động</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for v in vouchers %}
+    <tr>
+      <td>{{ v['stt'] }}</td>
+      <td>{{ v['idvoucher'] }}</td>
+      <td>{{ v['namevc'] }}</td>
+      <td>{{ v['valuevc'] }}</td>
+      <td>{{ v['quantity'] }}</td>
+      <td>{{ 'Ẩn' if v['hide'] else 'Hiện' }}</td>
+      <td>
+        <button class="btn btn-sm btn-secondary" data-toggle="collapse" data-target="#edit-{{ v['stt'] }}">Sửa</button>
+        <form class="d-inline" method="post" action="{{ url_for('admin_vouchers_delete', stt=v['stt']) }}">
+          <button class="btn btn-sm btn-danger" type="submit">Xóa</button>
+        </form>
+      </td>
+    </tr>
+    <tr class="collapse" id="edit-{{ v['stt'] }}">
+      <td colspan="7">
+        <form method="post" action="{{ url_for('admin_vouchers_update', stt=v['stt']) }}">
+          <div class="form-row">
+            <div class="form-group col-md-3">
+              <label>Mã voucher</label>
+              <input class="form-control" name="idvoucher" value="{{ v['idvoucher'] }}" required>
+            </div>
+            <div class="form-group col-md-3">
+              <label>Tên voucher</label>
+              <input class="form-control" name="namevc" value="{{ v['namevc'] }}" required>
+            </div>
+            <div class="form-group col-md-2">
+              <label>Giá trị</label>
+              <input class="form-control" name="valuevc" type="number" min="0" value="{{ v['valuevc'] }}">
+            </div>
+            <div class="form-group col-md-2">
+              <label>Số lượng</label>
+              <input class="form-control" name="quantity" type="number" min="0" value="{{ v['quantity'] }}">
+            </div>
+            <div class="form-group col-md-2">
+              <label>Ẩn</label>
+              <select class="form-control" name="hide">
+                <option value="0" {% if v['hide'] == 0 %}selected{% endif %}>Hiện</option>
+                <option value="1" {% if v['hide'] == 1 %}selected{% endif %}>Ẩn</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-primary" type="submit">Lưu</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

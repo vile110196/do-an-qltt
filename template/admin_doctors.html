@@ -1,0 +1,23 @@
+﻿{% extends "base.html" %}
+{% block content %}
+<h2>Quản lý Bác sĩ</h2>
+<table class="table table-bordered mt-3">
+  <thead class="thead-dark">
+    <tr>
+      <th>ID</th><th>Họ tên</th><th>Giới tính</th><th>SĐT</th><th>Email</th><th>Thông tin</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for d in doctors %}
+    <tr>
+      <td>{{ d["iduser"] }}</td>
+      <td>{{ d["name"] }}</td>
+      <td>{{ d["gender"] }}</td>
+      <td>{{ d["phone"] }}</td>
+      <td>{{ d["email"] }}</td>
+      <td>{{ d["infordoc"] }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

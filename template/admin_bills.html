@@ -1,0 +1,27 @@
+﻿{% extends "base.html" %}
+{% block content %}
+<h2>Quản lý Hóa đơn</h2>
+<table class="table table-bordered mt-3">
+  <thead class="thead-dark">
+    <tr>
+      <th>ID</th><th>Sản phẩm</th><th>Khách hàng</th><th>Email</th><th>Tổng tiền</th><th>Trạng thái</th><th>Ngày mua</th><th>Voucher</th><th>Địa chỉ</th><th>Ghi chú</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for bill in bills %}
+    <tr>
+      <td>{{ bill["sttbill"] }}</td>
+      <td>{{ bill["product_name"] or "" }}</td>
+      <td>{{ bill["customer_name"] or "" }}</td>
+      <td>{{ bill["email"] or "" }}</td>
+      <td>{{ bill["totalmoney"] }}</td>
+      <td>{{ bill["status"] }}</td>
+      <td>{{ bill["datebuy"] }}</td>
+      <td>{{ bill["idvoucher"] or "" }}</td>
+      <td>{{ bill["address"] or "" }}</td>
+      <td>{{ bill["note"] or "" }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

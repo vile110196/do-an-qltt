@@ -1,0 +1,24 @@
+﻿{% extends "base.html" %}
+{% block content %}
+<h2>Quản lý Sản phẩm</h2>
+<table class="table table-hover mt-3">
+  <thead class="thead-light">
+    <tr>
+      <th>ID</th><th>Tên</th><th>Nhóm</th><th>Thương hiệu</th><th>Giá mới</th><th>Giá cũ</th><th>Mô tả</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for p in products %}
+    <tr>
+      <td>{{ p["idp"] }}</td>
+      <td>{{ p["namep"] }}</td>
+      <td>{{ p["namec"] or "" }}</td>
+      <td>{{ p["namebrand"] or "" }}</td>
+      <td>{{ p["newprice"] }}</td>
+      <td>{{ p["oldprice"] }}</td>
+      <td>{{ p["descr"] }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

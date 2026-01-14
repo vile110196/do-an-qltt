@@ -1,0 +1,128 @@
+﻿{% extends "base.html" %}
+{% block content %}
+<h2>Quản lý Chiến dịch</h2>
+
+<form class="border rounded p-3 mb-4" method="post" action="{{ url_for('admin_campaigns_add') }}">
+  <h5 class="mb-3">Thêm chiến dịch</h5>
+  <div class="form-row">
+    <div class="form-group col-md-3">
+      <label>Tên chiến dịch</label>
+      <input class="form-control" name="name" required>
+    </div>
+    <div class="form-group col-md-3">
+      <label>Mô tả</label>
+      <input class="form-control" name="description">
+    </div>
+    <div class="form-group col-md-2">
+      <label>Ngày bắt đầu</label>
+      <input class="form-control" type="date" name="start_date">
+    </div>
+    <div class="form-group col-md-2">
+      <label>Ngày kết thúc</label>
+      <input class="form-control" type="date" name="end_date">
+    </div>
+    <div class="form-group col-md-2">
+      <label>Trạng thái</label>
+      <select class="form-control" name="status">
+        <option>Đang chạy</option>
+        <option>Tạm dừng</option>
+        <option>Kết thúc</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label>Voucher áp dụng</label>
+      <select class="form-control" name="voucher_ids" multiple size="4">
+        {% for voucher in vouchers %}
+          <option value="{{ voucher['idvoucher'] }}">{{ voucher['namevc'] }} ({{ voucher['idvoucher'] }})</option>
+        {% endfor %}
+      </select>
+      <small class="text-muted">Giữ Ctrl để chọn nhiều voucher.</small>
+    </div>
+    <div class="form-group col-md-2 align-self-end">
+      <button class="btn btn-primary" type="submit">Thêm</button>
+    </div>
+  </div>
+</form>
+
+<table class="table table-bordered">
+  <thead class="thead-dark">
+    <tr>
+      <th>ID</th>
+      <th>Tên</th>
+      <th>Mô tả</th>
+      <th>Ngày bắt đầu</th>
+      <th>Ngày kết thúc</th>
+      <th>Trạng thái</th>
+      <th>Voucher</th>
+      <th>Hành động</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for c in campaigns %}
+    {% set voucher_list = ',' ~ (c['voucher_ids'] or '') ~ ',' %}
+    <tr>
+      <td>{{ c['id_campaign'] }}</td>
+      <td>{{ c['name'] }}</td>
+      <td>{{ c['description'] }}</td>
+      <td>{{ c['start_date'] }}</td>
+      <td>{{ c['end_date'] }}</td>
+      <td>{{ c['status'] }}</td>
+      <td>{{ c['voucher_ids'] or '' }}</td>
+      <td>
+        <button class="btn btn-sm btn-secondary" data-toggle="collapse" data-target="#edit-{{ c['id_campaign'] }}">Sửa</button>
+        <form class="d-inline" method="post" action="{{ url_for('admin_campaigns_delete', campaign_id=c['id_campaign']) }}">
+          <button class="btn btn-sm btn-danger" type="submit">Xóa</button>
+        </form>
+      </td>
+    </tr>
+    <tr class="collapse" id="edit-{{ c['id_campaign'] }}">
+      <td colspan="8">
+        <form method="post" action="{{ url_for('admin_campaigns_update', campaign_id=c['id_campaign']) }}">
+          <div class="form-row">
+            <div class="form-group col-md-3">
+              <label>Tên chiến dịch</label>
+              <input class="form-control" name="name" value="{{ c['name'] }}" required>
+            </div>
+            <div class="form-group col-md-3">
+              <label>Mô tả</label>
+              <input class="form-control" name="description" value="{{ c['description'] }}">
+            </div>
+            <div class="form-group col-md-2">
+              <label>Ngày bắt đầu</label>
+              <input class="form-control" type="date" name="start_date" value="{{ c['start_date'] }}">
+            </div>
+            <div class="form-group col-md-2">
+              <label>Ngày kết thúc</label>
+              <input class="form-control" type="date" name="end_date" value="{{ c['end_date'] }}">
+            </div>
+            <div class="form-group col-md-2">
+              <label>Trạng thái</label>
+              <select class="form-control" name="status">
+                {% for label in ["Đang chạy", "Tạm dừng", "Kết thúc"] %}
+                  <option {% if c['status'] == label %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>Voucher áp dụng</label>
+              <select class="form-control" name="voucher_ids" multiple size="4">
+                {% for voucher in vouchers %}
+                  <option value="{{ voucher['idvoucher'] }}" {% if ',' ~ voucher['idvoucher'] ~ ',' in voucher_list %}selected{% endif %}>{{ voucher['namevc'] }} ({{ voucher['idvoucher'] }})</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-group col-md-2 align-self-end">
+              <button class="btn btn-primary" type="submit">Lưu</button>
+            </div>
+          </div>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

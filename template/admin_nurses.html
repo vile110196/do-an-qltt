@@ -1,0 +1,22 @@
+﻿{% extends "base.html" %}
+{% block content %}
+<h2>Quản lý Y tá</h2>
+<table class="table table-bordered mt-3">
+  <thead class="thead-dark">
+    <tr>
+      <th>ID</th><th>Họ tên</th><th>Giới tính</th><th>SĐT</th><th>Email</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for n in nurses %}
+    <tr>
+      <td>{{ n["iduser"] }}</td>
+      <td>{{ n["name"] }}</td>
+      <td>{{ n["gender"] }}</td>
+      <td>{{ n["phone"] }}</td>
+      <td>{{ n["email"] }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

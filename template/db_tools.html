@@ -1,0 +1,89 @@
+﻿{% extends "base.html" %}
+{% block content %}
+<h2>Công cụ DB (Mô phỏng)</h2>
+
+{% if message %}
+<div class="alert alert-info">{{ message }}</div>
+{% endif %}
+
+<div class="row">
+  <div class="col-md-6">
+    <div class="border rounded p-3 mb-4">
+      <h5>Store Procedure</h5>
+      <form method="post">
+        <input type="hidden" name="action" value="sp_add_to_cart">
+        <div class="form-group">
+          <label>Khách hàng</label>
+          <select class="form-control" name="iduser" required>
+            {% for user in users %}
+              <option value="{{ user['iduser'] }}">{{ user['name'] }} ({{ user['iduser'] }})</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Sản phẩm</label>
+          <select class="form-control" name="idp" required>
+            {% for product in products %}
+              <option value="{{ product['idp'] }}">{{ product['namep'] }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Số lượng</label>
+          <input class="form-control" name="quanlity" type="number" min="1" value="1">
+        </div>
+        <button class="btn btn-primary" type="submit">Chạy sp_AddToCart</button>
+      </form>
+    </div>
+
+    <div class="border rounded p-3 mb-4">
+      <h5>Function</h5>
+      <form method="post">
+        <input type="hidden" name="action" value="fn_user_total_spent">
+        <div class="form-group">
+          <label>Khách hàng</label>
+          <select class="form-control" name="iduser" required>
+            {% for user in users %}
+              <option value="{{ user['iduser'] }}">{{ user['name'] }} ({{ user['iduser'] }})</option>
+            {% endfor %}
+          </select>
+        </div>
+        <button class="btn btn-primary" type="submit">Chạy fn_UserTotalSpent</button>
+      </form>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="border rounded p-3 mb-4">
+      <h5>Trigger</h5>
+      <form method="post">
+        <input type="hidden" name="action" value="trg_block_negative_voucher">
+        <div class="form-group">
+          <label>Giá trị voucher</label>
+          <input class="form-control" name="valuevc" type="number" value="0">
+        </div>
+        <button class="btn btn-primary" type="submit">Kiểm tra trigger</button>
+      </form>
+    </div>
+
+    <div class="border rounded p-3 mb-4">
+      <h5>Cursor</h5>
+      <form method="post">
+        <input type="hidden" name="action" value="cur_top_customers">
+        <button class="btn btn-primary" type="submit">Lấy top khách hàng</button>
+      </form>
+      {% if result_rows %}
+      <table class="table table-sm mt-3">
+        <thead>
+          <tr><th>Khách hàng</th><th>Tổng chi tiêu</th></tr>
+        </thead>
+        <tbody>
+          {% for row in result_rows %}
+          <tr><td>{{ row['name'] }}</td><td>{{ row['total_spent'] }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

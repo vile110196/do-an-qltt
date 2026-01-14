@@ -1,0 +1,105 @@
+﻿{% extends "base.html" %}
+{% block content %}
+<h2>Bảng Thống Kê</h2>
+
+<div class="mb-3">
+  {% if session.get('role') == 'admin' %}
+    <a class="btn btn-outline-primary btn-sm mr-2" href="{{ url_for('admin_users') }}">Người dùng</a>
+    <a class="btn btn-outline-primary btn-sm mr-2" href="{{ url_for('admin_doctors') }}">Bác sĩ</a>
+    <a class="btn btn-outline-primary btn-sm mr-2" href="{{ url_for('admin_nurses') }}">Y tá</a>
+    <a class="btn btn-outline-primary btn-sm mr-2" href="{{ url_for('admin_schedule') }}">Lịch khám</a>
+    <a class="btn btn-outline-primary btn-sm mr-2" href="{{ url_for('admin_bills') }}">Hóa đơn</a>
+    <a class="btn btn-outline-primary btn-sm mr-2" href="{{ url_for('admin_vouchers') }}">Voucher</a>
+    <a class="btn btn-outline-primary btn-sm mr-2" href="{{ url_for('admin_campaigns') }}">Chiến dịch</a>
+    <a class="btn btn-outline-primary btn-sm mr-2" href="{{ url_for('admin_carts') }}">Giỏ hàng (Admin)</a>
+    <a class="btn btn-outline-primary btn-sm mr-2" href="{{ url_for('admin_db_tools') }}">Công cụ DB</a>
+  {% endif %}
+  <a class="btn btn-outline-secondary btn-sm mr-2" href="{{ url_for('products') }}">Sản phẩm</a>
+  <a class="btn btn-outline-secondary btn-sm mr-2" href="{{ url_for('services') }}">Dịch vụ</a>
+  <a class="btn btn-outline-secondary btn-sm" href="{{ url_for('booking') }}">Đặt lịch</a>
+</div>
+
+<div class="mt-4">
+  <h4 class="mb-3">Thống kê theo thời gian</h4>
+  <div class="btn-group mb-3" role="group" id="chart-controls">
+    <button class="btn btn-sm btn-dark" type="button" data-series="Bookings">Lịch khám</button>
+    <button class="btn btn-sm btn-dark" type="button" data-series="Bills">Hóa đơn</button>
+    <button class="btn btn-sm btn-dark" type="button" data-series="Users">Người dùng</button>
+    <button class="btn btn-sm btn-dark" type="button" data-series="Patients">Bệnh nhân</button>
+  </div>
+  <div id="chart" class="border p-3">
+    <div id="chart-labels" class="d-flex justify-content-between text-muted mb-2"></div>
+    <div id="chart-bars" class="d-flex align-items-end" style="height: 260px;"></div>
+  </div>
+</div>
+
+<div class="mt-4">
+  <h4 class="mb-3">Khách hàng chi tiêu nhiều nhất (3 tháng)</h4>
+  <div class="border p-3">
+    <div class="d-flex justify-content-between mb-2">
+      <strong>{{ top_customer_name }}</strong>
+      <span>{{ top_customer_total }} VND</span>
+    </div>
+    <div class="d-flex align-items-end" style="height: 120px;">
+      <div style="width: 60px;">
+        <div style="height: 100px; background:#f4a7c1; border-radius:4px 4px 0 0;" title="{{ top_customer_total }}"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const labels = {{ chart_labels|safe }};
+  const series = {{ chart_series|safe }};
+
+  function renderSeries(name) {
+    const data = series[name] || [];
+    const max = Math.max(1, ...data);
+    const labelsEl = document.getElementById("chart-labels");
+    const barsEl = document.getElementById("chart-bars");
+    labelsEl.innerHTML = "";
+    barsEl.innerHTML = "";
+
+    labels.forEach((label, idx) => {
+      const labelSpan = document.createElement("span");
+      labelSpan.style.fontSize = "12px";
+      labelSpan.textContent = label;
+      labelsEl.appendChild(labelSpan);
+
+      const barWrap = document.createElement("div");
+      barWrap.className = "flex-fill text-center";
+      barWrap.style.padding = "0 6px";
+
+      const bar = document.createElement("div");
+      bar.style.height = Math.max(6, (data[idx] / max) * 220) + "px";
+      bar.style.width = "100%";
+      bar.style.background = "#f4a7c1";
+      bar.style.borderRadius = "4px 4px 0 0";
+      bar.title = data[idx];
+
+      const value = document.createElement("div");
+      value.style.fontSize = "12px";
+      value.style.marginBottom = "4px";
+      value.textContent = data[idx];
+
+      barWrap.appendChild(value);
+      barWrap.appendChild(bar);
+      barsEl.appendChild(barWrap);
+    });
+  }
+
+  const controls = document.getElementById("chart-controls");
+  controls.addEventListener("click", (event) => {
+    const btn = event.target.closest("[data-series]");
+    if (!btn) return;
+    renderSeries(btn.dataset.series);
+    controls.querySelectorAll("button").forEach((b) => b.classList.remove("btn-primary"));
+    controls.querySelectorAll("button").forEach((b) => b.classList.add("btn-dark"));
+    btn.classList.remove("btn-dark");
+    btn.classList.add("btn-primary");
+  });
+
+  renderSeries("Bookings");
+  controls.querySelector('button[data-series="Bookings"]').classList.add("btn-primary");
+</script>
+{% endblock %}

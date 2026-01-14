@@ -1,0 +1,33 @@
+﻿{% extends "base.html" %}
+{% block content %}
+<h2>Đơn hàng của bạn</h2>
+
+{% if bills %}
+<table class="table table-bordered">
+  <thead class="thead-dark">
+    <tr>
+      <th>ID</th>
+      <th>Sản phẩm/Dịch vụ</th>
+      <th>Thành tiền</th>
+      <th>Trạng thái</th>
+      <th>Ngày mua</th>
+      <th>Voucher</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for bill in bills %}
+    <tr>
+      <td>{{ bill['sttbill'] }}</td>
+      <td>{{ bill['product_name'] or '' }}</td>
+      <td>{{ bill['totalmoney'] }}</td>
+      <td>{{ status_label(bill['status']) }}</td>
+      <td>{{ bill['datebuy'] }}</td>
+      <td>{{ bill['idvoucher'] or '' }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>Bạn chưa có đơn hàng nào.</p>
+{% endif %}
+{% endblock %}

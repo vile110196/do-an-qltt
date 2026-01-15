@@ -210,6 +210,17 @@ def parse_money(val) -> int:
     return int(digits) if digits else 0
 
 
+def is_identity_column(conn: ConnectionWrapper, table_sql: str, column: str) -> bool:
+    schema, table = table_sql.split(".", 1) if "." in table_sql else ("dbo", table_sql)
+    row = conn.execute(
+        """
+        SELECT COLUMNPROPERTY(OBJECT_ID(QUOTENAME(?) + '.' + QUOTENAME(?)), ?, 'IsIdentity') AS is_identity
+        """,
+        (schema, table, column),
+    ).fetchone()
+    return bool(row and row.get("is_identity"))
+
+
 def ensure_user_for_booking(conn: ConnectionWrapper, booking_id: Optional[str]) -> Optional[str]:
     if not booking_id:
         return None
@@ -559,11 +570,17 @@ def admin_carts_add():
                 (qty, existing["stt"]),
             )
         else:
-            new_stt = next_id(conn, T("carts"), "stt")
-            conn.execute(
-                f"INSERT INTO {T('carts')} (stt, iduser, idp, quanlity) VALUES (?, ?, ?, ?)",
-                (new_stt, iduser, idp, qty),
-            )
+            if is_identity_column(conn, T("carts"), "stt"):
+                conn.execute(
+                    f"INSERT INTO {T('carts')} (iduser, idp, quanlity) VALUES (?, ?, ?)",
+                    (iduser, idp, qty),
+                )
+            else:
+                new_stt = next_id(conn, T("carts"), "stt")
+                conn.execute(
+                    f"INSERT INTO {T('carts')} (stt, iduser, idp, quanlity) VALUES (?, ?, ?, ?)",
+                    (new_stt, iduser, idp, qty),
+                )
         conn.commit()
     finally:
         conn.close()
@@ -1075,6 +1092,42 @@ def cart_add(idp: int):
                 (new_stt, iduser, idp, 1),
             )
 
+        conn.commit()
+    finally:
+        conn.close()
+
+    return redirect(url_for("products"))
+
+
+@app.route("/cart/add/<int:idp>", methods=["POST"])
+def cart_add(idp: int):
+    if "user" not in session:
+        return redirect(url_for("login"))
+
+    iduser = session.get("iduser")
+    conn = get_conn()
+    try:
+        existing = conn.execute(
+            f"SELECT stt, quanlity FROM {T('carts')} WHERE iduser=? AND idp=?",
+            (iduser, idp),
+        ).fetchone()
+        if existing:
+            conn.execute(
+                f"UPDATE {T('carts')} SET quanlity = ISNULL(quanlity,0) + 1 WHERE stt=?",
+                (existing["stt"],),
+            )
+        else:
+            if is_identity_column(conn, T("carts"), "stt"):
+                conn.execute(
+                    f"INSERT INTO {T('carts')} (iduser, idp, quanlity) VALUES (?, ?, ?)",
+                    (iduser, idp, 1),
+                )
+            else:
+                new_stt = next_id(conn, T("carts"), "stt")
+                conn.execute(
+                    f"INSERT INTO {T('carts')} (stt, iduser, idp, quanlity) VALUES (?, ?, ?, ?)",
+                    (new_stt, iduser, idp, 1),
+                )
         conn.commit()
     finally:
         conn.close()

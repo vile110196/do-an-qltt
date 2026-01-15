@@ -48,8 +48,6 @@ def T(name: str) -> str:
         "bought": "dbo.Bought",
         "carts": "dbo.Carts",
         "wishlists": "dbo.Wishlists",
-        "feedbacks": "dbo.Feedbacks",
-        "rep_feedbacks": "dbo.RepFeedbacks",
         "services": "dbo.Services",
         "services_details": "dbo.ServicesDetails",
         "blog_types": "dbo.BlogTypes",

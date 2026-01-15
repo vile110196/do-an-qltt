@@ -275,47 +275,6 @@ FROM OPENROWSET(
 );
 GO
 
--- Import Feedbacks sheet
-IF OBJECT_ID(N'dbo.Feedbacks', N'U') IS NULL
-BEGIN
-    CREATE TABLE dbo.Feedbacks (
-        sttfb  INT           PRIMARY KEY,
-        iduser NVARCHAR(50),
-        idp    INT,
-        cmt    NVARCHAR(500),
-        star   INT,
-        img    NVARCHAR(255),
-        datefb DATE
-    );
-END;
-INSERT INTO dbo.Feedbacks
-SELECT * 
-FROM OPENROWSET(
-    'Microsoft.ACE.OLEDB.12.0', 
-    'Excel 12.0; Database=C:\New folder\DOCTORSKIN2.xlsx; HDR=YES; IMEX=1', 
-    'SELECT * FROM [Feedbacks$]'
-);
-GO
-
--- Import RepFeedbacks sheet
-IF OBJECT_ID(N'dbo.RepFeedbacks', N'U') IS NULL
-BEGIN
-    CREATE TABLE dbo.RepFeedbacks (
-        stt        INT           PRIMARY KEY,
-        sttfb      INT,
-        contentrep NVARCHAR(500),
-        daterep    DATE
-    );
-END;
-INSERT INTO dbo.RepFeedbacks
-SELECT * 
-FROM OPENROWSET(
-    'Microsoft.ACE.OLEDB.12.0', 
-    'Excel 12.0; Database=C:\New folder\DOCTORSKIN2.xlsx; HDR=YES; IMEX=1', 
-    'SELECT * FROM [RepFeedbacks$]'
-);
-GO
-
 -- Import Services sheet
 IF OBJECT_ID(N'dbo.Services', N'U') IS NULL
 BEGIN

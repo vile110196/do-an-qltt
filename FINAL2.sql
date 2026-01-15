@@ -10,8 +10,6 @@ GO
 IF OBJECT_ID('dbo.Campaign_Vouchers','U') IS NOT NULL DROP TABLE dbo.Campaign_Vouchers;
 IF OBJECT_ID('dbo.Campaigns','U') IS NOT NULL DROP TABLE dbo.Campaigns;
 
-IF OBJECT_ID('dbo.RepFeedbacks','U') IS NOT NULL DROP TABLE dbo.RepFeedbacks;
-IF OBJECT_ID('dbo.Feedbacks','U') IS NOT NULL DROP TABLE dbo.Feedbacks;
 
 IF OBJECT_ID('dbo.Wishlists','U') IS NOT NULL DROP TABLE dbo.Wishlists;
 IF OBJECT_ID('dbo.Carts','U') IS NOT NULL DROP TABLE dbo.Carts;
@@ -181,24 +179,7 @@ CREATE TABLE dbo.Wishlists(
 );
 GO
 
-CREATE TABLE dbo.Feedbacks(
-    sttfb INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
-    iduser NVARCHAR(50) NOT NULL,
-    idp INT NULL,
-    cmt NVARCHAR(MAX) NULL,
-    star INT NULL,
-    img NVARCHAR(MAX) NULL,
-    datefb DATETIME NULL
-);
-GO
 
-CREATE TABLE dbo.RepFeedbacks(
-    stt INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
-    sttfb INT NULL,
-    contentrep NVARCHAR(MAX) NULL,
-    daterep DATETIME NULL
-);
-GO
 
 CREATE TABLE dbo.Services(
     id_dt INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
@@ -338,14 +319,8 @@ IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_Bills_User')
 IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_Bills_Product')
     ALTER TABLE dbo.Bills ADD CONSTRAINT FK_Bills_Product FOREIGN KEY(idp) REFERENCES dbo.Products(idp);
 
-IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_Fb_User')
-    ALTER TABLE dbo.Feedbacks ADD CONSTRAINT FK_Fb_User FOREIGN KEY(iduser) REFERENCES dbo.Users(iduser);
 
-IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_Fb_Product')
-    ALTER TABLE dbo.Feedbacks ADD CONSTRAINT FK_Fb_Product FOREIGN KEY(idp) REFERENCES dbo.Products(idp);
 
-IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_RepFb_Feedback')
-    ALTER TABLE dbo.RepFeedbacks ADD CONSTRAINT FK_RepFb_Feedback FOREIGN KEY(sttfb) REFERENCES dbo.Feedbacks(sttfb);
 
 IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_ServiceDetail_Service')
     ALTER TABLE dbo.ServicesDetails ADD CONSTRAINT FK_ServiceDetail_Service FOREIGN KEY(id_dt) REFERENCES dbo.Services(id_dt);

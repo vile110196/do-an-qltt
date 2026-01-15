@@ -36,7 +36,6 @@ IF OBJECT_ID('dbo.Doctors','U') IS NOT NULL DROP TABLE dbo.Doctors;
 IF OBJECT_ID('dbo.Medicines','U') IS NOT NULL DROP TABLE dbo.Medicines;
 
 IF OBJECT_ID('dbo.Forgots','U') IS NOT NULL DROP TABLE dbo.Forgots;
-IF OBJECT_ID('dbo.Questions','U') IS NOT NULL DROP TABLE dbo.Questions;
 
 IF OBJECT_ID('dbo.UserRolesMappings','U') IS NOT NULL DROP TABLE dbo.UserRolesMappings;
 IF OBJECT_ID('dbo.UserRoles','U') IS NOT NULL DROP TABLE dbo.UserRoles;
@@ -277,13 +276,6 @@ CREATE TABLE dbo.Forgots(
 );
 GO
 
-CREATE TABLE dbo.Questions(
-    stt INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
-    iduser NVARCHAR(50) NULL,
-    question NVARCHAR(MAX) NULL,
-    repquestion NVARCHAR(MAX) NULL
-);
-GO
 
 ------------------------------------------------------------
 -- UNIQUE / INDEX

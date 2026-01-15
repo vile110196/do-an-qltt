@@ -59,7 +59,6 @@ def T(name: str) -> str:
         "doctors": "dbo.Doctors",
         "medicines": "dbo.Medicines",
         "forgots": "dbo.Forgots",
-        "questions": "dbo.Questions",
     }
     return mapping.get(name, f"dbo.{name}")
 

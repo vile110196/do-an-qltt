@@ -492,21 +492,3 @@ FROM OPENROWSET(
 );
 GO
 
--- Import Questions sheet
-IF OBJECT_ID(N'dbo.Questions', N'U') IS NULL
-BEGIN
-    CREATE TABLE dbo.Questions (
-        stt          INT           PRIMARY KEY,
-        iduser       NVARCHAR(50),
-        question     NVARCHAR(500),
-        repquestion  NVARCHAR(500)
-    );
-END;
-INSERT INTO dbo.Questions
-SELECT * 
-FROM OPENROWSET(
-    'Microsoft.ACE.OLEDB.12.0', 
-    'Excel 12.0; Database=C:\New folder\DOCTORSKIN2.xlsx; HDR=YES; IMEX=1', 
-    'SELECT * FROM [Questions$]'
-);
-GO

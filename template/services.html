@@ -4,7 +4,7 @@
 <table class="table table-hover mt-3">
   <thead class="thead-light">
     <tr>
-      <th>ID</th><th>Tên dịch vụ</th><th>Mô tả</th><th>Dịch vụ chi tiết</th><th>Giá</th>
+      <th>ID</th><th>Tên dịch vụ</th><th>Mô tả</th><th>Dịch vụ chi tiết</th><th>Giá</th><th>Giỏ hàng</th>
     </tr>
   </thead>
   <tbody>
@@ -15,6 +15,13 @@
       <td>{{ s["desc_dt"] }}</td>
       <td>{{ s["name_sd"] or "" }}</td>
       <td>{{ s["price_sd"] or "" }}</td>
+      <td>
+        {% if s["name_sd"] %}
+        <form method="post" action="{{ url_for('cart_add_service', id_sd=s['id_sd']) }}">
+          <button class="btn btn-sm btn-primary" type="submit">Thêm</button>
+        </form>
+        {% endif %}
+      </td>
     </tr>
     {% endfor %}
   </tbody>

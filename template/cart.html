@@ -7,7 +7,7 @@
   <thead class="thead-dark">
     <tr>
       <th>ID</th>
-      <th>Sản phẩm</th>
+      <th>Sản phẩm/Dịch vụ</th>
       <th>Số lượng</th>
       <th>Giá</th>
     </tr>
@@ -16,9 +16,9 @@
     {% for cart in carts %}
     <tr>
       <td>{{ cart['stt'] }}</td>
-      <td>{{ cart['product_name'] }}</td>
+      <td>{{ cart['item_name'] }}</td>
       <td>{{ cart['quanlity'] }}</td>
-      <td>{{ cart['newprice'] }}</td>
+      <td>{{ cart['item_price'] }}</td>
     </tr>
     {% endfor %}
   </tbody>

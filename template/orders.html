@@ -18,7 +18,7 @@
     {% for bill in bills %}
     <tr>
       <td>{{ bill['sttbill'] }}</td>
-      <td>{{ bill['product_name'] or '' }}</td>
+      <td>{{ bill['item_name'] or '' }}</td>
       <td>{{ bill['totalmoney'] }}</td>
       <td>{{ status_label(bill['status']) }}</td>
       <td>{{ bill['datebuy'] }}</td>

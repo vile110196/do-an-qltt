@@ -1,835 +1,638 @@
-
-USE DOCTORSKIN2
-
-/****** Object:  Table [dbo].[Wishlists] */
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Wishlists]') AND type in (N'U'))
-DROP TABLE [dbo].[Wishlists]
-GO
-/****** Object:  Table [dbo].[Vouchers]    */
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Vouchers]') AND type in (N'U'))
-DROP TABLE [dbo].[Vouchers]
-GO
-/****** Object:  Table [dbo].[Users]     ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Users]') AND type in (N'U'))
-DROP TABLE [dbo].[Users]
-GO
-/****** Object:  Table [dbo].[UserRolesMappings]     ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[UserRolesMappings]') AND type in (N'U'))
-DROP TABLE [dbo].[UserRolesMappings]
-GO
-/****** Object:  Table [dbo].[UserRoles]     ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[UserRoles]') AND type in (N'U'))
-DROP TABLE [dbo].[UserRoles]
-GO
-/****** Object:  Table [dbo].[ServicesDetails]     ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ServicesDetails]') AND type in (N'U'))
-DROP TABLE [dbo].[ServicesDetails]
-GO
-/****** Object:  Table [dbo].[Services]     ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Services]') AND type in (N'U'))
-DROP TABLE [dbo].[Services]
-GO
-/****** Object:  Table [dbo].[RoleMasters]     ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[RoleMasters]') AND type in (N'U'))
-DROP TABLE [dbo].[RoleMasters]
-GO
-/****** Object:  Table [dbo].[RepFeedbacks]     ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[RepFeedbacks]') AND type in (N'U'))
-DROP TABLE [dbo].[RepFeedbacks]
-GO
-/****** Object:  Table [dbo].[Questions]     ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Questions]') AND type in (N'U'))
-DROP TABLE [dbo].[Questions]
-GO
-/****** Object:  Table [dbo].[Products]    ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Products]') AND type in (N'U'))
-DROP TABLE [dbo].[Products]
-GO
-/****** Object:  Table [dbo].[Patients]     ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Patients]') AND type in (N'U'))
-DROP TABLE [dbo].[Patients]
-GO
-/****** Object:  Table [dbo].[Medicines]     ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Medicines]') AND type in (N'U'))
-DROP TABLE [dbo].[Medicines]
-GO
-/****** Object:  Table [dbo].[Medias]     ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Medias]') AND type in (N'U'))
-DROP TABLE [dbo].[Medias]
-GO
-/****** Object:  Table [dbo].[Forgots]     ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Forgots]') AND type in (N'U'))
-DROP TABLE [dbo].[Forgots]
-GO
-/****** Object:  Table [dbo].[Feedbacks]     ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Feedbacks]') AND type in (N'U'))
-DROP TABLE [dbo].[Feedbacks]
-GO
-/****** Object:  Table [dbo].[Doctors]     ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Doctors]') AND type in (N'U'))
-DROP TABLE [dbo].[Doctors]
-GO
-/****** Object:  Table [dbo].[Categories]     ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Categories]') AND type in (N'U'))
-DROP TABLE [dbo].[Categories]
-GO
-/****** Object:  Table [dbo].[Carts]     ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Carts]') AND type in (N'U'))
-DROP TABLE [dbo].[Carts]
-GO
-/****** Object:  Table [dbo].[Brands]     ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Brands]') AND type in (N'U'))
-DROP TABLE [dbo].[Brands]
---GO
-/****** Object:  Table [dbo].[Bought]     ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Bought]') AND type in (N'U'))
-DROP TABLE [dbo].[Bought]
-GO
-/****** Object:  Table [dbo].[Bookings]     ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Bookings]') AND type in (N'U'))
-DROP TABLE [dbo].[Bookings]
-GO
-/****** Object:  Table [dbo].[BlogTypes]     ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[BlogTypes]') AND type in (N'U'))
-DROP TABLE [dbo].[BlogTypes]
-GO
-/****** Object:  Table [dbo].[BlogDetails]     ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[BlogDetails]') AND type in (N'U'))
-DROP TABLE [dbo].[BlogDetails]
+USE DOCTORSKIN2;
 GO
 
-/****** Object:  Table [dbo].[Bills]     ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Bills]') AND type in (N'U'))
-DROP TABLE [dbo].[Bills]
+SET NOCOUNT ON;
 GO
-/****** Object:  Table [dbo].[Banners]     ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Banners]') AND type in (N'U'))
-DROP TABLE [dbo].[Banners]
-GO
-/****** Object:  Table [dbo].[Banners]     ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[Banners](
-	[stt] [int] IDENTITY(1,1) NOT NULL,
-	[link] [nvarchar](max) NULL,
-	[homepage] [bit] NULL,
-	[servicepage] [bit] NULL,
-	[blogpage] [bit] NULL,
-	[productpage] [bit] NULL
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[Bills]     ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[Bills](
-	[sttbill] [int] IDENTITY(1,1) NOT NULL,
-	[idp] [int] NULL,
-	[quantity] [int] NULL,
-	[totalbill] [nvarchar](max) NULL,
-	[totalmoney] [nvarchar](max) NULL,
-	[idbill] [nvarchar](max) NULL,
-	[iduser] [nvarchar](50) NOT NULL,
-	[note] [nvarchar](max) NULL,
-	[status] [nvarchar](max) NULL,
-	[yesfb] [bit] NULL,
-	[datebuy] [datetime] NULL,
-	[idvoucher] [nvarchar](max) NULL,
-	[whycancel] [nvarchar](max) NULL,
-	[datesuccess] [datetime] NULL,
-	[exception] [nvarchar](max) NULL,
-	[address] [nvarchar](max) NULL
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-
-/****** Object:  Table [dbo].[BlogDetails]     ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[BlogDetails](
-	[idbt] [int] NOT NULL,
-	[title] [nvarchar](max) NOT NULL,
-	[shortcontent] [nvarchar](max) NULL,
-	[cardimg] [nvarchar](max) NULL,
-	[hideblog] [bit] NULL,
-	[idb] [int] IDENTITY(1,1) NOT NULL,
-	[date_up] [datetime] NULL,
-	[contentblog] [nvarchar](max) NULL,
-	[metablog] [nvarchar](max) NULL
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[BlogTypes]    ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[BlogTypes](
-	[idbt] [int] NOT NULL,
-	[namebt] [nvarchar](max) NOT NULL,
-	[hide] [bit] NOT NULL,
-	[meta] [nvarchar](max) NULL
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[Bookings]    ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[Bookings](
-	[stt] [int] IDENTITY(1,1) NOT NULL,
-	[name] [nvarchar](max) NULL,
-	[phone] [nvarchar](max) NULL,
-	[email] [nvarchar](max) NULL,
-	[require] [nvarchar](max) NULL,
-	[timebooking] [datetime] NULL,
-	[completed] [bit] NULL
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[Bought]     ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[Bought](
-	[iduser] [nvarchar](max) NULL,
-	[datebuy] [datetime] NULL,
-	[status] [nvarchar](max) NULL,
-	[datestatus] [datetime] NULL,
-	[sttbill] [int] NULL,
-	[sttbought] [int] IDENTITY(1,1) NOT NULL,
-	[yesfb] [nvarchar](max) NULL
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[Brands]     ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[Brands](
-	[idbrand] [int] IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	[namebrand] [nvarchar](max) NULL,
-	[hidebrand] [bit] NULL,
-	[meta] [nvarchar](max) NULL
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[Carts]     ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[Carts](
-	[stt] [int] IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	[iduser] [nvarchar](50) NULL,
-	[idp] [int] NULL,
-	[quanlity] [int] NULL
-)
-/****** Object:  Table [dbo].[Categories]     ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[Categories](
-	[typep] [int] IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	[namec] [nvarchar](max) NULL,
-	[hide] [bit] NULL,
-	[meta] [nvarchar](max) NULL,
-	[date_up] [datetime] NULL
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[Doctors]     ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[Doctors](
-	[stt] [int] IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	[namedoc] [nvarchar](max) NULL,
-	[infordoc] [nvarchar](max) NULL,
-	[ava_doc] [nvarchar](max) NULL,
-	[hide_doc] [bit] NULL,
-	[date_up_doc] [datetime] NULL,
-	[iddoc] [nvarchar](max) NULL
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[Feedbacks]    ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[Feedbacks](
-	[sttfb] [int] IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	[idbill] [nvarchar](max) NULL,
-	[cmt] [nvarchar](max) NULL,
-	[datefb] [datetime] NULL,
-	[hidefb] [bit] NULL,
-	[iduser] [nvarchar](50) NOT NULL,
-	[idp] [int] NULL,
-	[star] [int] NULL,
-	[imagefb] [nvarchar](max) NULL
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[Forgots]     ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[Forgots](
-	[stt] [int] IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	[email] [nvarchar](max) NULL,
-	[token] [nvarchar](max) NULL,
-	[createAt] [nvarchar](max) NULL
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[Medias]    ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[Medias](
-	[idmedia] [int] IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	[hrefmedia] [nvarchar](max) NULL,
-	[imgmedia] [nvarchar](max) NULL,
-	[hidemedia] [bit] NULL
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[Medicines]     ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[Medicines](
-	[id] [int] IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	[name] [nvarchar](max) NULL,
-	[price] [nvarchar](max) NULL,
-	[uses] [nvarchar](max) NULL,
-	[hide] [bit] NULL
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[Patients]    ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[Patients](
-	[stt] [int] IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	[name] [nvarchar](max) NULL,
-	[gender] [nvarchar](max) NULL,
-	[age] [int] NULL,
-	[phone] [nvarchar](10) NULL,
-	[diagnose] [nvarchar](max) NULL,
-	[prescription] [nvarchar](max) NULL,
-	[pay] [nvarchar](max) NULL,
-	[date] [datetime] NULL,
-	[doctor] [nvarchar](max) NULL,
-	[date_re] [datetime] NULL
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[Products]    ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[Products](
-	[idp] [int] IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	[namep] [nvarchar](max) NULL,
-	[typep] [int] NULL,
-	[newprice] [nvarchar](max) NOT NULL,
-	[oldprice] [nvarchar](max) NOT NULL,
-	[descr] [nvarchar](max) NOT NULL,
-	[hide] [bit] NOT NULL,
-	[statep] [nvarchar](max) NOT NULL,
-	[img] [nvarchar](max) NULL,
-	[date_up] [datetime] NULL,
-	[idbrand] [int] NULL,
-	[metap] [nvarchar](max) NULL,
-	[avilability] [nvarchar](max) NULL,
-	[rated] [nvarchar](max) NULL,
-	[listimg] [nvarchar](max) NULL
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[Questions]    ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[Questions](
-	[stt] [int] IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	[iduser] [nvarchar](max) NULL,
-	[question] [nvarchar](max) NULL,
-	[rep] [bit] NULL,
-	[datequestion] [datetime] NULL,
-	[repquestion] [nvarchar](max) NULL,
-	[daterep] [nvarchar](max) NULL,
-	[iduserrep] [nvarchar](max) NULL
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[RepFeedbacks]     ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[RepFeedbacks](
-	[sttrep] [int] IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	[sttfb] [int] NULL,
-	[iduser] [nvarchar](max) NULL,
-	[cmt_rep] [nvarchar](max) NULL,
-	[date_rep] [datetime] NULL,
-	[hide_rep] [bit] NULL,
-	[from_rep] [nvarchar](max) NULL
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[RoleMasters]     ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[RoleMasters](
-	[ID] [int] PRIMARY KEY NOT NULL,
-	[RollName] [nvarchar](max) NULL
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[Services]    ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[Services](
-	[name_dt] [nvarchar](max) NULL,
-	[desc_dt] [nvarchar](max) NULL,
-	[hide_dt] [bit] NULL,
-	[img_dt] [nvarchar](max) NULL,
-	[id_dt] [int] IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	[meta] [nvarchar](max) NULL,
-	[slider_dt] [nvarchar](max) NULL
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[ServicesDetails]    ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[ServicesDetails](
-	[id_sd] [int] IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	[name_sd] [nvarchar](max) NULL,
-	[img_sd] [nvarchar](max) NULL,
-	[hide_sd] [bit] NULL,
-	[price_sd] [nvarchar](max) NULL,
-	[id_dt] [int] NULL,
-	[desc_de] [nvarchar](max) NULL,
-	[amount] [int] NULL
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[UserRoles]     ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[UserRoles](
-	[stt] [int] IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	[email] [nvarchar](max) NULL,
-	[rolename] [nvarchar](max) NULL
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[UserRolesMappings]     ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[UserRolesMappings](
-	[stt] [int] IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	[email] [nvarchar](max) NULL,
-	[idrole] [int] NULL
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[Users]     ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[Users](
-	[iduser] [nvarchar](50) PRIMARY KEY NOT NULL,
-	[name] [nvarchar](max) NULL,
-	[birth] [datetime] NULL,
-	[gender] [nvarchar](10) NULL,
-	[phone] [nvarchar](10) NULL,
-	[email] [nvarchar](max) NULL,
-	[password] [nvarchar](max) NULL,
-	[hide] [bit] NULL,
-	[ava] [nvarchar](max) NULL,
-	[total] [int] NULL,
-	[point] [int] NULL,
-	[dateregist] [datetime] NULL
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[Vouchers]     ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[Vouchers](
-	[idvoucher] [nvarchar](50) NULL,
-	[namevc] [nvarchar](max) NULL,
-	[valuevc] [nvarchar](max) NULL,
-	[quantity] [int] NULL,
-	[dasudung] [int] NULL,
-	[datefrom] [nvarchar](max) NULL,
-	[dateto] [nvarchar](max) NULL,
-	[hidevc] [bit] NULL,
-	[stt] [int] IDENTITY(1,1) PRIMARY KEY NOT NULL
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[Wishlists]     ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[Wishlists](
-	[stt_wl] [int] IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	[iduser] [nvarchar](50) NOT NULL,
-	[idp] [int] NULL
-)
-GO
-
 
 ------------------------------------------------------------
--- UNIQUE CONSTRAINTS
+-- DROP (đúng thứ tự để khỏi vướng FK)
 ------------------------------------------------------------
-ALTER TABLE Users ADD CONSTRAINT PK_Users PRIMARY KEY(iduser);
+IF OBJECT_ID('dbo.Campaign_Vouchers','U') IS NOT NULL DROP TABLE dbo.Campaign_Vouchers;
+IF OBJECT_ID('dbo.Campaigns','U') IS NOT NULL DROP TABLE dbo.Campaigns;
 
-ALTER TABLE Vouchers ADD CONSTRAINT UQ_Voucher_Code UNIQUE(idvoucher);
+IF OBJECT_ID('dbo.RepFeedbacks','U') IS NOT NULL DROP TABLE dbo.RepFeedbacks;
+IF OBJECT_ID('dbo.Feedbacks','U') IS NOT NULL DROP TABLE dbo.Feedbacks;
+
+IF OBJECT_ID('dbo.Wishlists','U') IS NOT NULL DROP TABLE dbo.Wishlists;
+IF OBJECT_ID('dbo.Carts','U') IS NOT NULL DROP TABLE dbo.Carts;
+
+IF OBJECT_ID('dbo.Bought','U') IS NOT NULL DROP TABLE dbo.Bought;
+IF OBJECT_ID('dbo.Bills','U') IS NOT NULL DROP TABLE dbo.Bills;
+
+IF OBJECT_ID('dbo.Products','U') IS NOT NULL DROP TABLE dbo.Products;
+IF OBJECT_ID('dbo.Brands','U') IS NOT NULL DROP TABLE dbo.Brands;
+IF OBJECT_ID('dbo.Categories','U') IS NOT NULL DROP TABLE dbo.Categories;
+
+IF OBJECT_ID('dbo.BlogDetails','U') IS NOT NULL DROP TABLE dbo.BlogDetails;
+IF OBJECT_ID('dbo.BlogTypes','U') IS NOT NULL DROP TABLE dbo.BlogTypes;
+
+IF OBJECT_ID('dbo.Banners','U') IS NOT NULL DROP TABLE dbo.Banners;
+IF OBJECT_ID('dbo.Medias','U') IS NOT NULL DROP TABLE dbo.Medias;
+
+IF OBJECT_ID('dbo.ServicesDetails','U') IS NOT NULL DROP TABLE dbo.ServicesDetails;
+IF OBJECT_ID('dbo.Services','U') IS NOT NULL DROP TABLE dbo.Services;
+
+IF OBJECT_ID('dbo.Bookings','U') IS NOT NULL DROP TABLE dbo.Bookings;
+IF OBJECT_ID('dbo.Patients','U') IS NOT NULL DROP TABLE dbo.Patients;
+IF OBJECT_ID('dbo.Doctors','U') IS NOT NULL DROP TABLE dbo.Doctors;
+IF OBJECT_ID('dbo.Medicines','U') IS NOT NULL DROP TABLE dbo.Medicines;
+
+IF OBJECT_ID('dbo.Forgots','U') IS NOT NULL DROP TABLE dbo.Forgots;
+IF OBJECT_ID('dbo.Questions','U') IS NOT NULL DROP TABLE dbo.Questions;
+
+IF OBJECT_ID('dbo.UserRolesMappings','U') IS NOT NULL DROP TABLE dbo.UserRolesMappings;
+IF OBJECT_ID('dbo.UserRoles','U') IS NOT NULL DROP TABLE dbo.UserRoles;
+IF OBJECT_ID('dbo.RoleMasters','U') IS NOT NULL DROP TABLE dbo.RoleMasters;
+IF OBJECT_ID('dbo.Users','U') IS NOT NULL DROP TABLE dbo.Users;
+
+IF OBJECT_ID('dbo.Vouchers','U') IS NOT NULL DROP TABLE dbo.Vouchers;
+GO
 
 ------------------------------------------------------------
--- FOREIGN KEYS
+-- CREATE TABLES (schema đồng bộ với backend)
 ------------------------------------------------------------
-ALTER TABLE Products 
-ADD CONSTRAINT FK_Product_Category FOREIGN KEY(typep) REFERENCES Categories(typep);
 
-ALTER TABLE Products 
-ADD CONSTRAINT FK_Product_Brand FOREIGN KEY(idbrand) REFERENCES Brands(idbrand);
-
-ALTER TABLE Carts 
-ADD CONSTRAINT FK_Cart_User FOREIGN KEY(iduser) REFERENCES Users(iduser);
-
-ALTER TABLE Carts 
-ADD CONSTRAINT FK_Cart_Product FOREIGN KEY(idp) REFERENCES Products(idp);
-
-ALTER TABLE Wishlists 
-ADD CONSTRAINT FK_Wishlist_User FOREIGN KEY(iduser) REFERENCES Users(iduser);
-
-ALTER TABLE Wishlists 
-ADD CONSTRAINT FK_Wishlist_Product FOREIGN KEY(idp) REFERENCES Products(idp);
-
-ALTER TABLE Bills 
-ADD CONSTRAINT FK_Bills_User FOREIGN KEY(iduser) REFERENCES Users(iduser);
-
-ALTER TABLE Bills
-ADD CONSTRAINT FK_Bills_Product FOREIGN KEY(idp) REFERENCES Products(idp);
-
-ALTER TABLE Feedbacks
-ADD CONSTRAINT FK_Fb_User FOREIGN KEY(iduser) REFERENCES Users(iduser);
-
-ALTER TABLE Feedbacks
-ADD CONSTRAINT FK_Fb_Product FOREIGN KEY(idp) REFERENCES Products(idp);
-
-ALTER TABLE RepFeedbacks
-ADD CONSTRAINT FK_RepFb_Feedback FOREIGN KEY(sttfb) REFERENCES Feedbacks(sttfb);
-
-ALTER TABLE ServicesDetails
-ADD CONSTRAINT FK_ServiceDetail_Service FOREIGN KEY(id_dt) REFERENCES Services(id_dt);
-
-Go
-
-USE DOCTORSKIN2
+-- Users: backend cần cột [pass]
+CREATE TABLE dbo.Users(
+    iduser      NVARCHAR(50) NOT NULL PRIMARY KEY,
+    name        NVARCHAR(255) NULL,
+    birth       DATETIME NULL,
+    gender      NVARCHAR(20) NULL,
+    address     NVARCHAR(500) NULL,
+    phone       NVARCHAR(20) NULL,
+    email       NVARCHAR(255) NULL,
+    [pass]      NVARCHAR(255) NULL,
+    point       INT NULL,
+    dateregist  DATETIME NULL
+);
 GO
 
-/* =========================================================
-   STORED PROCEDURES
-   ========================================================= */
-
--- 1. Đăng ký lịch khám
-CREATE PROCEDURE sp_AddBooking
-    @name NVARCHAR(MAX),
-    @phone NVARCHAR(MAX),
-    @email NVARCHAR(MAX),
-    @require NVARCHAR(MAX),
-    @timebooking DATETIME
-AS
-BEGIN
-    INSERT INTO Bookings(name, phone, email, require, timebooking, completed)
-    VALUES (@name, @phone, @email, @require, @timebooking, 0)
-END
+CREATE TABLE dbo.RoleMasters(
+    id       INT NOT NULL PRIMARY KEY,
+    rollname NVARCHAR(100) NULL
+);
 GO
 
--- 2. Thêm bệnh nhân sau khi khám
-CREATE PROCEDURE sp_AddPatient
-    @name NVARCHAR(MAX),
-    @gender NVARCHAR(MAX),
-    @age INT,
-    @phone NVARCHAR(10),
-    @diagnose NVARCHAR(MAX),
-    @prescription NVARCHAR(MAX),
-    @doctor NVARCHAR(MAX)
-AS
-BEGIN
-    INSERT INTO Patients
-    (name, gender, age, phone, diagnose, prescription, date, doctor)
-    VALUES
-    (@name, @gender, @age, @phone, @diagnose, @prescription, GETDATE(), @doctor)
-END
+-- UserRoles: backend cần email + idrole + rolename
+CREATE TABLE dbo.UserRoles(
+    stt      INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    email    NVARCHAR(255) NULL,
+    idrole   INT NULL,
+    rolename NVARCHAR(100) NULL
+);
 GO
 
--- 3. Tạo hóa đơn
-CREATE PROCEDURE sp_CreateBill
-    @iduser NVARCHAR(50),
-    @idp INT,
-    @quantity INT,
-    @totalmoney NVARCHAR(MAX),
-    @address NVARCHAR(MAX)
-AS
-BEGIN
-    INSERT INTO Bills
-    (iduser, idp, quantity, totalmoney, status, datebuy, address)
-    VALUES
-    (@iduser, @idp, @quantity, @totalmoney, N'Chờ thanh toán', GETDATE(), @address)
-END
+CREATE TABLE dbo.UserRolesMappings(
+    stt    INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    email  NVARCHAR(255) NULL,
+    idrole INT NULL
+);
 GO
 
--- 4. Thanh toán hóa đơn
-CREATE PROCEDURE sp_PayBill
-    @sttbill INT
-AS
-BEGIN
-    UPDATE Bills
-    SET status = N'Đã thanh toán',
-        datesuccess = GETDATE()
-    WHERE sttbill = @sttbill
-END
+CREATE TABLE dbo.Categories(
+    typep INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    namec NVARCHAR(255) NULL,
+    meta  NVARCHAR(255) NULL,
+    hide  BIT NULL
+);
 GO
 
--- 5. Them san pham vao gio hang (neu ton tai thi tang so luong)
-CREATE PROCEDURE sp_AddToCart
+CREATE TABLE dbo.Brands(
+    idbrand   INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    namebrand NVARCHAR(255) NULL,
+    hide      BIT NULL
+);
+GO
+
+CREATE TABLE dbo.Products(
+    idp      INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    namep    NVARCHAR(255) NULL,
+    newprice NVARCHAR(50) NULL,
+    oldprice NVARCHAR(50) NULL,
+    descr    NVARCHAR(MAX) NULL,
+    typep    INT NULL,
+    idbrand  INT NULL,
+    img      NVARCHAR(MAX) NULL,
+    hide     BIT NULL
+);
+GO
+
+-- Vouchers: backend dùng stt, idvoucher, namevc, valuevc (int), quantity, hide
+CREATE TABLE dbo.Vouchers(
+    stt      INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    idvoucher NVARCHAR(50) NOT NULL,
+    namevc   NVARCHAR(255) NULL,
+    valuevc  INT NULL,
+    quantity INT NULL,
+    hide     BIT NULL
+);
+GO
+
+-- Campaigns + mapping
+CREATE TABLE dbo.Campaigns(
+    id_campaign INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    name        NVARCHAR(255) NULL,
+    description NVARCHAR(MAX) NULL,
+    start_date  DATETIME NULL,
+    end_date    DATETIME NULL,
+    status      NVARCHAR(50) NULL
+);
+GO
+
+CREATE TABLE dbo.Campaign_Vouchers(
+    id          INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    campaign_id INT NOT NULL,
+    voucher_id  NVARCHAR(50) NOT NULL
+);
+GO
+
+-- Bills: backend dùng sttbill,iduser,idp,totalmoney,status,datebuy,idvoucher
+CREATE TABLE dbo.Bills(
+    sttbill    INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    iduser     NVARCHAR(50) NOT NULL,
+    idp        INT NULL,
+    totalmoney NVARCHAR(50) NULL,
+    status     NVARCHAR(50) NULL,
+    datebuy    DATETIME NULL,
+    idvoucher  NVARCHAR(50) NULL
+);
+GO
+
+CREATE TABLE dbo.Bought(
+    stt   INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    iduser NVARCHAR(50) NULL,
+    idp   INT NULL
+);
+GO
+
+-- Carts: sửa IDENTITY để khỏi lỗi stt NULL
+CREATE TABLE dbo.Carts(
+    stt      INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    iduser   NVARCHAR(50) NULL,
+    idp      INT NULL,
+    quanlity INT NULL
+);
+GO
+
+CREATE TABLE dbo.Wishlists(
+    stt INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    iduser NVARCHAR(50) NOT NULL,
+    idp INT NULL
+);
+GO
+
+CREATE TABLE dbo.Feedbacks(
+    sttfb INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    iduser NVARCHAR(50) NOT NULL,
+    idp INT NULL,
+    cmt NVARCHAR(MAX) NULL,
+    star INT NULL,
+    img NVARCHAR(MAX) NULL,
+    datefb DATETIME NULL
+);
+GO
+
+CREATE TABLE dbo.RepFeedbacks(
+    stt INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    sttfb INT NULL,
+    contentrep NVARCHAR(MAX) NULL,
+    daterep DATETIME NULL
+);
+GO
+
+CREATE TABLE dbo.Services(
+    id_dt INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    name_dt NVARCHAR(255) NULL,
+    desc_dt NVARCHAR(MAX) NULL,
+    img_dt NVARCHAR(MAX) NULL
+);
+GO
+
+CREATE TABLE dbo.ServicesDetails(
+    id_sd INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    id_dt INT NULL,
+    name_sd NVARCHAR(255) NULL,
+    price_sd NVARCHAR(50) NULL
+);
+GO
+
+CREATE TABLE dbo.BlogTypes(
+    idbt INT NOT NULL PRIMARY KEY,
+    namebt NVARCHAR(255) NULL
+);
+GO
+
+CREATE TABLE dbo.BlogDetails(
+    idb INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    idbt INT NULL,
+    title NVARCHAR(255) NULL,
+    contentblog NVARCHAR(MAX) NULL,
+    meta NVARCHAR(255) NULL,
+    img NVARCHAR(MAX) NULL,
+    hide BIT NULL
+);
+GO
+
+CREATE TABLE dbo.Banners(
+    stt INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    link NVARCHAR(MAX) NULL,
+    homepage BIT NULL,
+    servicepage BIT NULL,
+    blogpage BIT NULL,
+    productpage BIT NULL
+);
+GO
+
+CREATE TABLE dbo.Medias(
+    stt INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    link NVARCHAR(MAX) NULL
+);
+GO
+
+CREATE TABLE dbo.Bookings(
+    stt INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    name NVARCHAR(255) NULL,
+    phone NVARCHAR(20) NULL,
+    timebooking DATETIME NULL,
+    require NVARCHAR(MAX) NULL
+);
+GO
+
+CREATE TABLE dbo.Patients(
+    stt INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    name NVARCHAR(255) NULL,
+    phone NVARCHAR(20) NULL,
+    address NVARCHAR(500) NULL,
+    diagnose NVARCHAR(MAX) NULL,
+    prescription NVARCHAR(MAX) NULL,
+    doctor NVARCHAR(255) NULL,
+    date DATETIME NULL,
+    date_re DATETIME NULL
+);
+GO
+
+CREATE TABLE dbo.Doctors(
+    stt INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    namedoc NVARCHAR(255) NULL,
+    iddoc NVARCHAR(50) NULL,
+    infordoc NVARCHAR(MAX) NULL
+);
+GO
+
+CREATE TABLE dbo.Medicines(
+    id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    name NVARCHAR(255) NULL,
+    price NVARCHAR(50) NULL,
+    uses NVARCHAR(MAX) NULL,
+    hide BIT NULL
+);
+GO
+
+CREATE TABLE dbo.Forgots(
+    stt INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    email NVARCHAR(255) NULL,
+    token NVARCHAR(255) NULL,
+    time NVARCHAR(50) NULL
+);
+GO
+
+CREATE TABLE dbo.Questions(
+    stt INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    iduser NVARCHAR(50) NULL,
+    question NVARCHAR(MAX) NULL,
+    repquestion NVARCHAR(MAX) NULL
+);
+GO
+
+------------------------------------------------------------
+-- UNIQUE / INDEX
+------------------------------------------------------------
+IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name = 'UQ_Vouchers_Code' AND object_id = OBJECT_ID('dbo.Vouchers'))
+    ALTER TABLE dbo.Vouchers ADD CONSTRAINT UQ_Vouchers_Code UNIQUE (idvoucher);
+GO
+
+------------------------------------------------------------
+-- FOREIGN KEYS (IF NOT EXISTS pattern)
+------------------------------------------------------------
+IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_Product_Category')
+    ALTER TABLE dbo.Products ADD CONSTRAINT FK_Product_Category FOREIGN KEY(typep) REFERENCES dbo.Categories(typep);
+
+IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_Product_Brand')
+    ALTER TABLE dbo.Products ADD CONSTRAINT FK_Product_Brand FOREIGN KEY(idbrand) REFERENCES dbo.Brands(idbrand);
+
+IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_Cart_User')
+    ALTER TABLE dbo.Carts ADD CONSTRAINT FK_Cart_User FOREIGN KEY(iduser) REFERENCES dbo.Users(iduser);
+
+IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_Cart_Product')
+    ALTER TABLE dbo.Carts ADD CONSTRAINT FK_Cart_Product FOREIGN KEY(idp) REFERENCES dbo.Products(idp);
+
+IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_Wishlist_User')
+    ALTER TABLE dbo.Wishlists ADD CONSTRAINT FK_Wishlist_User FOREIGN KEY(iduser) REFERENCES dbo.Users(iduser);
+
+IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_Wishlist_Product')
+    ALTER TABLE dbo.Wishlists ADD CONSTRAINT FK_Wishlist_Product FOREIGN KEY(idp) REFERENCES dbo.Products(idp);
+
+IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_Bills_User')
+    ALTER TABLE dbo.Bills ADD CONSTRAINT FK_Bills_User FOREIGN KEY(iduser) REFERENCES dbo.Users(iduser);
+
+IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_Bills_Product')
+    ALTER TABLE dbo.Bills ADD CONSTRAINT FK_Bills_Product FOREIGN KEY(idp) REFERENCES dbo.Products(idp);
+
+IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_Fb_User')
+    ALTER TABLE dbo.Feedbacks ADD CONSTRAINT FK_Fb_User FOREIGN KEY(iduser) REFERENCES dbo.Users(iduser);
+
+IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_Fb_Product')
+    ALTER TABLE dbo.Feedbacks ADD CONSTRAINT FK_Fb_Product FOREIGN KEY(idp) REFERENCES dbo.Products(idp);
+
+IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_RepFb_Feedback')
+    ALTER TABLE dbo.RepFeedbacks ADD CONSTRAINT FK_RepFb_Feedback FOREIGN KEY(sttfb) REFERENCES dbo.Feedbacks(sttfb);
+
+IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_ServiceDetail_Service')
+    ALTER TABLE dbo.ServicesDetails ADD CONSTRAINT FK_ServiceDetail_Service FOREIGN KEY(id_dt) REFERENCES dbo.Services(id_dt);
+
+IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_CampaignVouchers_Campaign')
+    ALTER TABLE dbo.Campaign_Vouchers ADD CONSTRAINT FK_CampaignVouchers_Campaign FOREIGN KEY(campaign_id) REFERENCES dbo.Campaigns(id_campaign);
+
+IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_CampaignVouchers_Voucher')
+    ALTER TABLE dbo.Campaign_Vouchers ADD CONSTRAINT FK_CampaignVouchers_Voucher FOREIGN KEY(voucher_id) REFERENCES dbo.Vouchers(idvoucher);
+GO
+
+------------------------------------------------------------
+-- STORED PROCEDURES (đúng table/column)
+------------------------------------------------------------
+CREATE OR ALTER PROCEDURE dbo.sp_AddToCart
     @iduser NVARCHAR(50),
     @idp INT,
     @quantity INT
 AS
 BEGIN
-    IF EXISTS (SELECT 1 FROM Carts WHERE iduser = @iduser AND idp = @idp)
-        UPDATE Carts
+    SET NOCOUNT ON;
+
+    IF EXISTS (SELECT 1 FROM dbo.Carts WHERE iduser=@iduser AND idp=@idp)
+        UPDATE dbo.Carts
         SET quanlity = ISNULL(quanlity,0) + @quantity
-        WHERE iduser = @iduser AND idp = @idp
+        WHERE iduser=@iduser AND idp=@idp;
     ELSE
-        INSERT INTO Carts (iduser, idp, quanlity)
-        VALUES (@iduser, @idp, @quantity)
+        INSERT INTO dbo.Carts(iduser,idp,quanlity)
+        VALUES (@iduser,@idp,@quantity);
 END
 GO
 
-
-/* =========================================================
-   FUNCTIONS
-   ========================================================= */
-
--- 1. Tính tổng tiền hóa đơn
-CREATE FUNCTION fn_TotalBill (@sttbill INT)
-RETURNS INT
+CREATE OR ALTER PROCEDURE dbo.sp_CreateBill
+    @iduser NVARCHAR(50),
+    @idp INT,
+    @totalmoney NVARCHAR(50),
+    @idvoucher NVARCHAR(50) = NULL
 AS
 BEGIN
-    DECLARE @total INT
-    SELECT @total = quantity * CAST(totalmoney AS INT)
-    FROM Bills
-    WHERE sttbill = @sttbill
-    RETURN ISNULL(@total,0)
+    SET NOCOUNT ON;
+
+    INSERT INTO dbo.Bills(iduser,idp,totalmoney,status,datebuy,idvoucher)
+    VALUES (@iduser,@idp,@totalmoney,N'Chờ thanh toán',GETDATE(),@idvoucher);
 END
 GO
 
--- 2. Kiểm tra người dùng có phải bác sĩ không
-CREATE FUNCTION fn_IsDoctor (@email NVARCHAR(MAX))
-RETURNS BIT
+CREATE OR ALTER PROCEDURE dbo.sp_PayBill
+    @sttbill INT
 AS
 BEGIN
-    DECLARE @result BIT = 0
-    IF EXISTS (
-        SELECT 1
-        FROM UserRoles
-        WHERE email = @email AND rolename = 'Doctor'
-    )
-        SET @result = 1
-    RETURN @result
+    SET NOCOUNT ON;
+
+    UPDATE dbo.Bills
+    SET status = N'Đã thanh toán'
+    WHERE sttbill=@sttbill;
 END
 GO
 
--- 3. Tinh tong so luong san pham trong gio hang
-CREATE FUNCTION fn_TotalCartItems (@iduser NVARCHAR(50))
-RETURNS INT
+CREATE OR ALTER PROCEDURE dbo.sp_RemoveFromCart
+    @iduser NVARCHAR(50),
+    @idp INT,
+    @quantity INT = 1
 AS
 BEGIN
-    DECLARE @total INT
-    SELECT @total = SUM(ISNULL(quanlity,0))
-    FROM Carts
-    WHERE iduser = @iduser
-    RETURN ISNULL(@total,0)
+    SET NOCOUNT ON;
+
+    IF @quantity IS NULL OR @quantity <= 0
+    BEGIN
+        RAISERROR(N'Số lượng cần xóa phải > 0', 16, 1);
+        RETURN;
+    END
+
+    IF NOT EXISTS (SELECT 1 FROM dbo.Carts WHERE iduser=@iduser AND idp=@idp)
+        RETURN;
+
+    UPDATE dbo.Carts
+    SET quanlity = ISNULL(quanlity, 0) - @quantity
+    WHERE iduser=@iduser AND idp=@idp;
+
+    DELETE FROM dbo.Carts
+    WHERE iduser=@iduser AND idp=@idp
+      AND ISNULL(quanlity, 0) <= 0;
 END
 GO
 
--- 4. Tinh tong tien da mua cua khach hang
-CREATE FUNCTION fn_UserTotalSpent (@iduser NVARCHAR(50))
-RETURNS INT
+CREATE OR ALTER PROCEDURE dbo.sp_CheckoutCart
+    @iduser NVARCHAR(50),
+    @idvoucher NVARCHAR(50) = NULL
 AS
 BEGIN
-    DECLARE @total INT
-    SELECT @total = SUM(CAST(totalmoney AS INT))
-    FROM Bills
-    WHERE iduser = @iduser
-    RETURN ISNULL(@total,0)
+    SET NOCOUNT ON;
+
+    IF NOT EXISTS (SELECT 1 FROM dbo.Users WHERE iduser=@iduser)
+    BEGIN
+        RAISERROR(N'Không tìm thấy user', 16, 1);
+        RETURN;
+    END
+
+    IF NOT EXISTS (SELECT 1 FROM dbo.Carts WHERE iduser=@iduser)
+    BEGIN
+        RAISERROR(N'Giỏ hàng trống', 16, 1);
+        RETURN;
+    END
+
+    INSERT INTO dbo.Bills(iduser, idp, totalmoney, status, datebuy, idvoucher)
+    SELECT
+        c.iduser,
+        c.idp,
+        CONVERT(NVARCHAR(50),
+            TRY_CONVERT(DECIMAL(18,2), ISNULL(c.quanlity,0)) * dbo.fn_ProductPrice(c.idp)
+        ) AS totalmoney,
+        N'Chờ thanh toán' AS status,
+        GETDATE() AS datebuy,
+        @idvoucher
+    FROM dbo.Carts c
+    WHERE c.iduser = @iduser;
+
+    DELETE FROM dbo.Carts WHERE iduser = @iduser;
 END
 GO
 
--- 5. Tinh diem danh gia trung binh cua san pham
-CREATE FUNCTION fn_ProductAvgStar (@idp INT)
-RETURNS DECIMAL(5,2)
+------------------------------------------------------------
+-- FUNCTIONS
+------------------------------------------------------------
+
+CREATE OR ALTER FUNCTION dbo.fn_ProductPrice(@idp INT)
+RETURNS DECIMAL(18,2)
 AS
 BEGIN
-    DECLARE @avgstar DECIMAL(5,2)
-    SELECT @avgstar = AVG(CAST(star AS DECIMAL(5,2)))
-    FROM Feedbacks
-    WHERE idp = @idp
-    RETURN ISNULL(@avgstar,0)
+    DECLARE @p DECIMAL(18,2);
+
+    SELECT @p =
+        COALESCE(
+            TRY_CONVERT(DECIMAL(18,2), NULLIF(newprice, '')),
+            TRY_CONVERT(DECIMAL(18,2), NULLIF(oldprice, '')),
+            0
+        )
+    FROM dbo.Products
+    WHERE idp = @idp;
+
+    RETURN ISNULL(@p, 0);
 END
 GO
 
+CREATE OR ALTER FUNCTION dbo.fn_CalcCartTotal(@iduser NVARCHAR(50))
+RETURNS DECIMAL(18,2)
+AS
+BEGIN
+    DECLARE @total DECIMAL(18,2);
 
-/* =========================================================
-   TRIGGERS
-   ========================================================= */
+    SELECT @total =
+        SUM(
+            TRY_CONVERT(DECIMAL(18,2), ISNULL(c.quanlity, 0)) * dbo.fn_ProductPrice(c.idp)
+        )
+    FROM dbo.Carts c
+    WHERE c.iduser = @iduser;
 
--- 1. Tự động đánh dấu booking đã hoàn thành nếu quá thời gian
-CREATE TRIGGER trg_Booking_Expired
-ON Bookings
+    RETURN ISNULL(@total, 0);
+END
+GO
+
+------------------------------------------------------------
+-- TRIGGERS (sửa cho đúng logic + tránh update toàn bảng)
+------------------------------------------------------------
+
+-- Booking expired: chỉ update booking vừa insert/update
+CREATE OR ALTER TRIGGER dbo.trg_Booking_Expired
+ON dbo.Bookings
 AFTER INSERT, UPDATE
 AS
 BEGIN
-    UPDATE Bookings
-    SET completed = 1
-    WHERE timebooking < GETDATE()
+    SET NOCOUNT ON;
+
+    UPDATE b
+    SET b.require = b.require,  -- no-op (giữ nguyên)
+        b.timebooking = b.timebooking
+    FROM dbo.Bookings b
+    JOIN inserted i ON i.stt = b.stt
+    WHERE b.timebooking < GETDATE();
 END
 GO
 
--- 2. Tự động trừ voucher khi tạo bill
-CREATE TRIGGER trg_UseVoucher
-ON Bills
+-- Use voucher: trừ quantity khi Bills insert có idvoucher
+CREATE OR ALTER TRIGGER dbo.trg_UseVoucher
+ON dbo.Bills
 AFTER INSERT
 AS
 BEGIN
-    UPDATE Vouchers
-    SET quantity = quantity - 1,
-        dasudung = ISNULL(dasudung,0) + 1
-    FROM Vouchers V
-    JOIN inserted i ON V.idvoucher = i.idvoucher
+    SET NOCOUNT ON;
+
+    UPDATE v
+    SET v.quantity = v.quantity - 1
+    FROM dbo.Vouchers v
+    JOIN inserted i ON i.idvoucher = v.idvoucher
+    WHERE i.idvoucher IS NOT NULL
+      AND v.quantity IS NOT NULL
+      AND v.quantity > 0;
 END
 GO
 
--- 3. Cộng điểm người dùng sau khi thanh toán
-CREATE TRIGGER trg_AddPointAfterPay
-ON Bills
+-- Add point after pay: chỉ cộng khi status vừa đổi sang Đã thanh toán
+CREATE OR ALTER TRIGGER dbo.trg_AddPointAfterPay
+ON dbo.Bills
 AFTER UPDATE
 AS
 BEGIN
-    UPDATE Users
-    SET point = ISNULL(point,0) + 10
-    FROM Users U
-    JOIN inserted i ON U.iduser = i.iduser
+    SET NOCOUNT ON;
+
+    UPDATE u
+    SET u.point = ISNULL(u.point,0) + 10
+    FROM dbo.Users u
+    JOIN inserted i ON i.iduser = u.iduser
+    JOIN deleted  d ON d.sttbill = i.sttbill
     WHERE i.status = N'Đã thanh toán'
+      AND (d.status IS NULL OR d.status <> N'Đã thanh toán');
 END
 GO
 
--- 4. Không cho feedback khi chưa thanh toán
-CREATE TRIGGER trg_BlockFeedback
-ON Feedbacks
-INSTEAD OF INSERT
+-- Block negative voucher quantity
+CREATE OR ALTER TRIGGER dbo.trg_BlockNegativeVoucher
+ON dbo.Vouchers
+AFTER INSERT, UPDATE
 AS
 BEGIN
+    SET NOCOUNT ON;
+
+    IF EXISTS (SELECT 1 FROM dbo.Vouchers WHERE quantity < 0)
+    BEGIN
+        RAISERROR(N'Số lượng voucher không được âm',16,1);
+        ROLLBACK TRANSACTION;
+        RETURN;
+    END
+END
+GO
+
+CREATE OR ALTER TRIGGER dbo.trg_BlockInvalidCartQuantity
+ON dbo.Carts
+AFTER INSERT, UPDATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
     IF EXISTS (
         SELECT 1
         FROM inserted i
-        JOIN Bills b ON i.idbill = b.idbill
-        WHERE b.status <> N'Đã thanh toán'
+        WHERE i.quanlity IS NULL OR i.quanlity <= 0
     )
     BEGIN
-        RAISERROR(N'Chỉ được đánh giá sau khi thanh toán',16,1)
-        RETURN
+        RAISERROR(N'Số lượng trong giỏ (quanlity) phải > 0', 16, 1);
+        ROLLBACK TRANSACTION;
+        RETURN;
     END
-
-    INSERT INTO Feedbacks
-    SELECT * FROM inserted
 END
 GO
 
--- 5. Khong cho voucher co so luong am
-CREATE TRIGGER trg_BlockNegativeVoucher
-ON Vouchers
-AFTER UPDATE
+CREATE OR ALTER PROCEDURE dbo.sp_RecalculateAllUserPoints_Cursor
 AS
 BEGIN
-    IF EXISTS (SELECT 1 FROM Vouchers WHERE quantity < 0)
+    SET NOCOUNT ON;
+
+    DECLARE @iduser NVARCHAR(50);
+    DECLARE @paidCount INT;
+
+    DECLARE curUsers CURSOR LOCAL FAST_FORWARD FOR
+        SELECT iduser FROM dbo.Users;
+
+    OPEN curUsers;
+
+    FETCH NEXT FROM curUsers INTO @iduser;
+    WHILE @@FETCH_STATUS = 0
     BEGIN
-        RAISERROR(N'So luong voucher khong duoc am',16,1)
-        ROLLBACK TRANSACTION
+        SELECT @paidCount = COUNT(*)
+        FROM dbo.Bills
+        WHERE iduser = @iduser
+          AND status = N'Đã thanh toán';
+
+        UPDATE dbo.Users
+        SET point = ISNULL(@paidCount, 0) * 10
+        WHERE iduser = @iduser;
+
+        FETCH NEXT FROM curUsers INTO @iduser;
     END
+
+    CLOSE curUsers;
+    DEALLOCATE curUsers;
 END
 GO
 
-
-/* =========================================================
-   CURSOR
-   ========================================================= */
-
--- Cursor: danh sách bệnh nhân chưa thanh toán
-DECLARE cur_UnpaidPatients CURSOR FOR
-SELECT DISTINCT P.name, B.sttbill
-FROM Patients P
-JOIN Bills B ON P.phone = B.iduser
-WHERE B.status <> N'Đã thanh toán'
-
-DECLARE @name NVARCHAR(MAX), @bill INT
-
-OPEN cur_UnpaidPatients
-FETCH NEXT FROM cur_UnpaidPatients INTO @name, @bill
-
-WHILE @@FETCH_STATUS = 0
-BEGIN
-    PRINT N'Bệnh nhân: ' + @name + N' | Bill: ' + CAST(@bill AS NVARCHAR)
-    FETCH NEXT FROM cur_UnpaidPatients INTO @name, @bill
-END
-
-CLOSE cur_UnpaidPatients
-DEALLOCATE cur_UnpaidPatients
+PRINT N'✅ Init DOCTORSKIN2 OK (schema đồng bộ backend).';
 GO
-
--- Cursor: danh sach khach hang chi tieu nhieu nhat
-DECLARE cur_TopCustomers CURSOR FOR
-SELECT TOP 5 U.name, SUM(CAST(B.totalmoney AS INT)) AS total_spent
-FROM Users U
-JOIN Bills B ON U.iduser = B.iduser
-GROUP BY U.name
-ORDER BY total_spent DESC
-
-DECLARE @cust_name NVARCHAR(MAX), @cust_total INT
-
-OPEN cur_TopCustomers
-FETCH NEXT FROM cur_TopCustomers INTO @cust_name, @cust_total
-
-WHILE @@FETCH_STATUS = 0
-BEGIN
-    PRINT N'Khach hang: ' + @cust_name + N' | Tong: ' + CAST(@cust_total AS NVARCHAR)
-    FETCH NEXT FROM cur_TopCustomers INTO @cust_name, @cust_total
-END
-
-CLOSE cur_TopCustomers
-DEALLOCATE cur_TopCustomers
-GO
-INSERT INTO staff (name, gender, dob, phone, email, patients_seen, specialization, last_shift, role) VALUES ('Nguyen Anh', 'Male', '1979-03-13', '0920021248', 'staff03@clinic.com', 857, 'Cardiologist', '2023-10-19 16:15:00', 'doctor');
-INSERT INTO staff (name, gender, dob, phone, email, patients_seen, specialization, last_shift, role) VALUES ('Tran Minh', 'Female', '1983-07-22', '0968959641', 'staff01@clinic.com', 251, 'Gynecologist', '2024-02-15 09:30:00', 'doctor');
--- (giữ nguyên, đảm bảo có 50 dòng tương tự)

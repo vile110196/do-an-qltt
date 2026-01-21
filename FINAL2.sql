@@ -442,6 +442,39 @@ BEGIN
 END
 GO
 
+CREATE OR ALTER PROCEDURE dbo.sp_RecalculateAllUserPoints_Cursor
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @iduser NVARCHAR(50);
+    DECLARE @paidCount INT;
+
+    DECLARE curUsers CURSOR LOCAL FAST_FORWARD FOR
+        SELECT iduser FROM dbo.Users;
+
+    OPEN curUsers;
+
+    FETCH NEXT FROM curUsers INTO @iduser;
+    WHILE @@FETCH_STATUS = 0
+    BEGIN
+        SELECT @paidCount = COUNT(*)
+        FROM dbo.Bills
+        WHERE iduser = @iduser
+          AND status = N'Đã thanh toán';
+
+        UPDATE dbo.Users
+        SET point = ISNULL(@paidCount, 0) * 10
+        WHERE iduser = @iduser;
+
+        FETCH NEXT FROM curUsers INTO @iduser;
+    END
+
+    CLOSE curUsers;
+    DEALLOCATE curUsers;
+END
+GO
+
 ------------------------------------------------------------
 -- FUNCTIONS
 ------------------------------------------------------------
@@ -573,39 +606,6 @@ BEGIN
         ROLLBACK TRANSACTION;
         RETURN;
     END
-END
-GO
-
-CREATE OR ALTER PROCEDURE dbo.sp_RecalculateAllUserPoints_Cursor
-AS
-BEGIN
-    SET NOCOUNT ON;
-
-    DECLARE @iduser NVARCHAR(50);
-    DECLARE @paidCount INT;
-
-    DECLARE curUsers CURSOR LOCAL FAST_FORWARD FOR
-        SELECT iduser FROM dbo.Users;
-
-    OPEN curUsers;
-
-    FETCH NEXT FROM curUsers INTO @iduser;
-    WHILE @@FETCH_STATUS = 0
-    BEGIN
-        SELECT @paidCount = COUNT(*)
-        FROM dbo.Bills
-        WHERE iduser = @iduser
-          AND status = N'Đã thanh toán';
-
-        UPDATE dbo.Users
-        SET point = ISNULL(@paidCount, 0) * 10
-        WHERE iduser = @iduser;
-
-        FETCH NEXT FROM curUsers INTO @iduser;
-    END
-
-    CLOSE curUsers;
-    DEALLOCATE curUsers;
 END
 GO
 

@@ -5,44 +5,7 @@ SET NOCOUNT ON;
 GO
 
 ------------------------------------------------------------
--- DROP (đúng thứ tự để khỏi vướng FK)
-------------------------------------------------------------
-IF OBJECT_ID('dbo.Campaign_Vouchers','U') IS NOT NULL DROP TABLE dbo.Campaign_Vouchers;
-IF OBJECT_ID('dbo.Campaigns','U') IS NOT NULL DROP TABLE dbo.Campaigns;
-
-
-IF OBJECT_ID('dbo.Wishlists','U') IS NOT NULL DROP TABLE dbo.Wishlists;
-IF OBJECT_ID('dbo.Carts','U') IS NOT NULL DROP TABLE dbo.Carts;
-
-IF OBJECT_ID('dbo.Bought','U') IS NOT NULL DROP TABLE dbo.Bought;
-IF OBJECT_ID('dbo.Bills','U') IS NOT NULL DROP TABLE dbo.Bills;
-
-IF OBJECT_ID('dbo.Products','U') IS NOT NULL DROP TABLE dbo.Products;
-IF OBJECT_ID('dbo.Brands','U') IS NOT NULL DROP TABLE dbo.Brands;
-IF OBJECT_ID('dbo.Categories','U') IS NOT NULL DROP TABLE dbo.Categories;
-
-IF OBJECT_ID('dbo.BlogDetails','U') IS NOT NULL DROP TABLE dbo.BlogDetails;
-IF OBJECT_ID('dbo.BlogTypes','U') IS NOT NULL DROP TABLE dbo.BlogTypes;
-
-IF OBJECT_ID('dbo.Banners','U') IS NOT NULL DROP TABLE dbo.Banners;
-IF OBJECT_ID('dbo.Medias','U') IS NOT NULL DROP TABLE dbo.Medias;
-
-IF OBJECT_ID('dbo.ServicesDetails','U') IS NOT NULL DROP TABLE dbo.ServicesDetails;
-IF OBJECT_ID('dbo.Services','U') IS NOT NULL DROP TABLE dbo.Services;
-
-IF OBJECT_ID('dbo.Bookings','U') IS NOT NULL DROP TABLE dbo.Bookings;
-IF OBJECT_ID('dbo.Patients','U') IS NOT NULL DROP TABLE dbo.Patients;
-IF OBJECT_ID('dbo.Doctors','U') IS NOT NULL DROP TABLE dbo.Doctors;
-IF OBJECT_ID('dbo.Medicines','U') IS NOT NULL DROP TABLE dbo.Medicines;
-
-IF OBJECT_ID('dbo.Forgots','U') IS NOT NULL DROP TABLE dbo.Forgots;
-
-IF OBJECT_ID('dbo.UserRolesMappings','U') IS NOT NULL DROP TABLE dbo.UserRolesMappings;
-IF OBJECT_ID('dbo.UserRoles','U') IS NOT NULL DROP TABLE dbo.UserRoles;
-IF OBJECT_ID('dbo.RoleMasters','U') IS NOT NULL DROP TABLE dbo.RoleMasters;
-IF OBJECT_ID('dbo.Users','U') IS NOT NULL DROP TABLE dbo.Users;
-
-IF OBJECT_ID('dbo.Vouchers','U') IS NOT NULL DROP TABLE dbo.Vouchers;
+-- CREATE TABLES
 GO
 
 ------------------------------------------------------------
@@ -178,8 +141,6 @@ CREATE TABLE dbo.Wishlists(
 );
 GO
 
-
-
 CREATE TABLE dbo.Services(
     id_dt INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
     name_dt NVARCHAR(255) NULL,
@@ -276,52 +237,12 @@ CREATE TABLE dbo.Forgots(
 );
 GO
 
-
 ------------------------------------------------------------
--- UNIQUE / INDEX
-------------------------------------------------------------
-IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name = 'UQ_Vouchers_Code' AND object_id = OBJECT_ID('dbo.Vouchers'))
-    ALTER TABLE dbo.Vouchers ADD CONSTRAINT UQ_Vouchers_Code UNIQUE (idvoucher);
+-- CONSTRAINTS
 GO
 
 ------------------------------------------------------------
--- FOREIGN KEYS (IF NOT EXISTS pattern)
-------------------------------------------------------------
-IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_Product_Category')
-    ALTER TABLE dbo.Products ADD CONSTRAINT FK_Product_Category FOREIGN KEY(typep) REFERENCES dbo.Categories(typep);
-
-IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_Product_Brand')
-    ALTER TABLE dbo.Products ADD CONSTRAINT FK_Product_Brand FOREIGN KEY(idbrand) REFERENCES dbo.Brands(idbrand);
-
-IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_Cart_User')
-    ALTER TABLE dbo.Carts ADD CONSTRAINT FK_Cart_User FOREIGN KEY(iduser) REFERENCES dbo.Users(iduser);
-
-IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_Cart_Product')
-    ALTER TABLE dbo.Carts ADD CONSTRAINT FK_Cart_Product FOREIGN KEY(idp) REFERENCES dbo.Products(idp);
-
-IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_Wishlist_User')
-    ALTER TABLE dbo.Wishlists ADD CONSTRAINT FK_Wishlist_User FOREIGN KEY(iduser) REFERENCES dbo.Users(iduser);
-
-IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_Wishlist_Product')
-    ALTER TABLE dbo.Wishlists ADD CONSTRAINT FK_Wishlist_Product FOREIGN KEY(idp) REFERENCES dbo.Products(idp);
-
-IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_Bills_User')
-    ALTER TABLE dbo.Bills ADD CONSTRAINT FK_Bills_User FOREIGN KEY(iduser) REFERENCES dbo.Users(iduser);
-
-IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_Bills_Product')
-    ALTER TABLE dbo.Bills ADD CONSTRAINT FK_Bills_Product FOREIGN KEY(idp) REFERENCES dbo.Products(idp);
-
-
-
-
-IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_ServiceDetail_Service')
-    ALTER TABLE dbo.ServicesDetails ADD CONSTRAINT FK_ServiceDetail_Service FOREIGN KEY(id_dt) REFERENCES dbo.Services(id_dt);
-
-IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_CampaignVouchers_Campaign')
-    ALTER TABLE dbo.Campaign_Vouchers ADD CONSTRAINT FK_CampaignVouchers_Campaign FOREIGN KEY(campaign_id) REFERENCES dbo.Campaigns(id_campaign);
-
-IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_CampaignVouchers_Voucher')
-    ALTER TABLE dbo.Campaign_Vouchers ADD CONSTRAINT FK_CampaignVouchers_Voucher FOREIGN KEY(voucher_id) REFERENCES dbo.Vouchers(idvoucher);
+-- STORED PROCEDURES
 GO
 
 ------------------------------------------------------------
@@ -436,6 +357,10 @@ GO
 
 ------------------------------------------------------------
 -- FUNCTIONS
+GO
+
+------------------------------------------------------------
+-- FUNCTIONS
 ------------------------------------------------------------
 
 CREATE OR ALTER FUNCTION dbo.fn_ProductPrice(@idp INT)
@@ -472,6 +397,22 @@ BEGIN
 
     RETURN ISNULL(@total, 0);
 END
+GO
+
+CREATE OR ALTER FUNCTION dbo.fn_UserBillCount(@iduser NVARCHAR(50))
+RETURNS INT
+AS
+BEGIN
+    DECLARE @total INT;
+    SELECT @total = COUNT(*)
+    FROM dbo.Bills
+    WHERE iduser = @iduser;
+    RETURN ISNULL(@total, 0);
+END
+GO
+
+------------------------------------------------------------
+-- TRIGGERS
 GO
 
 ------------------------------------------------------------
@@ -568,18 +509,8 @@ BEGIN
 END
 GO
 
-
-
-CREATE OR ALTER FUNCTION dbo.fn_UserBillCount(@iduser NVARCHAR(50))
-RETURNS INT
-AS
-BEGIN
-    DECLARE @total INT;
-    SELECT @total = COUNT(*)
-    FROM dbo.Bills
-    WHERE iduser = @iduser;
-    RETURN ISNULL(@total, 0);
-END
+------------------------------------------------------------
+-- CURSORS
 GO
 
 -- Cursor 1: list top 5 users by bill count
@@ -624,5 +555,92 @@ CLOSE cur_ServiceBills;
 DEALLOCATE cur_ServiceBills;
 GO
 
-PRINT N'✅ Init DOCTORSKIN2 OK (schema đồng bộ backend).';
+------------------------------------------------------------
+-- DROP (đúng thứ tự để khỏi vướng FK)
+------------------------------------------------------------
+IF OBJECT_ID('dbo.Campaign_Vouchers','U') IS NOT NULL DROP TABLE dbo.Campaign_Vouchers;
+IF OBJECT_ID('dbo.Campaigns','U') IS NOT NULL DROP TABLE dbo.Campaigns;
+
+
+IF OBJECT_ID('dbo.Wishlists','U') IS NOT NULL DROP TABLE dbo.Wishlists;
+IF OBJECT_ID('dbo.Carts','U') IS NOT NULL DROP TABLE dbo.Carts;
+
+IF OBJECT_ID('dbo.Bought','U') IS NOT NULL DROP TABLE dbo.Bought;
+IF OBJECT_ID('dbo.Bills','U') IS NOT NULL DROP TABLE dbo.Bills;
+
+IF OBJECT_ID('dbo.Products','U') IS NOT NULL DROP TABLE dbo.Products;
+IF OBJECT_ID('dbo.Brands','U') IS NOT NULL DROP TABLE dbo.Brands;
+IF OBJECT_ID('dbo.Categories','U') IS NOT NULL DROP TABLE dbo.Categories;
+
+IF OBJECT_ID('dbo.BlogDetails','U') IS NOT NULL DROP TABLE dbo.BlogDetails;
+IF OBJECT_ID('dbo.BlogTypes','U') IS NOT NULL DROP TABLE dbo.BlogTypes;
+
+IF OBJECT_ID('dbo.Banners','U') IS NOT NULL DROP TABLE dbo.Banners;
+IF OBJECT_ID('dbo.Medias','U') IS NOT NULL DROP TABLE dbo.Medias;
+
+IF OBJECT_ID('dbo.ServicesDetails','U') IS NOT NULL DROP TABLE dbo.ServicesDetails;
+IF OBJECT_ID('dbo.Services','U') IS NOT NULL DROP TABLE dbo.Services;
+
+IF OBJECT_ID('dbo.Bookings','U') IS NOT NULL DROP TABLE dbo.Bookings;
+IF OBJECT_ID('dbo.Patients','U') IS NOT NULL DROP TABLE dbo.Patients;
+IF OBJECT_ID('dbo.Doctors','U') IS NOT NULL DROP TABLE dbo.Doctors;
+IF OBJECT_ID('dbo.Medicines','U') IS NOT NULL DROP TABLE dbo.Medicines;
+
+IF OBJECT_ID('dbo.Forgots','U') IS NOT NULL DROP TABLE dbo.Forgots;
+
+IF OBJECT_ID('dbo.UserRolesMappings','U') IS NOT NULL DROP TABLE dbo.UserRolesMappings;
+IF OBJECT_ID('dbo.UserRoles','U') IS NOT NULL DROP TABLE dbo.UserRoles;
+IF OBJECT_ID('dbo.RoleMasters','U') IS NOT NULL DROP TABLE dbo.RoleMasters;
+IF OBJECT_ID('dbo.Users','U') IS NOT NULL DROP TABLE dbo.Users;
+
+IF OBJECT_ID('dbo.Vouchers','U') IS NOT NULL DROP TABLE dbo.Vouchers;
 GO
+
+------------------------------------------------------------
+-- UNIQUE / INDEX
+------------------------------------------------------------
+IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name = 'UQ_Vouchers_Code' AND object_id = OBJECT_ID('dbo.Vouchers'))
+    ALTER TABLE dbo.Vouchers ADD CONSTRAINT UQ_Vouchers_Code UNIQUE (idvoucher);
+GO
+
+------------------------------------------------------------
+-- FOREIGN KEYS (IF NOT EXISTS pattern)
+------------------------------------------------------------
+IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_Product_Category')
+    ALTER TABLE dbo.Products ADD CONSTRAINT FK_Product_Category FOREIGN KEY(typep) REFERENCES dbo.Categories(typep);
+
+IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_Product_Brand')
+    ALTER TABLE dbo.Products ADD CONSTRAINT FK_Product_Brand FOREIGN KEY(idbrand) REFERENCES dbo.Brands(idbrand);
+
+IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_Cart_User')
+    ALTER TABLE dbo.Carts ADD CONSTRAINT FK_Cart_User FOREIGN KEY(iduser) REFERENCES dbo.Users(iduser);
+
+IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_Cart_Product')
+    ALTER TABLE dbo.Carts ADD CONSTRAINT FK_Cart_Product FOREIGN KEY(idp) REFERENCES dbo.Products(idp);
+
+IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_Wishlist_User')
+    ALTER TABLE dbo.Wishlists ADD CONSTRAINT FK_Wishlist_User FOREIGN KEY(iduser) REFERENCES dbo.Users(iduser);
+
+IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_Wishlist_Product')
+    ALTER TABLE dbo.Wishlists ADD CONSTRAINT FK_Wishlist_Product FOREIGN KEY(idp) REFERENCES dbo.Products(idp);
+
+IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_Bills_User')
+    ALTER TABLE dbo.Bills ADD CONSTRAINT FK_Bills_User FOREIGN KEY(iduser) REFERENCES dbo.Users(iduser);
+
+IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_Bills_Product')
+    ALTER TABLE dbo.Bills ADD CONSTRAINT FK_Bills_Product FOREIGN KEY(idp) REFERENCES dbo.Products(idp);
+
+
+
+
+IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_ServiceDetail_Service')
+    ALTER TABLE dbo.ServicesDetails ADD CONSTRAINT FK_ServiceDetail_Service FOREIGN KEY(id_dt) REFERENCES dbo.Services(id_dt);
+
+IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_CampaignVouchers_Campaign')
+    ALTER TABLE dbo.Campaign_Vouchers ADD CONSTRAINT FK_CampaignVouchers_Campaign FOREIGN KEY(campaign_id) REFERENCES dbo.Campaigns(id_campaign);
+
+IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name='FK_CampaignVouchers_Voucher')
+    ALTER TABLE dbo.Campaign_Vouchers ADD CONSTRAINT FK_CampaignVouchers_Voucher FOREIGN KEY(voucher_id) REFERENCES dbo.Vouchers(idvoucher);
+GO
+
+PRINT N'✅ Init DOCTORSKIN2 OK (schema đồng bộ backend).';

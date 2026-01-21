@@ -568,37 +568,60 @@ BEGIN
 END
 GO
 
-CREATE OR ALTER PROCEDURE dbo.sp_RecalculateAllUserPoints_Cursor
+
+
+CREATE OR ALTER FUNCTION dbo.fn_UserBillCount(@iduser NVARCHAR(50))
+RETURNS INT
 AS
 BEGIN
-    SET NOCOUNT ON;
-
-    DECLARE @iduser NVARCHAR(50);
-    DECLARE @paidCount INT;
-
-    DECLARE curUsers CURSOR LOCAL FAST_FORWARD FOR
-        SELECT iduser FROM dbo.Users;
-
-    OPEN curUsers;
-
-    FETCH NEXT FROM curUsers INTO @iduser;
-    WHILE @@FETCH_STATUS = 0
-    BEGIN
-        SELECT @paidCount = COUNT(*)
-        FROM dbo.Bills
-        WHERE iduser = @iduser
-          AND status = N'Đã thanh toán';
-
-        UPDATE dbo.Users
-        SET point = ISNULL(@paidCount, 0) * 10
-        WHERE iduser = @iduser;
-
-        FETCH NEXT FROM curUsers INTO @iduser;
-    END
-
-    CLOSE curUsers;
-    DEALLOCATE curUsers;
+    DECLARE @total INT;
+    SELECT @total = COUNT(*)
+    FROM dbo.Bills
+    WHERE iduser = @iduser;
+    RETURN ISNULL(@total, 0);
 END
+GO
+
+-- Cursor 1: list top 5 users by bill count
+DECLARE cur_TopUsers CURSOR LOCAL FAST_FORWARD FOR
+    SELECT TOP 5 iduser, COUNT(*) AS bill_count
+    FROM dbo.Bills
+    GROUP BY iduser
+    ORDER BY bill_count DESC;
+
+DECLARE @cu_id NVARCHAR(50), @cu_count INT;
+
+OPEN cur_TopUsers;
+FETCH NEXT FROM cur_TopUsers INTO @cu_id, @cu_count;
+WHILE @@FETCH_STATUS = 0
+BEGIN
+    PRINT N'User: ' + @cu_id + N' | Bills: ' + CAST(@cu_count AS NVARCHAR);
+    FETCH NEXT FROM cur_TopUsers INTO @cu_id, @cu_count;
+END
+
+CLOSE cur_TopUsers;
+DEALLOCATE cur_TopUsers;
+GO
+
+-- Cursor 2: list services used in bills (idp negative)
+DECLARE cur_ServiceBills CURSOR LOCAL FAST_FORWARD FOR
+    SELECT b.idp, COUNT(*) AS total_used
+    FROM dbo.Bills b
+    WHERE b.idp < 0
+    GROUP BY b.idp;
+
+DECLARE @svc_id INT, @svc_count INT;
+
+OPEN cur_ServiceBills;
+FETCH NEXT FROM cur_ServiceBills INTO @svc_id, @svc_count;
+WHILE @@FETCH_STATUS = 0
+BEGIN
+    PRINT N'ServiceId: ' + CAST(@svc_id AS NVARCHAR) + N' | Used: ' + CAST(@svc_count AS NVARCHAR);
+    FETCH NEXT FROM cur_ServiceBills INTO @svc_id, @svc_count;
+END
+
+CLOSE cur_ServiceBills;
+DEALLOCATE cur_ServiceBills;
 GO
 
 PRINT N'✅ Init DOCTORSKIN2 OK (schema đồng bộ backend).';

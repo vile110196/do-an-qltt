@@ -1129,7 +1129,7 @@ def cart_add(idp: int):
     finally:
         conn.close()
 
-    return redirect(url_for("products"))
+    return redirect(request.referrer or url_for("products"))
 
 
 @app.route("/cart/add_service/<int:id_sd>", methods=["POST"])
